@@ -1,9 +1,12 @@
-import FormLogin from './components/FormLogin/index';
+import FormLogin from "./components/FormLogin/index";
+import LogoTitle from "./components/LogoTitle";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className="App">
-      <FormLogin/>
+      <LogoTitle />
+      <FormLogin />
     </div>
   );
 }
