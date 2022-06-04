@@ -11,9 +11,12 @@ function FormLogin() {
     e.preventDefault();
     try {
       const login = await UserService.login({
-        email: email,
+        login: email,
         password: password,
       });
+      alert(`Sucess!!! 
+        \nLogin: ${login.login}
+        \nToken: ${login.token}`);
     } catch (error) {
       alert(error);
     }
@@ -36,7 +39,6 @@ function FormLogin() {
             <Form.Label className="mb-0">E-mail</Form.Label>
             <Form.Control
               className="px-4 py-1"
-              type="email"
               placeholder="Insira seu email..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}

@@ -2,9 +2,14 @@ import Api from "./api.js";
 
 const UserService = {
   login: async (params) => {
-    const response = Api.post("/api/user/login", params);
-    localStorage.setItem("login", JSON.stringify(response.data.login));
-    localStorage.setItem("token", response.data.token);
+    const response = await Api.post(
+      "/api/user/login", 
+      params,
+    );
+    const data = response.data;
+    localStorage.setItem("login", data.login);
+    localStorage.setItem("token", data.token);
+    return data;
   },
 };
 
