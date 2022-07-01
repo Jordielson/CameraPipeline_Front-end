@@ -1,4 +1,4 @@
-import Api from "./api.js";
+import Api from "../config/server/config";
 
 const UserService = {
   login: async (params) => {

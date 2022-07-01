@@ -1,7 +1,7 @@
 import "./styles.css";
 import { Form, Button, Card } from "react-bootstrap";
 import { useState } from "react";
-import UserService from "../services/user";
+import UserService from "../../service/user";
 
 function FormLogin() {
   const [email, setEmail] = useState("");
