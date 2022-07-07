@@ -1,5 +1,5 @@
-import MyRoutes from "./routes/Routes";
 import "bootstrap/dist/css/bootstrap.min.css";
+import MyRoutes from "./routes/Routes";
 
 function App() {
   return (

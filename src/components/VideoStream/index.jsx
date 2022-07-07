@@ -5,7 +5,7 @@ import VideoStreamService from "../../services/video_stream";
 import load from '../../assets/load.gif';
 
 const ffmpegIP = "localhost";
-// rtsp://rtsp.stream/pattern
+
 const StreamStatus = {
     LOADING: "loading",
     SUCCESS: "success",
@@ -34,11 +34,9 @@ function VideoStream() {
             setShowVideo(StreamStatus.ERROR);
         }
       };
-    useEffect(() => {
-        // fetchStream();
-    }, []);
+    useEffect(() => {}, []);
     return (
-        <div id="body">
+        <div id="bodyc">
             <div
                 id="title"
                 style={{
@@ -54,9 +52,9 @@ function VideoStream() {
                 >
                 Teste Câmera Stream
             </div>
-            <div style={{marginBottom: "15px"}}>
-                <input type="text" value={stream} onChange={(e) => setStream(e.target.value)}/>
-                <button onClick={fetchStream}>OK</button>
+            <div class="input-group mb-3" style={{width: "640px"}}>
+                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"  value={stream} onChange={(e) => setStream(e.target.value)}/>
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={fetchStream}>Button</button>
             </div>
             {showVideo === StreamStatus.SUCCESS ? (
                 <div>
@@ -65,10 +63,12 @@ function VideoStream() {
             ): showVideo === StreamStatus.LOADING ? (
                 <div>
                     <div id="video-canvas"></div>
-                    <img src={load} alt="loading..." width={"640px"} height={"480px"} />
+                    <div id="bodyc" className="border-video" style={{width: "640px", height: "480px"}}>
+                        <img src={load} alt="loading..." width={"120px"} height={"120px"} />
+                    </div>
                 </div>
             ):  showVideo === StreamStatus.EMPTY ? (
-                <div style={{borderStyle: "solid" ,borderColor: "cyan",width: "640px", height: "480px"}}>
+                <div className="border-video" style={{width: "640px", height: "480px"}}>
                 </div>
             ) : <label htmlFor="">NULL</label>
             }
