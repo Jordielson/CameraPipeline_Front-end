@@ -1,0 +1,33 @@
+.content {
+  display: flex;
+}
+
+.content-body {
+  width: 100%;
+}
+
+.contentbar .navbar {
+  background-color: rgba(116, 116, 116, 0.281);
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.644);
+  z-index: -1;
+}
+
+.b1 {
+  background-color: aqua;
+  z-index: 1;
+}
+.b2 {
+  background-color: red;
+}
+.b3 {
+  background-color: green;
+}
+.b4 {
+  background-color: yellow;
+}
+
+.video {
+  background-color: black;
+  width: 340px;
+  height: 240px;
+}

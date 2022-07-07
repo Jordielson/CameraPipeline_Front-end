@@ -1,161 +1,130 @@
-/* .sidebar .nav-link {
-    font-weight: 500;
-    color: var(--bs-dark);
-}
-.sidebar .nav-link:hover {
-    background: var(--bs-light);
-    color: var(--bs-primary);
-} */
 a,
 a:hover,
 a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
 }
 
-.main-nav{
-    height: 90vh;
-}
-
-.navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
+.main-nav {
+  height: 90vh;
 }
 
 .wrapper {
-    position: absolute;
-    min-width: 250px;
-    max-width: 250px;
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    align-items: stretch;
+  min-width: 250px;
+  max-width: 250px;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  align-items: stretch;
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: rgb(108,70,194);
-    background: linear-gradient(5deg, rgba(108,70,194,1) 0%, rgba(130,87,229,1) 35%, rgba(153,109,255,1) 100%);
-    color: #fff;
-    transition: all 0.3s;
+  min-width: 250px;
+  max-width: 250px;
+  background: rgb(108, 70, 194);
+  background: linear-gradient(
+    5deg,
+    rgba(108, 70, 194, 1) 0%,
+    rgba(130, 87, 229, 1) 35%,
+    rgba(153, 109, 255, 1) 100%
+  );
+  color: #fff;
+  transition: all 0.3s;
 }
 
 #sidebar.active {
-    margin-left: -250px;
+  margin-left: -250px;
 }
 
 #sidebar .sidebar-header {
-    display: flex;
-    padding: 20px;
-   
+  display: flex;
+  padding: 20px;
 }
-#sidebar .sidebar-header img{
-    padding-right: 6px;
+#sidebar .sidebar-header img {
+  padding-right: 6px;
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
-    
-    height: 80vh;
+  padding: 20px 0;
+
+  height: 80vh;
 }
 
 #sidebar ul p {
-    color: #fff;
-    padding: 10px;
+  color: #fff;
+  padding: 10px;
 }
 
 #sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: rgb(108,70,194);
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
+  color: #7386d5;
+  background: #fff;
 }
 
 .dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
 }
 
 ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
+  font-size: 0.9em !important;
+  padding-left: 30px !important;
+  background: #6d7fcc;
 }
 
-
-
 ul.CTAs {
-    padding: 20px;
+  padding: 20px;
 }
 
 ul.CTAs a {
-    text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
+  text-align: center;
+  font-size: 0.9em !important;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 a.download {
-    background: #fff;
-    color: #7386D5;
+  background: #fff;
+  color: #7386d5;
 }
 
 a.article,
 a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
+  background: #6d7fcc !important;
+  color: #fff !important;
 }
 
-.account{
-    display: flex;
-    padding: 20px;
-    justify-content: space-between;
+.account {
+  height: 10vh;
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
 }
-span{
-    font-size: large;
+span {
+  font-size: large;
 }
-.account a{
-    color: red;
+.account a {
+  color: red;
 }
 
 @media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
+  #sidebar {
+    margin-left: -250px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
 }
