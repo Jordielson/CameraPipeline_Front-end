@@ -1,9 +1,11 @@
-import LogoTitle from "../components/fragment/LogoTitle";
+import SidebarMenu from "../components/SideBarMenu";
+import VideoStream from "../components/VideoStream";
 
 function PipelineScreen() {
     return (
         <>
-            <LogoTitle/>
+            <SidebarMenu/>
+            <VideoStream/>
         </>
     )
 }
