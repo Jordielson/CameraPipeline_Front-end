@@ -25,13 +25,13 @@ function SidebarMenu() {
                 <a href="#home">Mosaico</a>
               </li>
               <li class="active">
-                <a href="#pageSubmenu">Pipelines</a>
+                <a href="/pipeline">Pipelines</a>
               </li>
               <li>
                 <a href="#home">Câmeras</a>
               </li>
               <li>
-                <a href="#home">PDIs</a>
+                <a href="/pdi">PDIs</a>
               </li>
               <li>
                 <a href="#home">Alterar senha</a>
