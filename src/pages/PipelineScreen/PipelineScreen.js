@@ -1,28 +1,45 @@
 import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoStream";
+import Accordion from 'react-bootstrap/Accordion';
 import "./styles.css";
 
 function PipelineScreen() {
   return (
     <>
       <div className="content">
-        <div>
+        <div className="sidebar-component">
           <SidebarMenu />
         </div>
         <div className="content-body">
-          <div className="contentbar">
-            <nav class="navbar sticky-top navbar-light px-2 ">
-              <a class="navbar-brand" href="#home">
+          <div className="sticky-top contentbar">
+            <nav className="navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 ">
+              <a className="navbar-brand pipeline-name" href="#home">
                 Nome do pipeline
               </a>
+              <div className="grupo d-flex flex-row">
+                <select class="form-select-sm mx-1" aria-label="Default select example">
+                  <option selected>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <div class="input-group mx-1">
+                  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"></input>
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                </div>
+              </div>
+              <div className="pipeline-save d-flex justify-content-end ">
+                <button type="button" class="btn btn-success btn-sm ">Salvar</button>
+              </div>
+              
             </nav>
           </div>
-          <div className="container">
-            <div className="row">
-              <div className="col-4 b1">
-                <div class="input-group mt-2">
+          <div className="container-fluid container-body">
+            <div className="row row-body">
+              <div className="col-4 b1 py-2">
+                <div className="input-group a">
                   <select
-                    class="custom-select input"
+                    className="custom-select input inputvideo"
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
                   >
@@ -31,104 +48,78 @@ function PipelineScreen() {
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                   </select>
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">
-                      Button
-                    </button>
-                  </div>
+                  
                 </div>
-                <div className="video my-2">video</div>
-                <div className="PDI">
-                  <div class="accordion" id="accordionExample">
-                    <div class="card">
-                      <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                          <button
-                            class="btn btn-link btn-block text-left"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseOne"
-                            aria-expanded="true"
-                            aria-controls="collapseOne"
-                          >
-                            Collapsible Group Item #1
-                          </button>
-                        </h2>
+                <div className="background-video my-2">
+                  <div className="video">video</div>
+                </div>
+                <Accordion defaultActiveKey={['0']} alwaysOpen className="accordeon-pdi">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
+                    <Accordion.Body>
+                      <div className="d-flex flex-row justify-content-between card-item">
+                        <div>recortar imagem</div> 
+                        <div>◘ ◘</div>
                       </div>
-
-                      <div
-                        id="collapseOne"
-                        class="collapse show"
-                        aria-labelledby="headingOne"
-                        data-parent="#accordionExample"
-                      >
-                        <div class="card-body">
-                          Some placeholder content for the first accordion
-                          panel. This panel is shown by default, thanks to the{" "}
-                          <code>.show</code> class.
-                        </div>
+                      <div className="d-flex flex-row justify-content-between card-item">
+                        <div>dimencionar imagem</div> 
+                        <div>◘ ◘</div>
                       </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                          <button
-                            class="btn btn-link btn-block text-left collapsed"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseTwo"
-                            aria-expanded="false"
-                            aria-controls="collapseTwo"
-                          >
-                            Collapsible Group Item #2
-                          </button>
-                        </h2>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>PDI de detecção</Accordion.Header>
+                    <Accordion.Body>
+                    <div className="d-flex flex-row justify-content-between card-item">
+                        <div>detectar objeto</div> 
+                        <div>◘ ◘</div>
                       </div>
-                      <div
-                        id="collapseTwo"
-                        class="collapse"
-                        aria-labelledby="headingTwo"
-                        data-parent="#accordionExample"
-                      >
-                        <div class="card-body">
-                          Some placeholder content for the second accordion
-                          panel. This panel is hidden by default.
-                        </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                
+              </div>
+              
+              <div className="col-4 b2">
+                <div class="card my-2">
+                  <div className="card-header pipeline-header">Pipeline</div>
+                  <div class="card-body pipeline-card">
+                    <div className="container p-2">
+                      <div className="card d-flex flex-row justify-content-between card-item p-2">
+                        <div>recortar imagem</div>
+                        <div className="">◘ ◘ ◘</div>
                       </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                          <button
-                            class="btn btn-link btn-block text-left collapsed"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#collapseThree"
-                            aria-expanded="false"
-                            aria-controls="collapseThree"
-                          >
-                            Collapsible Group Item #3
-                          </button>
-                        </h2>
+                      <div className="card d-flex flex-row justify-content-between card-item p-2">
+                        dimencionar imagem
+                        <div className="">◘ ◘ ◘</div>
                       </div>
-                      <div
-                        id="collapseThree"
-                        class="collapse"
-                        aria-labelledby="headingThree"
-                        data-parent="#accordionExample"
-                      >
-                        <div class="card-body">
-                          And lastly, the placeholder content for the third and
-                          final accordion panel. This panel is hidden by
-                          default.
-                        </div>
+                      <div className="card d-flex flex-row justify-content-between  p-2 pipeline-header">
+                        detectar objeto
+                        <div className="">◘ ◘ ◘</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-4 b2">b2</div>
-              <div className="col-4 b3">b3</div>
+              <div className="col-4 b3"> 
+               <div class="card my-2">
+                  <div className="card-header pipeline-header">Parametro da PDI</div>
+                  <div class="card-body pipeline-card">
+                    
+                    <div class="mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"></input>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                    <label for="exampleColorInput" class="form-label">Color picker</label>
+                    <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color"></input>
+                  </div>
+                </div>
+              </div>
+            
             </div>
           </div>
         </div>
