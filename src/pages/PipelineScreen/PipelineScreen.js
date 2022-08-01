@@ -2,6 +2,24 @@ import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoStream";
 import "./styles.css";
 
+const pipeline = [
+  {
+    id: 1,
+    user: {},
+    name: "nome da pipeline",
+    pipelines: [
+      {
+        id: 1,
+        name: "",
+      },
+      {
+        id: 2,
+        name: "",
+      },
+    ],
+  },
+];
+
 function PipelineScreen() {
   return (
     <>
@@ -13,7 +31,7 @@ function PipelineScreen() {
           <div className="contentbar">
             <nav class="navbar sticky-top navbar-light px-2 ">
               <a class="navbar-brand" href="#home">
-                Nome do pipeline
+                {pipeline.name}
               </a>
             </nav>
           </div>
