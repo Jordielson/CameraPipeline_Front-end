@@ -20,6 +20,7 @@ a:focus {
 }
 
 #sidebar {
+  position: fixed;
   min-width: 250px;
   max-width: 250px;
   background: rgb(108, 70, 194);
@@ -76,8 +77,8 @@ a:focus {
 }
 
 ul ul a {
-  font-size: 0.9em !important;
-  padding-left: 30px !important;
+  font-size: 0.9em ;
+  padding-left: 30px ;
   background: #6d7fcc;
 }
 
@@ -87,7 +88,7 @@ ul.CTAs {
 
 ul.CTAs a {
   text-align: center;
-  font-size: 0.9em !important;
+  font-size: 0.9em ;
   display: block;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -100,8 +101,8 @@ a.download {
 
 a.article,
 a.article:hover {
-  background: #6d7fcc !important;
-  color: #fff !important;
+  background: #6d7fcc ;
+  color: #fff ;
 }
 
 .account {
@@ -117,7 +118,7 @@ span {
   color: red;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   #sidebar {
     margin-left: -250px;
   }
@@ -127,4 +128,4 @@ span {
   #sidebarCollapse span {
     display: none;
   }
-}
+} */
