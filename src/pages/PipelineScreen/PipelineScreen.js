@@ -3,24 +3,37 @@ import VideoStream from "../../components/VideoStream";
 import Accordion from "react-bootstrap/Accordion";
 import "./styles.css";
 
-const pipeline = [
-  {
-    id: 1,
-    user: {},
-    name: "nome da pipeline",
-    pipelines: [
-      {
-        id: 1,
-        name: "",
-      },
-      {
-        id: 2,
-        name: "",
-      },
-    ],
-  },
-];
-
+const pipeline = {
+  id: 1,
+  user: "",
+  name: "nome da pipeline",
+  pipelines: [
+    {
+      id: 1,
+      name: "a",
+      category: "",
+    },
+    {
+      id: 2,
+      name: "b",
+      category: "",
+    },
+  ],
+};
+const videoUrl = {
+  videos: [
+    {
+      id: 1,
+      name: "um",
+      url: "",
+    },
+    {
+      id: 2,
+      name: "dois",
+      url: "",
+    },
+  ],
+};
 function PipelineScreen() {
   return (
     <>
@@ -32,7 +45,7 @@ function PipelineScreen() {
           <div className="sticky-top contentbar">
             <nav className="navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 ">
               <a className="navbar-brand pipeline-name" href="#home">
-                Nome do pipeline
+                {pipeline.name}
               </a>
               <div className="grupo d-flex flex-row">
                 <select
@@ -77,6 +90,9 @@ function PipelineScreen() {
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
                   >
+                    {videoUrl.videos.map((video) => {
+                      return <option value={videoUrl.url}>{video.name}</option>;
+                    })}
                     <option selected>Choose...</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -94,6 +110,14 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body>
+                      {pipeline.pipelines.map((pipe) => {
+                        return (
+                          <div className="d-flex flex-row justify-content-between card-item">
+                            <div>{pipe.name}</div>
+                            <div>◘ ◘</div>
+                          </div>
+                        );
+                      })}
                       <div className="d-flex flex-row justify-content-between card-item">
                         <div>recortar imagem</div>
                         <div>◘ ◘</div>
