@@ -1,5 +1,4 @@
-.sidebar-component{
-
+.sidebar-component {
 }
 
 .content {
@@ -9,8 +8,7 @@
 .content-body {
   width: 100%;
 }
-.container-body{
-
+.container-body {
 }
 
 .contentbar .navbar {
@@ -21,53 +19,56 @@
   top:20px; */
 }
 
-.contentbar{
+.contentbar {
   background-color: aliceblue;
-
 }
-.row-body{
-  
+.row-body {
 }
 
-
-.inputvideo{
+.inputvideo {
   width: 100%;
 }
 
-.accordeon-pdi{
+.accordeon-pdi {
   width: 100%;
 }
 
-.pipeline-card{
+.pipeline-card {
   max-height: 87vh;
   overflow-y: auto;
 }
 
-.pipeline-header{
- background-color: #8257e5;
- color: white;
+.pipeline-header {
+  background-color: #8257e5;
+  color: white;
 }
 
-.pipeline-name{
+.pipeline-name {
   width: 20%;
-  
 }
 
-.pipeline-save{
+.pipeline-save {
   width: 20%;
-  
 }
 
-
-.card-item{
+.card-item {
   background-color: #fdfdfd;
+  cursor: pointer;
 }
-.card-item:hover{
+.card-icon:hover {
+  background-color: #bebebe;
+  cursor: pointer;
+}
+.card-item:hover {
   background-color: #f1f1f1;
 }
-
-
-
+.card-trash {
+  color: red;
+}
+.history {
+  color: rgb(38, 0, 255);
+  font-size: small;
+}
 
 .b1 {
   z-index: 1;
@@ -76,15 +77,12 @@
   align-items: center;
 }
 .b2 {
- 
 }
 .b3 {
-  
 }
 .b4 {
-  
 }
-.background-video{
+.background-video {
   background-color: rgb(187, 187, 187);
   width: 100%;
   display: flex;
@@ -107,7 +105,7 @@
   #sidebarCollapse span {
     display: none;
   }
-  .sidebar-component{
+  .sidebar-component {
     display: none;
   }
 }

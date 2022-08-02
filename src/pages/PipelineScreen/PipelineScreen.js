@@ -1,21 +1,40 @@
 import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoStream";
 import Accordion from "react-bootstrap/Accordion";
+import {
+  BsPlusSquare,
+  BsFillCaretUpFill,
+  BsFillCaretDownFill,
+  BsTrash,
+  BsClock,
+} from "react-icons/bs";
 import "./styles.css";
 
 const pipeline = {
   id: 1,
   user: "",
   name: "nome da pipeline",
-  pipelines: [
+  pdi: [
     {
       id: 1,
-      name: "a",
+      name: "recortar imagem",
       category: "",
     },
     {
       id: 2,
-      name: "b",
+      name: "dimencionar imagem",
+      category: "",
+    },
+  ],
+  usedPipeline: [
+    {
+      id: 1,
+      name: "recortar imagem",
+      category: "",
+    },
+    {
+      id: 2,
+      name: "dimencionar imagem",
       category: "",
     },
   ],
@@ -74,7 +93,10 @@ function PipelineScreen() {
                   </button>
                 </div>
               </div>
-              <div className="pipeline-save d-flex justify-content-end ">
+              <div className="pipeline-save d-flex justify-content-end">
+                <a href="#s" className="align-self-center px-2 history">
+                  <BsClock /> Histórico
+                </a>
                 <button type="button" class="btn btn-success btn-sm ">
                   Salvar
                 </button>
@@ -110,32 +132,21 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body>
-                      {pipeline.pipelines.map((pipe) => {
+                      {pipeline.pdi.map((pipe) => {
                         return (
-                          <div className="d-flex flex-row justify-content-between card-item">
+                          <div className="d-flex flex-row justify-content-between ">
                             <div>{pipe.name}</div>
-                            <div>◘ ◘</div>
+                            <div>
+                              <BsPlusSquare className="card-icon" />
+                            </div>
                           </div>
                         );
                       })}
-                      <div className="d-flex flex-row justify-content-between card-item">
-                        <div>recortar imagem</div>
-                        <div>◘ ◘</div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between card-item">
-                        <div>dimencionar imagem</div>
-                        <div>◘ ◘</div>
-                      </div>
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
                     <Accordion.Header>PDI de detecção</Accordion.Header>
-                    <Accordion.Body>
-                      <div className="d-flex flex-row justify-content-between card-item">
-                        <div>detectar objeto</div>
-                        <div>◘ ◘</div>
-                      </div>
-                    </Accordion.Body>
+                    <Accordion.Body></Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
               </div>
@@ -145,18 +156,18 @@ function PipelineScreen() {
                   <div className="card-header pipeline-header">Pipeline</div>
                   <div class="card-body pipeline-card">
                     <div className="container p-2">
-                      <div className="card d-flex flex-row justify-content-between card-item p-2">
-                        <div>recortar imagem</div>
-                        <div className="">◘ ◘ ◘</div>
-                      </div>
-                      <div className="card d-flex flex-row justify-content-between card-item p-2">
-                        dimencionar imagem
-                        <div className="">◘ ◘ ◘</div>
-                      </div>
-                      <div className="card d-flex flex-row justify-content-between  p-2 pipeline-header">
-                        detectar objeto
-                        <div className="">◘ ◘ ◘</div>
-                      </div>
+                      {pipeline.usedPipeline.map((pipe) => {
+                        return (
+                          <div className="card d-flex flex-row justify-content-between card-item p-2">
+                            <div>{pipe.name}</div>
+                            <div className="">
+                              <BsFillCaretUpFill className="card-icon" />
+                              <BsFillCaretDownFill className="card-icon" />
+                              <BsTrash className="card-icon card-trash" />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
