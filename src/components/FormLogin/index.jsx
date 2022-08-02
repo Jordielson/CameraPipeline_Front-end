@@ -2,10 +2,14 @@ import "./styles.css";
 import { Form, Button, Card } from "react-bootstrap";
 import { useState } from "react";
 import UserService from "../../services/user";
+import { useNavigate } from "react-router-dom";
 
 function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [redirectToRegister, setRedirectToRegister] = useState(false);
+  const [redirectToPipeline, setRedirectToPipeline] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -14,11 +18,15 @@ function FormLogin() {
         login: email,
         password: password,
       });
-      alert(`Sucess!!! 
-        \nLogin: ${login.login}
-        \nToken: ${login.token}`);
+      setRedirectToPipeline(true);
     } catch (error) {
       alert(error);
+    }
+    // if (redirectToRegister) {
+    //   navigate("../register", { replace: true });
+    // }
+    if (redirectToPipeline) {
+      navigate("../pipeline", { replace: true });
     }
   };
 

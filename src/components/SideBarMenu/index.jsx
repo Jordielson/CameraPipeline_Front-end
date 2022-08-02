@@ -1,6 +1,20 @@
 import "./styles.css";
+import UserService from "../../services/user";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 
 function SidebarMenu() {
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  const navigate = useNavigate();
+
+  const logOut = async () => {
+    await UserService.logout();
+    setRedirectToHome(true);
+  };
+
+  if (redirectToHome == true) {
+    navigate("../login", { replace: true });
+  }
   return (
     <>
       <div class="wrapper">
@@ -41,10 +55,10 @@ function SidebarMenu() {
 
           <div class="account">
             <div>
-              <span>example@email.com</span>
+              <span>{localStorage.getItem("login")}</span>
             </div>
             <div>
-              <a href="#home" class="logout">
+              <a href="#" class="logout" onClick={(e) => logOut()}>
                 sair
               </a>
             </div>

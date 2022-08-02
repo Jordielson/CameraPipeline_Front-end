@@ -4,12 +4,15 @@ import PDIScreen from "../pages/PDIScreen";
 import PipelineScreen from "../pages/PipelineScreen/PipelineScreen";
 import VideoStreamScreen from "../pages/VideoStreamScreen";
 import PrivateRouter from "./../components/PrivateRouter";
+import PublicRouter from "./../components/PublicRouter";
 
 function MyRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginScreen />}></Route>
+        <Route element={<PublicRouter />}>
+          <Route path="/login" element={<LoginScreen />}></Route>
+        </Route>
         <Route path="/stream" element={<VideoStreamScreen />}></Route>
 
         <Route element={<PrivateRouter />}>
