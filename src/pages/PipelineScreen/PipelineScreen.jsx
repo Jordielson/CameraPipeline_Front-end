@@ -9,8 +9,9 @@ import {
   BsClock,
 } from "react-icons/bs";
 import "./styles.css";
+import { useState } from "react";
 
-const pipeline = {
+const pipelineJson = {
   id: 1,
   user: "",
   name: "nome da pipeline",
@@ -19,11 +20,19 @@ const pipeline = {
       id: 1,
       name: "recortar imagem",
       category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
     },
     {
       id: 2,
       name: "dimencionar imagem",
       category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
     },
   ],
   usedPipeline: [
@@ -31,15 +40,23 @@ const pipeline = {
       id: 1,
       name: "recortar imagem",
       category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
     },
     {
       id: 2,
       name: "dimencionar imagem",
       category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
     },
   ],
 };
-const videoUrl = {
+const videoUrlJson = {
   videos: [
     {
       id: 1,
@@ -53,7 +70,24 @@ const videoUrl = {
     },
   ],
 };
+
 function PipelineScreen() {
+  const [pipeline, setPipeline] = useState(pipelineJson);
+  const [selectedPipelineId, setSelectePipelineId] = useState(1);
+  const [videoUrl, setVideoUrl] = useState(videoUrlJson);
+
+  function addPDI(e) {
+    let newPipeline = pipeline;
+    newPipeline.pdi.map((pl) => {
+      if (pl.id == e.target.id) {
+        const pdi = pl;
+        newPipeline.usedPipeline.push(pdi);
+        setPipeline(newPipeline);
+      }
+    });
+    console.log(pipeline);
+  }
+
   return (
     <>
       <div className="content">
@@ -115,14 +149,11 @@ function PipelineScreen() {
                     {videoUrl.videos.map((video) => {
                       return <option value={videoUrl.url}>{video.name}</option>;
                     })}
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                   </select>
                 </div>
                 <div className="background-video my-2">
-                  <div className="video">video</div>
+                  <VideoStream />
+                  {/* <div className="video">video</div> */}
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -137,7 +168,12 @@ function PipelineScreen() {
                           <div className="d-flex flex-row justify-content-between ">
                             <div>{pipe.name}</div>
                             <div>
-                              <BsPlusSquare className="card-icon" />
+                              <BsPlusSquare
+                                id={pipe.id}
+                                key={pipe.id}
+                                className="card-icon"
+                                onClick={(e) => addPDI(e)}
+                              />
                             </div>
                           </div>
                         );
@@ -178,40 +214,28 @@ function PipelineScreen() {
                     Parametro da PDI
                   </div>
                   <div class="card-body pipeline-card">
-                    <div class="mb-3">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        Email address
-                      </label>
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder="name@example.com"
-                      ></input>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                        for="exampleFormControlTextarea1"
-                        class="form-label"
-                      >
-                        Example textarea
-                      </label>
-                      <textarea
-                        class="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <label for="exampleColorInput" class="form-label">
-                      Color picker
-                    </label>
-                    <input
-                      type="color"
-                      class="form-control form-control-color"
-                      id="exampleColorInput"
-                      value="#563d7c"
-                      title="Choose your color"
-                    ></input>
+                    {pipeline.usedPipeline.map((pipe) => {
+                      if (pipe.id === selectedPipelineId) {
+                        return pipe.parameters.map((param) => {
+                          return (
+                            <div class="mb-3">
+                              <label
+                                for="exampleFormControlInput1"
+                                class="form-label"
+                              >
+                                {param.name}
+                              </label>
+                              <input
+                                type={param.type}
+                                class="form-control"
+                                id="exampleFormControlInput1"
+                                placeholder={`insira um ${param.type}`}
+                              ></input>
+                            </div>
+                          );
+                        });
+                      }
+                    })}
                   </div>
                 </div>
               </div>
