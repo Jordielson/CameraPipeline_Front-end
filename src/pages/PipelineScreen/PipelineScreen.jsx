@@ -77,7 +77,7 @@ function PipelineScreen() {
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
 
   function addPDI(e) {
-    let newPipeline = pipeline;
+    const newPipeline = pipeline;
     newPipeline.pdi.map((pl) => {
       if (pl.id == e.target.id) {
         const pdi = pl;
