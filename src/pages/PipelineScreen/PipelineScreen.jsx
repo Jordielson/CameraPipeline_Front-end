@@ -9,53 +9,37 @@ import {
   BsClock,
 } from "react-icons/bs";
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const pipelineJson = {
   id: 1,
   user: "",
   name: "nome da pipeline",
-  pdi: [
-    {
-      id: 1,
-      name: "recortar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-    {
-      id: 2,
-      name: "dimencionar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-  ],
-  usedPipeline: [
-    {
-      id: 1,
-      name: "recortar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-    {
-      id: 2,
-      name: "dimencionar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-  ],
+
+  usedPipeline: []
 };
+
+const pdis = [
+    {
+      id: "1",
+      name: "recortar imagem",
+      category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
+    },
+    {
+      id: "2",
+      name: "dimencionar imagem",
+      category: "",
+      parameters: [
+        { name: "parametro1", type: "text" },
+        { name: "parametro2", type: "text" },
+      ],
+    },
+];
+
 const videoUrlJson = {
   videos: [
     {
@@ -73,20 +57,30 @@ const videoUrlJson = {
 
 function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
+  const [pdiList, setPdiList] = useState(pdis);
+  const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
 
   function addPDI(e) {
-    let newPipeline = pipeline;
-    newPipeline.pdi.map((pl) => {
-      if (pl.id == e.target.id) {
-        const pdi = pl;
-        newPipeline.usedPipeline.push(pdi);
-        setPipeline(newPipeline);
-      }
+    pdiList.forEach((pdi) => {
+      if (pdi.id == e.target.id) {
+        pipeline.usedPipeline.push(pdi);
+        refresh();
+      } 
     });
     console.log(pipeline);
+  }
+
+  useEffect(() => {
+    if(pipeline.id === ''){
+      setPipeline(pipelineJson);
+    }
+  },[update])
+
+  const refresh = () => {
+    setUpdate(!update);
   }
 
   return (
@@ -163,7 +157,7 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body>
-                      {pipeline.pdi.map((pipe) => {
+                      {pdiList.map((pipe) => {
                         return (
                           <div className="d-flex flex-row justify-content-between ">
                             <div>{pipe.name}</div>
@@ -186,7 +180,7 @@ function PipelineScreen() {
                   </Accordion.Item>
                 </Accordion>
               </div>
-
+ 
               <div className="col-4 b2">
                 <div class="card my-2">
                   <div className="card-header pipeline-header">Pipeline</div>

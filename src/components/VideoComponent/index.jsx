@@ -14,12 +14,12 @@ const StreamStatus = {
 };
 
 function VideoStream(props) {
-  //console.log(props.url)
+
   const [stream1, setStream] = useState(props.url);
   const [showVideo, setShowVideo] = useState(StreamStatus.EMPTY);
 
   const fetchStream = async (stream) => {
-    //console.log(stream)
+
     setShowVideo(StreamStatus.LOADING);
 
     try {
@@ -28,7 +28,7 @@ function VideoStream(props) {
         id: 1
       });
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
 
     try {
@@ -49,31 +49,14 @@ function VideoStream(props) {
   };
 
   useEffect(() => {
-    setStream(props.url)
-    fetchStream(props.url);
+    if(props.url !== ''){
+      setStream(props.url)
+      fetchStream(props.url);
+    }
   }, [props.url]);
   
   return (
     <div id="bodyc">
-      {/* <div class="input-group mb-3" style={{ width: "340px" }}>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Recipient's username"
-          aria-label="Recipient's username"
-          aria-describedby="button-addon2"
-          value={stream}
-          onChange={(e) => setStream(e.target.value)}
-        />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          id="button-addon2"
-          onClick={fetchStream}
-        >
-          Button
-        </button>
-      </div> */}
       {showVideo === StreamStatus.SUCCESS ? (
         <div>
           <div id="video-canvas" style={{ width: "340px", height: "240px" }} />
