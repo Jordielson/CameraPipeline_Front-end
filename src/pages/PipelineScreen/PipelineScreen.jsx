@@ -1,5 +1,5 @@
 import SidebarMenu from "../../components/SideBarMenu";
-import VideoStream from "../../components/VideoStream";
+import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
 import {
   BsPlusSquare,
@@ -66,7 +66,7 @@ const videoUrlJson = {
     {
       id: 2,
       name: "dois",
-      url: "",
+      url: "rtsp://rtsp.stream/pattern",
     },
   ],
 };
@@ -75,6 +75,7 @@ function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
+  const [url, setUrl] = useState("");
 
   function addPDI(e) {
     let newPipeline = pipeline;
@@ -141,19 +142,18 @@ function PipelineScreen() {
             <div className="row row-body">
               <div className="col-4 b1 py-2">
                 <div className="input-group a">
-                  <select
+                  <select onClick={(e) => setUrl(e.target.value)}
                     className="custom-select input inputvideo"
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
                   >
                     {videoUrl.videos.map((video) => {
-                      return <option value={videoUrl.url}>{video.name}</option>;
+                      return <option value={video.url}>{video.name}</option>;
                     })}
                   </select>
                 </div>
                 <div className="background-video my-2">
-                  <VideoStream />
-                  {/* <div className="video">video</div> */}
+                  <VideoStream url={url}/>
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}

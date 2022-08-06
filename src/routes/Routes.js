@@ -15,7 +15,7 @@ function MyRoutes() {
         </Route>
         <Route path="/stream" element={<VideoStreamScreen />}></Route>
 
-        <Route element={<PrivateRouter />}>
+        <Route element={<PublicRouter />}>
           <Route path="/pipeline" element={<PipelineScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
