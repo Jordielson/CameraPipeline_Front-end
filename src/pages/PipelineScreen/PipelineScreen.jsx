@@ -11,54 +11,66 @@ import {
 import "./styles.css";
 import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
+import CameraService from "../../services/camera";
+import PipelineService from "../../services/pipeline";
 
 const pipelineJson = {
-  id: 1,
-  user: "",
-  name: "nome da pipeline",
-
-  usedPipeline: [],
-};
-
-const pdis = [
-  {
-    id: "1",
-    name: "recortar imagem",
-    category: "",
-    parameters: [
-      { name: "parametro1", type: "text", value: "a" },
-      { name: "parametro2", type: "text", value: "a" },
-    ],
-  },
-  {
-    id: "2",
-    name: "dimencionar imagem",
-    category: "",
-    parameters: [
-      { name: "parametropopopos", type: "text", value: "a" },
-      { name: "parametropipipi", type: "text", value: "a" },
-    ],
-  },
-];
-
-const videoUrlJson = {
-  videos: [
+  id: 3,
+  name: "Aumentar o tamanho da imagem",
+  description: "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
+  creationDate: "2022-06-26T14:30:30",
+  modificationTime: "2022-06-26T14:30:30",
+  isActive: false,
+  groupPipelineId: 1,
+  cameraList: [
     {
       id: 1,
-      name: "um",
-      url: "",
-    },
-    {
-      id: 2,
-      name: "dois",
-      url: "rtsp://rtsp.stream/pattern",
-    },
+      name: "Camera 01",
+      isPrivate: true,
+      fpsLimiter: 60,
+      url: "http://localhost:5000/api"
+    }
   ],
+  pdilist: [
+    {
+      id: 1,
+      name: "Redimensionar imagem",
+      valueParameters: [
+        {
+          id: 1,
+          value: "25x30",
+          parameter: {
+              id: 1,
+              name: "Tamanho da imagem",
+              type: "STRING"
+          }
+        }
+      ],
+      pipelineId: 1
+    }
+  ]
 };
+
+const videoUrlJson = [
+  {
+    id: 1,
+    name: "Camera 01",
+    isPrivate: false,
+    fpsLimiter: 120,
+    url: "rtsp://rtsp.stream/pattern"
+  },
+  {
+    id: 2,
+    name: "Camera 02",
+    isPrivate: false,
+    fpsLimiter: 90,
+    url: "rtsp://rtsp.stream/pattern"
+  }
+];
 
 function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
-  const [pdiList, setPdiList] = useState([]);
+  const [modelPDI, setPdiList] = useState([]);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [oldSelectedPipelineId, setOldSelectePipelineId] = useState();
@@ -66,10 +78,25 @@ function PipelineScreen() {
   const [url, setUrl] = useState("");
 
   function addPDI(e) {
-    pdiList.forEach((pdi) => {
+    modelPDI.forEach((pdi) => {
       if (pdi.id == e.target.id) {
-        const newPdi = { ...pdi, id: pipeline.usedPipeline.length + 1 };
-        pipeline.usedPipeline.push(newPdi);
+        var valueParameter = [];
+        pdi.parameters.map((element) => {
+          valueParameter.push(
+            {
+              value: "",
+              parameter: element
+            }
+          )
+        }) 
+        const newPdi = { 
+          id: pipeline.pdilist.length + 1,
+          name: pdi.name,
+          valueParameters: valueParameter,
+          pipelineId: 1
+        };
+        console.log("New PDI:" + newPdi);
+        pipeline.pdilist.push(newPdi);
         refresh();
         console.log(newPdi, "nova pdi");
       }
@@ -80,15 +107,25 @@ function PipelineScreen() {
     if (pipeline.id === "") {
       setPipeline(pipelineJson);
     }
-  },[update])
+  },[update]);
+  
   useEffect(() => {
     getPDIs();
+    getCameras();
   },[])
 
   const getPDIs = async () => {
     try {
       const response = await PDIService.getAll();
       setPdiList(response);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+  const getCameras = async () => {
+    try {
+      const response = await CameraService.getAll();
+      setVideoUrl(response);
     } catch (error) {
       console.log("Error");
     }
@@ -100,7 +137,7 @@ function PipelineScreen() {
 
   useEffect(() => {
     if (document.getElementsByClassName("card-item")[0]) {
-      pipeline.usedPipeline.map((pipe) => {
+      pipeline.pdilist.map((pipe) => {
         if (pipe.id == selectedPipelineId) {
           document.getElementsByClassName("card-item")[
             selectedPipelineId - 1
@@ -116,21 +153,32 @@ function PipelineScreen() {
 
   function handleChange(event, name) {
     var count = 0;
-    pipeline.usedPipeline.map((pipe) => {
+    pipeline.pdilist.map((pipe) => {
       count = count + 1;
       if (pipe.id == event.target.id) {
         const novoEstado = Object.assign({}, pipeline);
-        var indice = pipe.parameters.findIndex(function (obj) {
-          return obj.name == name;
+        var indice = pipe.valueParameters.findIndex(function (obj) {
+          return obj.parameter.name == name;
         });
+        console.log("Teste");
         console.log(indice, count - 1);
 
-        novoEstado.usedPipeline[count - 1].parameters[indice].value =
+        novoEstado.pdilist[count - 1].valueParameters[indice].value =
           event.target.value;
         setPipeline(novoEstado);
         console.log(novoEstado);
       }
     });
+  }
+
+  const save = async () => {
+    try {
+      console.log("Pipeline:" + pipeline);
+      const response = await PipelineService.register(pipeline);
+      console.log("Teste" + response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -176,7 +224,7 @@ function PipelineScreen() {
                 <a href="#s" className="align-self-center px-2 history">
                   <BsClock /> Histórico
                 </a>
-                <button type="button" class="btn btn-success btn-sm ">
+                <button type="button" class="btn btn-success btn-sm " onClick={save}>
                   Salvar
                 </button>
               </div>
@@ -192,7 +240,7 @@ function PipelineScreen() {
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
                   >
-                    {videoUrl.videos.map((video) => {
+                    {videoUrl.map((video) => {
                       return <option value={video.url}>{video.name}</option>;
                     })}
                   </select>
@@ -208,7 +256,7 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body>
-                      {pdiList.map((pipe) => {
+                      {modelPDI.map((pipe) => {
                         return (
                           <div className="d-flex flex-row justify-content-between ">
                             <div>{pipe.name}</div>
@@ -237,7 +285,7 @@ function PipelineScreen() {
                   <div className="card-header pipeline-header">Pipeline</div>
                   <div class="card-body pipeline-card">
                     <div className="container p-2">
-                      {pipeline.usedPipeline.map((pipe) => {
+                      {pipeline.pdilist.map((pipe) => {
                         return (
                           <div
                             onClick={(e) => setSelectePipelineId(pipe.id)}
@@ -265,23 +313,23 @@ function PipelineScreen() {
                     Parametro da PDI
                   </div>
                   <div class="card-body pipeline-card">
-                    {pipeline.usedPipeline.map((pipe) => {
+                    {pipeline.pdilist.map((pipe) => {
                       if (pipe.id === selectedPipelineId) {
-                        return pipe.parameters.map((param) => {
+                        return pipe.valueParameters.map((param) => {
                           return (
                             <div class="mb-3">
                               <label
                                 for="exampleFormControlInput1"
                                 class="form-label"
                               >
-                                {param.name}
+                                {param.parameter.name}
                               </label>
                               <input
-                                type={param.type}
+                                type={param.parameter.type}
                                 class="form-control"
                                 id={pipe.id}
-                                onChange={(e) => handleChange(e, param.name)}
-                                placeholder={`insira um ${param.type}`}
+                                onChange={(e) => handleChange(e, param.parameter.name)}
+                                placeholder={`insira um ${param.parameter.type}`}
                                 value={param.value}
                               ></input>
                             </div>
