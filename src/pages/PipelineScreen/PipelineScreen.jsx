@@ -34,8 +34,8 @@ const pdis = [
     name: "dimencionar imagem",
     category: "",
     parameters: [
-      { name: "parametro1", type: "text" },
-      { name: "parametro2", type: "text" },
+      { name: "parametropopopos", type: "text" },
+      { name: "parametropipipi", type: "text" },
     ],
   },
 ];
@@ -66,11 +66,13 @@ function PipelineScreen() {
   function addPDI(e) {
     pdiList.forEach((pdi) => {
       if (pdi.id == e.target.id) {
-        pipeline.usedPipeline.push(pdi);
+        const newPdi = { ...pdi, id: pipeline.usedPipeline.length + 1 };
+        // newPdi.id = pipeline.usedPipeline.length+1;
+        pipeline.usedPipeline.push(newPdi);
         refresh();
+        console.log(newPdi, "nova pdi");
       }
     });
-    console.log(pipeline);
   }
 
   useEffect(() => {
@@ -82,6 +84,22 @@ function PipelineScreen() {
   const refresh = () => {
     setUpdate(!update);
   };
+
+  useEffect(() => {
+    if (document.getElementsByClassName("card-item")[0]) {
+      pipeline.usedPipeline.map((pipe) => {
+        if (pipe.id == selectedPipelineId) {
+          document.getElementsByClassName("card-item")[
+            selectedPipelineId - 1
+          ].style.backgroundColor = "#bebebe";
+        } else {
+          document.getElementsByClassName("card-item")[
+            pipe.id - 1
+          ].style.backgroundColor = "#fdfdfd";
+        }
+      });
+    }
+  }, [selectedPipelineId]);
 
   return (
     <>
@@ -189,7 +207,13 @@ function PipelineScreen() {
                     <div className="container p-2">
                       {pipeline.usedPipeline.map((pipe) => {
                         return (
-                          <div className="card d-flex flex-row justify-content-between card-item p-2">
+                          <div
+                            onClick={(e) => setSelectePipelineId(pipe.id)}
+                            tabIndex="-1"
+                            key={pipe.id}
+                            id={pipe.id}
+                            className="card d-flex flex-row justify-content-between card-item p-2 "
+                          >
                             <div>{pipe.name}</div>
                             <div className="">
                               <BsFillCaretUpFill className="card-icon" />
