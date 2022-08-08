@@ -17,28 +17,28 @@ const pipelineJson = {
   user: "",
   name: "nome da pipeline",
 
-  usedPipeline: []
+  usedPipeline: [],
 };
 
 const pdis = [
-    {
-      id: "1",
-      name: "recortar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-    {
-      id: "2",
-      name: "dimencionar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
+  {
+    id: "1",
+    name: "recortar imagem",
+    category: "",
+    parameters: [
+      { name: "parametro1", type: "text", value: "a" },
+      { name: "parametro2", type: "text", value: "a" },
+    ],
+  },
+  {
+    id: "2",
+    name: "dimencionar imagem",
+    category: "",
+    parameters: [
+      { name: "parametropopopos", type: "text", value: "a" },
+      { name: "parametropipipi", type: "text", value: "a" },
+    ],
+  },
 ];
 
 const videoUrlJson = {
@@ -61,21 +61,23 @@ function PipelineScreen() {
   const [pdiList, setPdiList] = useState([]);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
+  const [oldSelectedPipelineId, setOldSelectePipelineId] = useState();
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
 
   function addPDI(e) {
     pdiList.forEach((pdi) => {
       if (pdi.id == e.target.id) {
-        pipeline.usedPipeline.push(pdi);
+        const newPdi = { ...pdi, id: pipeline.usedPipeline.length + 1 };
+        pipeline.usedPipeline.push(newPdi);
         refresh();
-      } 
+        console.log(newPdi, "nova pdi");
+      }
     });
-    console.log(pipeline);
   }
 
   useEffect(() => {
-    if(pipeline.id === ''){
+    if (pipeline.id === "") {
       setPipeline(pipelineJson);
     }
   },[update])
@@ -94,6 +96,41 @@ function PipelineScreen() {
 
   const refresh = () => {
     setUpdate(!update);
+  };
+
+  useEffect(() => {
+    if (document.getElementsByClassName("card-item")[0]) {
+      pipeline.usedPipeline.map((pipe) => {
+        if (pipe.id == selectedPipelineId) {
+          document.getElementsByClassName("card-item")[
+            selectedPipelineId - 1
+          ].style.backgroundColor = "#bebebe";
+        } else {
+          document.getElementsByClassName("card-item")[
+            pipe.id - 1
+          ].style.backgroundColor = "#fdfdfd";
+        }
+      });
+    }
+  }, [selectedPipelineId]);
+
+  function handleChange(event, name) {
+    var count = 0;
+    pipeline.usedPipeline.map((pipe) => {
+      count = count + 1;
+      if (pipe.id == event.target.id) {
+        const novoEstado = Object.assign({}, pipeline);
+        var indice = pipe.parameters.findIndex(function (obj) {
+          return obj.name == name;
+        });
+        console.log(indice, count - 1);
+
+        novoEstado.usedPipeline[count - 1].parameters[indice].value =
+          event.target.value;
+        setPipeline(novoEstado);
+        console.log(novoEstado);
+      }
+    });
   }
 
   return (
@@ -149,7 +186,8 @@ function PipelineScreen() {
             <div className="row row-body">
               <div className="col-4 b1 py-2">
                 <div className="input-group a">
-                  <select onClick={(e) => setUrl(e.target.value)}
+                  <select
+                    onClick={(e) => setUrl(e.target.value)}
                     className="custom-select input inputvideo"
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
@@ -160,7 +198,7 @@ function PipelineScreen() {
                   </select>
                 </div>
                 <div className="background-video my-2">
-                  <VideoStream url={url}/>
+                  <VideoStream url={url} />
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -193,7 +231,7 @@ function PipelineScreen() {
                   </Accordion.Item>
                 </Accordion>
               </div>
- 
+
               <div className="col-4 b2">
                 <div class="card my-2">
                   <div className="card-header pipeline-header">Pipeline</div>
@@ -201,7 +239,13 @@ function PipelineScreen() {
                     <div className="container p-2">
                       {pipeline.usedPipeline.map((pipe) => {
                         return (
-                          <div className="card d-flex flex-row justify-content-between card-item p-2">
+                          <div
+                            onClick={(e) => setSelectePipelineId(pipe.id)}
+                            tabIndex="-1"
+                            key={pipe.id}
+                            id={pipe.id}
+                            className="card d-flex flex-row justify-content-between card-item p-2 "
+                          >
                             <div>{pipe.name}</div>
                             <div className="">
                               <BsFillCaretUpFill className="card-icon" />
@@ -235,8 +279,10 @@ function PipelineScreen() {
                               <input
                                 type={param.type}
                                 class="form-control"
-                                id="exampleFormControlInput1"
+                                id={pipe.id}
+                                onChange={(e) => handleChange(e, param.name)}
                                 placeholder={`insira um ${param.type}`}
+                                value={param.value}
                               ></input>
                             </div>
                           );

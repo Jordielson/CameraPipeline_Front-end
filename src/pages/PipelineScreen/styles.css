@@ -55,6 +55,11 @@
   background-color: #fdfdfd;
   cursor: pointer;
 }
+
+.card-item:focus {
+  filter: brightness(0.9);
+}
+
 .card-icon:hover {
   background-color: #bebebe;
   cursor: pointer;
