@@ -16,7 +16,17 @@ const pipelineJson = {
   user: "",
   name: "nome da pipeline",
 
-  usedPipeline: [],
+  usedPipeline: [
+    {
+      id: "1",
+      name: "recortar imagem",
+      category: "",
+      parameters: [
+        { name: "parametro1", type: "text", value: "a" },
+        { name: "parametro2", type: "text", value: "a" },
+      ],
+    },
+  ],
 };
 
 const pdis = [
@@ -25,8 +35,8 @@ const pdis = [
     name: "recortar imagem",
     category: "",
     parameters: [
-      { name: "parametro1", type: "text" },
-      { name: "parametro2", type: "text" },
+      { name: "parametro1", type: "text", value: "a" },
+      { name: "parametro2", type: "text", value: "a" },
     ],
   },
   {
@@ -34,8 +44,8 @@ const pdis = [
     name: "dimencionar imagem",
     category: "",
     parameters: [
-      { name: "parametropopopos", type: "text" },
-      { name: "parametropipipi", type: "text" },
+      { name: "parametropopopos", type: "text", value: "a" },
+      { name: "parametropipipi", type: "text", value: "a" },
     ],
   },
 ];
@@ -60,6 +70,7 @@ function PipelineScreen() {
   const [pdiList, setPdiList] = useState(pdis);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
+  const [oldSelectedPipelineId, setOldSelectePipelineId] = useState();
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
 
@@ -67,7 +78,6 @@ function PipelineScreen() {
     pdiList.forEach((pdi) => {
       if (pdi.id == e.target.id) {
         const newPdi = { ...pdi, id: pipeline.usedPipeline.length + 1 };
-        // newPdi.id = pipeline.usedPipeline.length+1;
         pipeline.usedPipeline.push(newPdi);
         refresh();
         console.log(newPdi, "nova pdi");
@@ -100,6 +110,25 @@ function PipelineScreen() {
       });
     }
   }, [selectedPipelineId]);
+
+  function handleChange(event, name) {
+    var count = 0;
+    pipeline.usedPipeline.map((pipe) => {
+      count = count + 1;
+      if (pipe.id == event.target.id) {
+        const novoEstado = Object.assign({}, pipeline);
+        var indice = pipe.parameters.findIndex(function (obj) {
+          return obj.name == name;
+        });
+        console.log(indice, count - 1);
+
+        novoEstado.usedPipeline[count - 1].parameters[indice].value =
+          event.target.value;
+        setPipeline(novoEstado);
+        console.log(novoEstado);
+      }
+    });
+  }
 
   return (
     <>
@@ -247,8 +276,10 @@ function PipelineScreen() {
                               <input
                                 type={param.type}
                                 class="form-control"
-                                id="exampleFormControlInput1"
+                                id={pipe.id}
+                                onChange={(e) => handleChange(e, param.name)}
                                 placeholder={`insira um ${param.type}`}
+                                value={param.value}
                               ></input>
                             </div>
                           );
