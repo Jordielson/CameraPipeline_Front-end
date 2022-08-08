@@ -10,6 +10,7 @@ import {
 } from "react-icons/bs";
 import "./styles.css";
 import { useEffect, useState } from "react";
+import PDIService from "../../services/pdi";
 
 const pipelineJson = {
   id: 1,
@@ -57,7 +58,7 @@ const videoUrlJson = {
 
 function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
-  const [pdiList, setPdiList] = useState(pdis);
+  const [pdiList, setPdiList] = useState([]);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
@@ -78,6 +79,18 @@ function PipelineScreen() {
       setPipeline(pipelineJson);
     }
   },[update])
+  useEffect(() => {
+    getPDIs();
+  },[])
+
+  const getPDIs = async () => {
+    try {
+      const response = await PDIService.getAll();
+      setPdiList(response);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
 
   const refresh = () => {
     setUpdate(!update);
