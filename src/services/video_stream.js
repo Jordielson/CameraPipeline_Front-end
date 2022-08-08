@@ -9,6 +9,14 @@ const VideoStreamService = {
     const data = response.data;
     return data;
   },
+  stopStream: async (params) => {
+    const response = await ApiVideoStream.delete(
+      `/stream/${params.id}`, 
+      params,
+    );
+    const data = response.data;
+    return data;
+  },
 };
 
 export default VideoStreamService;

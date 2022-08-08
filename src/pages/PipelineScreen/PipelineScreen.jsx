@@ -1,5 +1,5 @@
 import SidebarMenu from "../../components/SideBarMenu";
-import VideoStream from "../../components/VideoStream";
+import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
 import {
   BsPlusSquare,
@@ -9,53 +9,37 @@ import {
   BsClock,
 } from "react-icons/bs";
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const pipelineJson = {
   id: 1,
   user: "",
   name: "nome da pipeline",
-  pdi: [
-    {
-      id: 1,
-      name: "recortar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-    {
-      id: 2,
-      name: "dimencionar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-  ],
-  usedPipeline: [
-    {
-      id: 1,
-      name: "recortar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-    {
-      id: 2,
-      name: "dimencionar imagem",
-      category: "",
-      parameters: [
-        { name: "parametro1", type: "text" },
-        { name: "parametro2", type: "text" },
-      ],
-    },
-  ],
+
+  usedPipeline: [],
 };
+
+const pdis = [
+  {
+    id: "1",
+    name: "recortar imagem",
+    category: "",
+    parameters: [
+      { name: "parametro1", type: "text" },
+      { name: "parametro2", type: "text" },
+    ],
+  },
+  {
+    id: "2",
+    name: "dimencionar imagem",
+    category: "",
+    parameters: [
+      { name: "parametro1", type: "text" },
+      { name: "parametro2", type: "text" },
+    ],
+  },
+];
+
 const videoUrlJson = {
   videos: [
     {
@@ -66,27 +50,38 @@ const videoUrlJson = {
     {
       id: 2,
       name: "dois",
-      url: "",
+      url: "rtsp://rtsp.stream/pattern",
     },
   ],
 };
 
 function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
+  const [pdiList, setPdiList] = useState(pdis);
+  const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
+  const [url, setUrl] = useState("");
 
   function addPDI(e) {
-    const newPipeline = pipeline;
-    newPipeline.pdi.map((pl) => {
-      if (pl.id == e.target.id) {
-        const pdi = pl;
-        newPipeline.usedPipeline.push(pdi);
-        setPipeline(newPipeline);
+    pdiList.forEach((pdi) => {
+      if (pdi.id == e.target.id) {
+        pipeline.usedPipeline.push(pdi);
+        refresh();
       }
     });
     console.log(pipeline);
   }
+
+  useEffect(() => {
+    if (pipeline.id === "") {
+      setPipeline(pipelineJson);
+    }
+  }, [update]);
+
+  const refresh = () => {
+    setUpdate(!update);
+  };
 
   return (
     <>
@@ -142,18 +137,18 @@ function PipelineScreen() {
               <div className="col-4 b1 py-2">
                 <div className="input-group a">
                   <select
+                    onClick={(e) => setUrl(e.target.value)}
                     className="custom-select input inputvideo"
                     id="inputGroupSelect04"
                     aria-label="Example select with button addon"
                   >
                     {videoUrl.videos.map((video) => {
-                      return <option value={videoUrl.url}>{video.name}</option>;
+                      return <option value={video.url}>{video.name}</option>;
                     })}
                   </select>
                 </div>
                 <div className="background-video my-2">
-                  <VideoStream />
-                  {/* <div className="video">video</div> */}
+                  <VideoStream url={url} />
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -163,7 +158,7 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body>
-                      {pipeline.pdi.map((pipe) => {
+                      {pdiList.map((pipe) => {
                         return (
                           <div className="d-flex flex-row justify-content-between ">
                             <div>{pipe.name}</div>
