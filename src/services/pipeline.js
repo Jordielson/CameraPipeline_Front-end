@@ -10,6 +10,15 @@ const PipelineService = {
             data = response.data;
         });
         return data;
+    },
+    preview: async (params) => {
+        var data = null;
+        await Api().post(
+            "/api/pipeline/preview/"+params
+        ).then((response) => {
+            data = response.data;
+        });
+        return data;
     }
 }
 

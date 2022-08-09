@@ -16,7 +16,7 @@ import PipelineService from "../../services/pipeline";
 
 const pipelineJson = {
   id: 3,
-  name: "Aumentar o tamanho da imagem",
+  name: "Aumentar imagem",
   description: "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
   creationDate: "2022-06-26T14:30:30",
   modificationTime: "2022-06-26T14:30:30",
@@ -173,9 +173,11 @@ function PipelineScreen() {
 
   const save = async () => {
     try {
-      console.log("Pipeline:" + pipeline);
       const response = await PipelineService.register(pipeline);
-      console.log("Teste" + response);
+      alert("Pipeline registrada com sucesso")
+      const preview = await PipelineService.preview(response.id);
+      console.log(preview);
+      setUrl(preview);
     } catch (error) {
       console.log(error);
     }
@@ -207,8 +209,7 @@ function PipelineScreen() {
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Recipient's username"
-                    aria-label="Recipient's username"
+                    placeholder="Criar nova pipeline"
                     aria-describedby="button-addon2"
                   ></input>
                   <button
@@ -216,7 +217,7 @@ function PipelineScreen() {
                     type="button"
                     id="button-addon2"
                   >
-                    Button
+                    Criar
                   </button>
                 </div>
               </div>
