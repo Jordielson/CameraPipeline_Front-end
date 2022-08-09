@@ -77,8 +77,8 @@ a:focus {
 }
 
 ul ul a {
-  font-size: 0.9em ;
-  padding-left: 30px ;
+  font-size: 0.9em;
+  padding-left: 30px;
   background: #6d7fcc;
 }
 
@@ -88,7 +88,7 @@ ul.CTAs {
 
 ul.CTAs a {
   text-align: center;
-  font-size: 0.9em ;
+  font-size: 0.9em;
   display: block;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -101,8 +101,8 @@ a.download {
 
 a.article,
 a.article:hover {
-  background: #6d7fcc ;
-  color: #fff ;
+  background: #6d7fcc;
+  color: #fff;
 }
 
 .account {
@@ -115,7 +115,7 @@ span {
   font-size: large;
 }
 .account a {
-  color: red;
+  color: #fff;
 }
 
 /* @media (max-width: 768px) {

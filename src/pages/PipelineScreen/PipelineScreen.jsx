@@ -13,11 +13,15 @@ import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "react-bootstrap/Toast";
+import { toast } from "react-toastify";
 
 const pipelineJson = {
   id: 3,
   name: "Aumentar imagem",
-  description: "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
+  description:
+    "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
   creationDate: "2022-06-26T14:30:30",
   modificationTime: "2022-06-26T14:30:30",
   isActive: false,
@@ -28,8 +32,8 @@ const pipelineJson = {
       name: "Camera 01",
       isPrivate: true,
       fpsLimiter: 60,
-      url: "http://localhost:5000/api"
-    }
+      url: "http://localhost:5000/api",
+    },
   ],
   pdilist: [
     {
@@ -40,15 +44,47 @@ const pipelineJson = {
           id: 1,
           value: "25x30",
           parameter: {
-              id: 1,
-              name: "Tamanho da imagem",
-              type: "STRING"
-          }
-        }
+            id: 1,
+            name: "Tamanho da imagem",
+            type: "STRING",
+          },
+        },
       ],
-      pipelineId: 1
-    }
-  ]
+      pipelineId: 1,
+    },
+    {
+      id: 1,
+      name: "Redimensionar imagem",
+      valueParameters: [
+        {
+          id: 1,
+          value: "25x30",
+          parameter: {
+            id: 1,
+            name: "Tamanho da imagem",
+            type: "STRING",
+          },
+        },
+      ],
+      pipelineId: 1,
+    },
+    {
+      id: 1,
+      name: "Redimensionar imagem",
+      valueParameters: [
+        {
+          id: 1,
+          value: "25x30",
+          parameter: {
+            id: 1,
+            name: "Tamanho da imagem",
+            type: "STRING",
+          },
+        },
+      ],
+      pipelineId: 1,
+    },
+  ],
 };
 
 const videoUrlJson = [
@@ -57,47 +93,59 @@ const videoUrlJson = [
     name: "Camera 01",
     isPrivate: false,
     fpsLimiter: 120,
-    url: "rtsp://rtsp.stream/pattern"
+    url: "rtsp://rtsp.stream/pattern",
   },
   {
     id: 2,
     name: "Camera 02",
     isPrivate: false,
     fpsLimiter: 90,
-    url: "rtsp://rtsp.stream/pattern"
-  }
+    url: "rtsp://rtsp.stream/pattern",
+  },
 ];
 
 function PipelineScreen() {
   const [pipeline, setPipeline] = useState(pipelineJson);
-  const [modelPDI, setPdiList] = useState([]);
+  const [modelPDI, setPdiList] = useState(pipelineJson.pdilist);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [oldSelectedPipelineId, setOldSelectePipelineId] = useState();
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
+  const [show, setShow] = useState(false);
+  const [position, setPosition] = useState("top-end");
 
   function addPDI(e) {
     modelPDI.forEach((pdi) => {
       if (pdi.id == e.target.id) {
         var valueParameter = [];
         pdi.parameters.map((element) => {
-          valueParameter.push(
-            {
-              value: "",
-              parameter: element
-            }
-          )
-        }) 
-        const newPdi = { 
+          valueParameter.push({
+            value: "",
+            parameter: element,
+          });
+        });
+        const newPdi = {
           id: pipeline.pdilist.length + 1,
           name: pdi.name,
           valueParameters: valueParameter,
-          pipelineId: 1
+          pipelineId: 1,
         };
         console.log("New PDI:" + newPdi);
         pipeline.pdilist.push(newPdi);
         refresh();
+
+        toast.success(`${pdi.name} adicionado com sucesso!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
         console.log(newPdi, "nova pdi");
       }
     });
@@ -107,12 +155,12 @@ function PipelineScreen() {
     if (pipeline.id === "") {
       setPipeline(pipelineJson);
     }
-  },[update]);
-  
+  }, [update]);
+
   useEffect(() => {
     getPDIs();
     getCameras();
-  },[])
+  }, []);
 
   const getPDIs = async () => {
     try {
@@ -141,7 +189,7 @@ function PipelineScreen() {
         if (pipe.id == selectedPipelineId) {
           document.getElementsByClassName("card-item")[
             selectedPipelineId - 1
-          ].style.backgroundColor = "#bebebe";
+          ].style.backgroundColor = "#f1f1f1";
         } else {
           document.getElementsByClassName("card-item")[
             pipe.id - 1
@@ -174,20 +222,20 @@ function PipelineScreen() {
   const save = async () => {
     try {
       const response = await PipelineService.register(pipeline);
-      alert("Pipeline registrada com sucesso")
+      alert("Pipeline registrada com sucesso");
       const preview = await PipelineService.preview(response.id);
       console.log(preview);
       setUrl(preview);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
       <div className="content">
         <div className="sidebar-component">
-          <SidebarMenu />
+          <SidebarMenu page="pipeline" />
         </div>
         <div className="content-body">
           <div className="sticky-top contentbar">
@@ -200,7 +248,7 @@ function PipelineScreen() {
                   class="form-select-sm mx-1"
                   aria-label="Default select example"
                 >
-                  <option selected>Open this select menu</option>
+                  <option selected>Pipelines</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
@@ -216,6 +264,7 @@ function PipelineScreen() {
                     class="btn btn-outline-secondary"
                     type="button"
                     id="button-addon2"
+                    onClick={() => setShow(true)}
                   >
                     Criar
                   </button>
@@ -225,12 +274,17 @@ function PipelineScreen() {
                 <a href="#s" className="align-self-center px-2 history">
                   <BsClock /> Histórico
                 </a>
-                <button type="button" class="btn btn-success btn-sm " onClick={save}>
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm "
+                  onClick={save}
+                >
                   Salvar
                 </button>
               </div>
             </nav>
           </div>
+
           <div className="container-fluid container-body">
             <div className="row row-body">
               <div className="col-4 b1 py-2">
@@ -245,6 +299,9 @@ function PipelineScreen() {
                       return <option value={video.url}>{video.name}</option>;
                     })}
                   </select>
+                  <span className="warning d-flex justify-content-center">
+                    O video abaixo é uma pré-vizualizaçâo da pipeline
+                  </span>
                 </div>
                 <div className="background-video my-2">
                   <VideoStream url={url} />
@@ -256,22 +313,24 @@ function PipelineScreen() {
                 >
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
-                    <Accordion.Body>
-                      {modelPDI.map((pipe) => {
-                        return (
-                          <div className="d-flex flex-row justify-content-between ">
-                            <div>{pipe.name}</div>
-                            <div>
-                              <BsPlusSquare
-                                id={pipe.id}
-                                key={pipe.id}
-                                className="card-icon"
-                                onClick={(e) => addPDI(e)}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
+                    <Accordion.Body className="ab">
+                      <ul className="list-group">
+                        {modelPDI.map((pipe) => {
+                          return (
+                            <li className="list-group-item py-2 w-full d-flex flex-row justify-content-between ">
+                              <div>{pipe.name}</div>
+                              <div>
+                                <BsPlusSquare
+                                  id={pipe.id}
+                                  key={pipe.id}
+                                  className="card-icon"
+                                  onClick={(e) => addPDI(e)}
+                                />
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
@@ -329,7 +388,9 @@ function PipelineScreen() {
                                 type={param.parameter.type}
                                 class="form-control"
                                 id={pipe.id}
-                                onChange={(e) => handleChange(e, param.parameter.name)}
+                                onChange={(e) =>
+                                  handleChange(e, param.parameter.name)
+                                }
                                 placeholder={`insira um ${param.parameter.type}`}
                                 value={param.value}
                               ></input>
