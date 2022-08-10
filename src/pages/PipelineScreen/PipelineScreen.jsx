@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
-import ToastContainer from "react-bootstrap/ToastContainer";
-import Toast from "react-bootstrap/Toast";
+
 import { toast } from "react-toastify";
 
 const pipelineJson = {
@@ -36,38 +35,6 @@ const pipelineJson = {
     },
   ],
   pdilist: [
-    {
-      id: 1,
-      name: "Redimensionar imagem",
-      valueParameters: [
-        {
-          id: 1,
-          value: "25x30",
-          parameter: {
-            id: 1,
-            name: "Tamanho da imagem",
-            type: "STRING",
-          },
-        },
-      ],
-      pipelineId: 1,
-    },
-    {
-      id: 1,
-      name: "Redimensionar imagem",
-      valueParameters: [
-        {
-          id: 1,
-          value: "25x30",
-          parameter: {
-            id: 1,
-            name: "Tamanho da imagem",
-            type: "STRING",
-          },
-        },
-      ],
-      pipelineId: 1,
-    },
     {
       id: 1,
       name: "Redimensionar imagem",
@@ -109,11 +76,51 @@ function PipelineScreen() {
   const [modelPDI, setPdiList] = useState(pipelineJson.pdilist);
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
-  const [oldSelectedPipelineId, setOldSelectePipelineId] = useState();
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
-  const [show, setShow] = useState(false);
-  const [position, setPosition] = useState("top-end");
+  const [show, setShow] = useState(" ");
+
+  function Adicionar(props) {
+    return (
+      <div id={props.id} key={props.id} onClick={(e) => setTimeout(3000)}>
+        {props.text}
+      </div>
+    );
+  }
+
+  function pipelineUp(e) {
+    pipeline.pdilist.map((pipe) => {
+      if (pipe.id == e.target.id) {
+        var indice = pipeline.pdilist.findIndex(function (obj) {
+          return obj.id == e.target.id;
+        });
+        var element = pipeline.pdilist[indice];
+        pipeline.pdilist.splice(indice, 1);
+        pipeline.pdilist.splice(indice - 1, 0, element);
+        const novoEstado = Object.assign({}, pipeline);
+        setPipeline(novoEstado);
+        console.log(indice);
+      }
+    });
+  }
+  function pipelineDown(e) {
+    var count = 0;
+    pipeline.pdilist.map((pipe) => {
+      if (pipe.id == e.target.id && count == 0) {
+        var indice = pipeline.pdilist.findIndex(function (obj) {
+          return obj.id == e.target.id;
+        });
+        var element = pipeline.pdilist[indice];
+        pipeline.pdilist.splice(indice, 1);
+        pipeline.pdilist.splice(indice + 1, 0, element);
+        const novoEstado = Object.assign({}, pipeline);
+        setPipeline(novoEstado);
+        console.log(indice);
+        count += 1;
+      }
+    });
+  }
+  // function removePipeline(e) {}
 
   function addPDI(e) {
     modelPDI.forEach((pdi) => {
@@ -221,8 +228,13 @@ function PipelineScreen() {
 
   const save = async () => {
     try {
-      const response = await PipelineService.register(pipeline);
-      alert("Pipeline registrada com sucesso");
+      const response = await toast.promise(PipelineService.register(pipeline), {
+        pending: "Salvando",
+        success: "Salvo com sucesso! 👌",
+        error: "Promise rejected 🤯",
+      });
+      //const response = await PipelineService.register(pipeline);
+
       const preview = await PipelineService.preview(response.id);
       console.log(preview);
       setUrl(preview);
@@ -264,7 +276,9 @@ function PipelineScreen() {
                     class="btn btn-outline-secondary"
                     type="button"
                     id="button-addon2"
-                    onClick={() => setShow(true)}
+                    onClick={(e) => {
+                      setTimeout(1000);
+                    }}
                   >
                     Criar
                   </button>
@@ -314,23 +328,29 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body className="ab">
+                      {/* <OverlayTrigger
+                        placement="right"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={renderTooltip}
+                      > */}
                       <ul className="list-group">
                         {modelPDI.map((pipe) => {
                           return (
-                            <li className="list-group-item py-2 w-full d-flex flex-row justify-content-between ">
-                              <div>{pipe.name}</div>
-                              <div>
-                                <BsPlusSquare
-                                  id={pipe.id}
-                                  key={pipe.id}
-                                  className="card-icon"
-                                  onClick={(e) => addPDI(e)}
-                                />
-                              </div>
-                            </li>
+                            <button
+                              className="list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                              id={pipe.id}
+                              key={pipe.id}
+                              onClick={(e) => addPDI(e)}
+                              onMouseEnter={() => setShow("adicionar")}
+                              onMouseLeave={() => setShow("")}
+                            >
+                              {pipe.name}
+                              <Adicionar id={pipe.id} text={show} />
+                            </button>
                           );
                         })}
                       </ul>
+                      {/* </OverlayTrigger> */}
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
@@ -355,10 +375,30 @@ function PipelineScreen() {
                             className="card d-flex flex-row justify-content-between card-item p-2 "
                           >
                             <div>{pipe.name}</div>
+                            <div>{pipe.id}</div>
+
                             <div className="">
-                              <BsFillCaretUpFill className="card-icon" />
-                              <BsFillCaretDownFill className="card-icon" />
-                              <BsTrash className="card-icon card-trash" />
+                              <BsFillCaretUpFill
+                                id={pipe.id}
+                                onClick={(e) => {
+                                  pipelineUp(e);
+                                }}
+                                className="card-icon"
+                              />
+                              <BsFillCaretDownFill
+                                id={pipe.id}
+                                onClick={(e) => {
+                                  pipelineDown(e);
+                                }}
+                                className="card-icon"
+                              />
+                              <BsTrash
+                                id={pipe.id}
+                                onClick={(e) => {
+                                  setTimeout(3000);
+                                }}
+                                className="card-icon card-trash"
+                              />
                             </div>
                           </div>
                         );

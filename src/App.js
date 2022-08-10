@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <MyRoutes />
-      <ToastContainer />
+      <ToastContainer position="top-right" />
     </div>
   );
 }

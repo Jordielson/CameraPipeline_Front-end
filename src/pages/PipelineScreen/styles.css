@@ -85,6 +85,33 @@
 .ab {
   padding: 0;
 }
+.tooltip > div.tooltip-inner {
+  background-color: white !important;
+  color: black !important;
+  border: 0.1rem solid #cccccc;
+}
+
+[data-tooltip] {
+  position: relative;
+  font-weight: normal;
+}
+
+[data-tooltip]:after {
+  display: none;
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  border-radius: 3px;
+  left: calc(100% + 2px);
+  content: attr(data-tooltip);
+  white-space: nowrap;
+  background-color: #0095ff;
+  color: White;
+}
+
+[data-tooltip]:hover:after {
+  display: block;
+}
 
 .video {
   background-color: black;
