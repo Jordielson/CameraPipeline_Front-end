@@ -61,7 +61,35 @@
   background-color: #f1f1f1;
 }
 .card-trash {
-  color: red;
+  background-color: rgb(192, 6, 6);
+}
+.card-trash:hover {
+  background-color: #fff;
+  color: rgb(192, 6, 6);
+  transition: all 0.5s;
+}
+i {
+  color: #fff;
+  background: rgb(0, 0, 0);
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 46%,
+    rgba(255, 255, 255, 1) 60%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-radius: 100%;
+}
+i:hover {
+  color: #8257e5;
+  background: radial-gradient(
+    circle,
+    rgb(240, 237, 237) 46%,
+    rgba(255, 255, 255, 1) 60%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  cursor: pointer;
+
+  transition: all 0.5s;
 }
 .history {
   color: rgb(38, 0, 255);

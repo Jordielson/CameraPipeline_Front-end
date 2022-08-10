@@ -2,7 +2,6 @@ import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
 import {
-  BsPlusSquare,
   BsFillCaretUpFill,
   BsFillCaretDownFill,
   BsTrash,
@@ -87,6 +86,27 @@ function PipelineScreen() {
       </div>
     );
   }
+  function IconeUp() {
+    return (
+      <BsFillCaretUpFill
+        onClick={() => {
+          setTimeout(3000);
+        }}
+      />
+    );
+  }
+
+  function sortPipeline() {
+    console.log(pipeline, "antes");
+    var count = 1;
+    pipeline.pdilist.map((pipe) => {
+      if (selectedPipelineId == pipe.id) {
+        setSelectePipelineId(count);
+      }
+      pipe.id = count++;
+    });
+    console.log(pipeline, "depois");
+  }
 
   function pipelineUp(e) {
     pipeline.pdilist.map((pipe) => {
@@ -99,7 +119,7 @@ function PipelineScreen() {
         pipeline.pdilist.splice(indice - 1, 0, element);
         const novoEstado = Object.assign({}, pipeline);
         setPipeline(novoEstado);
-        console.log(indice);
+        sortPipeline();
       }
     });
   }
@@ -117,10 +137,28 @@ function PipelineScreen() {
         setPipeline(novoEstado);
         console.log(indice);
         count += 1;
+        sortPipeline();
       }
     });
   }
-  // function removePipeline(e) {}
+  function removePipeline(e) {
+    var count = 0;
+    pipeline.pdilist.map((pipe) => {
+      if (pipe.id == e.target.id && count == 0) {
+        var indice = pipeline.pdilist.findIndex(function (obj) {
+          return obj.id == e.target.id;
+        });
+        var element = pipeline.pdilist[indice];
+        pipeline.pdilist.splice(indice, 1);
+
+        const novoEstado = Object.assign({}, pipeline);
+        setPipeline(novoEstado);
+        console.log(indice);
+        count += 1;
+        sortPipeline();
+      }
+    });
+  }
 
   function addPDI(e) {
     modelPDI.forEach((pdi) => {
@@ -138,7 +176,7 @@ function PipelineScreen() {
           valueParameters: valueParameter,
           pipelineId: 1,
         };
-        console.log("New PDI:" + newPdi);
+
         pipeline.pdilist.push(newPdi);
         refresh();
 
@@ -152,8 +190,6 @@ function PipelineScreen() {
           progress: undefined,
           theme: "colored",
         });
-
-        console.log(newPdi, "nova pdi");
       }
     });
   }
@@ -191,12 +227,13 @@ function PipelineScreen() {
   };
 
   useEffect(() => {
+    console.log(selectedPipelineId);
     if (document.getElementsByClassName("card-item")[0]) {
       pipeline.pdilist.map((pipe) => {
         if (pipe.id == selectedPipelineId) {
           document.getElementsByClassName("card-item")[
             selectedPipelineId - 1
-          ].style.backgroundColor = "#f1f1f1";
+          ].style.backgroundColor = "#f4f4f4";
         } else {
           document.getElementsByClassName("card-item")[
             pipe.id - 1
@@ -215,13 +252,10 @@ function PipelineScreen() {
         var indice = pipe.valueParameters.findIndex(function (obj) {
           return obj.parameter.name == name;
         });
-        console.log("Teste");
-        console.log(indice, count - 1);
 
         novoEstado.pdilist[count - 1].valueParameters[indice].value =
           event.target.value;
         setPipeline(novoEstado);
-        console.log(novoEstado);
       }
     });
   }
@@ -378,27 +412,31 @@ function PipelineScreen() {
                             <div>{pipe.id}</div>
 
                             <div className="">
-                              <BsFillCaretUpFill
+                              <i
+                                title="Subir a posição da PDI"
                                 id={pipe.id}
                                 onClick={(e) => {
                                   pipelineUp(e);
                                 }}
-                                className="card-icon"
-                              />
-                              <BsFillCaretDownFill
+                                className="fa-solid fa-circle-chevron-up"
+                              ></i>
+                              <i
+                                title="Descer a posição da PDI"
                                 id={pipe.id}
                                 onClick={(e) => {
                                   pipelineDown(e);
                                 }}
-                                className="card-icon"
-                              />
-                              <BsTrash
+                                className=" 
+                                fa-solid fa-circle-chevron-down mx-1"
+                              ></i>
+                              <i
+                                title="Remover PDI da pipeline"
                                 id={pipe.id}
                                 onClick={(e) => {
-                                  setTimeout(3000);
+                                  removePipeline(e);
                                 }}
-                                className="card-icon card-trash"
-                              />
+                                className="card-trash fa-solid fa-circle-minus"
+                              ></i>
                             </div>
                           </div>
                         );
