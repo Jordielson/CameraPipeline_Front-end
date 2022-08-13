@@ -1,13 +1,10 @@
 import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
-import {
-  BsFillCaretUpFill,
-  BsFillCaretDownFill,
-  BsTrash,
-  BsClock,
-} from "react-icons/bs";
+import { BsClock } from "react-icons/bs";
 import "./styles.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
@@ -254,6 +251,16 @@ function PipelineScreen() {
     });
   }
 
+  function handleOnDragEnd(result) {
+    console.log(result);
+    if (!result.destination) return;
+    const [reorderedItem] = pipeline.pdilist.splice(result.source.index - 1, 1);
+    pipeline.pdilist.splice(result.destination.index - 1, 0, reorderedItem);
+    const novoEstado = Object.assign({}, pipeline);
+    setPipeline(novoEstado);
+    sortPipeline();
+  }
+
   const save = async () => {
     try {
       const response = await toast.promise(PipelineService.register(pipeline), {
@@ -345,7 +352,7 @@ function PipelineScreen() {
                     O video abaixo é uma pré-vizualizaçâo da pipeline
                   </span>
                 </div>
-                <div className="background-video my-2">
+                <div className="background-video mb-2">
                   <VideoStream url={url} />
                 </div>
                 <Accordion
@@ -387,48 +394,74 @@ function PipelineScreen() {
                   <div className="card-header pipeline-header">Pipeline</div>
                   <div class="card-body pipeline-card">
                     <div className="container p-2">
-                      {pipeline.pdilist.map((pipe) => {
-                        return (
-                          <div
-                            onClick={(e) => setSelectePipelineId(pipe.id)}
-                            tabIndex="-1"
-                            key={pipe.id}
-                            id={pipe.id}
-                            className="card d-flex flex-row justify-content-between card-item p-2 "
-                          >
-                            <div>{pipe.name}</div>
-                            <div>{pipe.id}</div>
+                      <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="dnd">
+                          {(provided) => (
+                            <div
+                              className="dnd"
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                            >
+                              {pipeline.pdilist.map((pipe) => {
+                                return (
+                                  <Draggable
+                                    key={pipe.id}
+                                    draggableId={pipe.id.toString()}
+                                    index={pipe.id}
+                                  >
+                                    {(provided) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        onClick={(e) =>
+                                          setSelectePipelineId(pipe.id)
+                                        }
+                                        tabIndex="-1"
+                                        key={pipe.id}
+                                        id={pipe.id}
+                                        className="card d-flex flex-row justify-content-between card-item p-2 "
+                                        title="Arraste e solte para ordenar..."
+                                      >
+                                        <div>{pipe.name}</div>
+                                        <div>{pipe.id}</div>
 
-                            <div className="">
-                              <i
-                                title="Subir a posição da PDI"
-                                id={pipe.id}
-                                onClick={(e) => {
-                                  pipelineUp(e);
-                                }}
-                                className="fa-solid fa-circle-chevron-up"
-                              ></i>
-                              <i
-                                title="Descer a posição da PDI"
-                                id={pipe.id}
-                                onClick={(e) => {
-                                  pipelineDown(e);
-                                }}
-                                className=" 
-                                fa-solid fa-circle-chevron-down mx-1"
-                              ></i>
-                              <i
-                                title="Remover PDI da pipeline"
-                                id={pipe.id}
-                                onClick={(e) => {
-                                  removePipeline(e);
-                                }}
-                                className="card-trash fa-solid fa-circle-minus"
-                              ></i>
+                                        <div className="">
+                                          <i
+                                            title="Subir a posição da PDI"
+                                            id={pipe.id}
+                                            onClick={(e) => {
+                                              pipelineUp(e);
+                                            }}
+                                            className="fa-solid fa-circle-chevron-up"
+                                          ></i>
+                                          <i
+                                            title="Descer a posição da PDI"
+                                            id={pipe.id}
+                                            onClick={(e) => {
+                                              pipelineDown(e);
+                                            }}
+                                            className=" 
+                                            fa-solid fa-circle-chevron-down mx-1"
+                                          ></i>
+                                          <i
+                                            title="Remover PDI da pipeline"
+                                            id={pipe.id}
+                                            onClick={(e) => {
+                                              removePipeline(e);
+                                            }}
+                                            className="card-trash fa-solid fa-circle-minus"
+                                          ></i>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
                             </div>
-                          </div>
-                        );
-                      })}
+                          )}
+                        </Droppable>
+                      </DragDropContext>
                     </div>
                   </div>
                 </div>

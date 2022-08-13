@@ -61,7 +61,14 @@
   background-color: #f1f1f1;
 }
 .card-trash {
-  background-color: rgb(192, 6, 6);
+  color: rgb(231, 231, 231);
+  background: red;
+  background: radial-gradient(
+    circle,
+    red 46%,
+    rgba(255, 255, 255, 1) 60%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 .card-trash:hover {
   background-color: #fff;
@@ -149,7 +156,7 @@ i:hover {
 
 .warning {
   width: 100%;
-  color: red;
+  color: #000;
   font-size: smaller;
 }
 
