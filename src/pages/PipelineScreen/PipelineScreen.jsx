@@ -86,15 +86,6 @@ function PipelineScreen() {
       </div>
     );
   }
-  function IconeUp() {
-    return (
-      <BsFillCaretUpFill
-        onClick={() => {
-          setTimeout(3000);
-        }}
-      />
-    );
-  }
 
   function sortPipeline() {
     console.log(pipeline, "antes");
@@ -111,6 +102,9 @@ function PipelineScreen() {
   function pipelineUp(e) {
     pipeline.pdilist.map((pipe) => {
       if (pipe.id == e.target.id) {
+        if (pipe.id == 1) {
+          return 1;
+        }
         var indice = pipeline.pdilist.findIndex(function (obj) {
           return obj.id == e.target.id;
         });
@@ -362,11 +356,6 @@ function PipelineScreen() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
                     <Accordion.Body className="ab">
-                      {/* <OverlayTrigger
-                        placement="right"
-                        delay={{ show: 250, hide: 400 }}
-                        overlay={renderTooltip}
-                      > */}
                       <ul className="list-group">
                         {modelPDI.map((pipe) => {
                           return (
@@ -384,7 +373,6 @@ function PipelineScreen() {
                           );
                         })}
                       </ul>
-                      {/* </OverlayTrigger> */}
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">

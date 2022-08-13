@@ -37,7 +37,7 @@ function VideoStream() {
   useEffect(() => {}, []);
   return (
     <div id="bodyc">
-      <div class="input-group mb-3" style={{ width: "340px" }}>
+      <div class="input-group mb-3" style={{ width: "100%" }}>
         <input
           type="text"
           class="form-control"
@@ -58,7 +58,7 @@ function VideoStream() {
       </div>
       {showVideo === StreamStatus.SUCCESS ? (
         <div>
-          <div id="video-canvas" style={{ width: "340px", height: "240px" }} />
+          <div id="video-canvas" style={{ width: "100%", height: "240px" }} />
         </div>
       ) : showVideo === StreamStatus.LOADING ? (
         <div>
@@ -66,7 +66,7 @@ function VideoStream() {
           <div
             id="bodyc"
             className="border-video"
-            style={{ width: "340px", height: "240px" }}
+            style={{ width: "100%", height: "240px" }}
           >
             <img src={load} alt="loading..." width={"120px"} height={"120px"} />
           </div>
@@ -74,7 +74,7 @@ function VideoStream() {
       ) : showVideo === StreamStatus.EMPTY ? (
         <div
           className="border-video"
-          style={{ width: "340px", height: "240px" }}
+          style={{ width: "100%", height: "240px" }}
         ></div>
       ) : (
         <label htmlFor="">NULL</label>
