@@ -73,7 +73,7 @@ function FormLogin() {
               <Button
                 className="mx-4 btn-lg py-0"
                 variant="primary"
-                style={{ backgroundColor: "#996DFF" }}
+                style={{ backgroundColor: "#996DFF", fontSize: "1rem" }}
                 type="submit"
               >
                 Entrar

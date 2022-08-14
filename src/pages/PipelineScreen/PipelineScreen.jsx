@@ -361,13 +361,13 @@ function PipelineScreen() {
                   className="accordeon-pdi"
                 >
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>PDI de edicao de imagem</Accordion.Header>
+                    <Accordion.Header>PDI de edição de imagem</Accordion.Header>
                     <Accordion.Body className="ab">
                       <ul className="list-group">
                         {modelPDI.map((pipe) => {
                           return (
                             <button
-                              className="list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                              className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
                               id={pipe.id}
                               key={pipe.id}
                               onClick={(e) => addPDI(e)}
@@ -420,13 +420,13 @@ function PipelineScreen() {
                                         tabIndex="-1"
                                         key={pipe.id}
                                         id={pipe.id}
-                                        className="card d-flex flex-row justify-content-between card-item p-2 "
+                                        className="card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center"
                                         title="Arraste e solte para ordenar..."
                                       >
-                                        <div>{pipe.name}</div>
-                                        <div>{pipe.id}</div>
+                                        <div className="col-7">{pipe.name}</div>
+                                        <div className="">{pipe.id}</div>
 
-                                        <div className="">
+                                        <div className="card-button">
                                           <i
                                             title="Subir a posição da PDI"
                                             id={pipe.id}

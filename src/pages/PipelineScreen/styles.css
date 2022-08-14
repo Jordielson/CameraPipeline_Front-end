@@ -4,12 +4,18 @@
 
 .content-body {
   width: 100%;
+  background-color: rgb(231, 231, 231);
 }
 .container-body {
 }
 
+.custom-select {
+  border: solid 1px rgb(185, 185, 185);
+}
+
 .contentbar .navbar {
-  background-color: rgba(116, 116, 116, 0.281);
+  background-color: white;
+  /* border-bottom: solid 3px rgba(37, 37, 37, 0.137); */
   /* box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.644); */
   /* z-index: -1; */
   /* position: sticky;
@@ -35,6 +41,10 @@
   overflow-y: auto;
 }
 
+.pipeline-card input {
+  font-size: 1rem;
+}
+
 .pipeline-header {
   background-color: #8257e5;
   color: white;
@@ -48,6 +58,15 @@
   width: 20%;
 }
 
+.card {
+  font-size: 0.9rem;
+}
+.card-pipe {
+  border-left: double 3px gray;
+}
+.card-button {
+  font-size: medium;
+}
 .card-item {
   background-color: #fdfdfd;
   cursor: pointer;
@@ -74,6 +93,9 @@
   background-color: #fff;
   color: rgb(192, 6, 6);
   transition: all 0.5s;
+}
+list-button {
+  font-size: 1.4rem;
 }
 i {
   color: #fff;
@@ -111,7 +133,7 @@ i:hover {
 }
 
 .background-video {
-  background-color: rgb(187, 187, 187);
+  background-color: rgb(58, 57, 57);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -120,6 +142,24 @@ i:hover {
 .ab {
   padding: 0;
 }
+
+.accordion-button {
+  font-size: 1rem;
+  background-color: #fff !important;
+  color: #000;
+}
+.accordion-button:focus {
+  background-color: #8257e5 !important;
+  color: #fff;
+  box-shadow: none;
+}
+.accordion-button:not(.collapsed) {
+  color: #000;
+}
+.accordion-button:after {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+}
+
 .tooltip > div.tooltip-inner {
   background-color: white !important;
   color: black !important;
