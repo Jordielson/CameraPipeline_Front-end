@@ -57,7 +57,7 @@ function VideoStream(props) {
     <div id="bodyc">
       {showVideo === StreamStatus.SUCCESS ? (
         <div>
-          <div id="video-canvas" style={{ width: "100%", height: "240px" }} />
+          <div id="video-canvas" style={{ width: "319px", height: "240px" }} />
         </div>
       ) : showVideo === StreamStatus.LOADING ? (
         <div>
