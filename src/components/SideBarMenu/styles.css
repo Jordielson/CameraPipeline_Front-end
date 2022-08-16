@@ -19,6 +19,10 @@ a:focus {
   align-items: stretch;
 }
 
+.email {
+  font-weight: 600;
+}
+
 #sidebar {
   position: fixed;
   min-width: 250px;

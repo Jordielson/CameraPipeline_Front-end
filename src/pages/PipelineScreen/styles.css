@@ -145,8 +145,8 @@ i:hover {
 
 .accordion-button {
   font-size: 1rem;
-  background-color: #fff !important;
-  color: #000;
+  background-color: #8257e5 !important;
+  color: #fff;
 }
 .accordion-button:focus {
   background-color: #8257e5 !important;
@@ -154,10 +154,10 @@ i:hover {
   box-shadow: none;
 }
 .accordion-button:not(.collapsed) {
-  color: #000;
+  color: #fff;
 }
 .accordion-button:after {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
 }
 
 .tooltip > div.tooltip-inner {

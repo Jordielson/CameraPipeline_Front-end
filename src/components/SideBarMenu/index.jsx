@@ -44,9 +44,8 @@ function SidebarMenu(props) {
             </div>
             <div className="px-2 d-flex flex-row align-items-center pr-2">
               <div className="px-1">
-                <FaUserAlt />
               </div>
-              <span className="">{localStorage.getItem("login")}</span>
+              <span className="email">{localStorage.getItem("login")}</span>
             </div>
             <ul class="list-unstyled components">
               <li>

@@ -63,7 +63,7 @@ const videoUrlJson = [
     name: "Camera 02",
     isPrivate: false,
     fpsLimiter: 90,
-    url: "rtsp://rtsp.stream/pattern",
+    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
   },
 ];
 
@@ -448,8 +448,7 @@ function PipelineScreen() {
                               id={pipe.id}
                               key={pipe.id}
                               onClick={(e) => addPDI(e)}
-                              onMouseEnter={() => setShow("adicionar")}
-                              onMouseLeave={() => setShow("")}
+                              title="Clique para adicionar"
                             >
                               {pipe.name}
                               <Adicionar id={pipe.id} text={show} />
@@ -556,7 +555,7 @@ function PipelineScreen() {
                             <div class="mb-3">
                               <label
                                 for="exampleFormControlInput1"
-                                class="form-label"
+                                class="form-label m-1"
                               >
                                 {param.parameter.name}
                               </label>
