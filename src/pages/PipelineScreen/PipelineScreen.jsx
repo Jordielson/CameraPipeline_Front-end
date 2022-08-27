@@ -426,7 +426,7 @@ function PipelineScreen() {
                     })}
                   </select>
                   <span className="warning d-flex justify-content-center">
-                    O video abaixo é uma pré-vizualizaçâo da pipeline
+                    O video abaixo é uma pré-visualização da pipeline
                   </span>
                 </div>
                 <div className="background-video mb-2">
