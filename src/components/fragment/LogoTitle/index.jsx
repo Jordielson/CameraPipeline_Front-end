@@ -5,7 +5,7 @@ function LogoTitle() {
   return (
     <>
       <Navbar className="barra" variant="dark">
-        <Container>
+        <Container className="justify-content-center">
           <Navbar.Brand href="#home">
             <img
               alt=""

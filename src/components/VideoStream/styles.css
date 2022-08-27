@@ -1,0 +1,11 @@
+#bodyc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.border-video {
+    border: 1px solid #ccc
+}
+  
