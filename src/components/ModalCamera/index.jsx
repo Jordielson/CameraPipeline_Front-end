@@ -87,11 +87,12 @@ function ModalCamera(props) {
                             placeholder="http:8080.com,,,"
                             />
                         </Form.Group>
-                        <div className="d-flex justify-content-around">
+                        <div className="d-flex justify-content-between">
                             <Form.Group
                                 className="mb-0 d-flex flex-column"
                                 controlId="formBasicPrivateOrNot"
                             >
+                                
                                 <Form.Label className="mb-0">Privada</Form.Label>
                                 <div key={"default-radio"} className="d-flex justify-content-between">
                                     <Form.Check 
