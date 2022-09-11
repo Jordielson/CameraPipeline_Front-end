@@ -57,8 +57,8 @@ function SidebarMenu(props) {
               <li className="pipeline">
                 <a href="/pipeline">Pipelines</a>
               </li>
-              <li>
-                <a href="#home">Câmeras</a>
+              <li className="camera">
+                <a href="/camera">Câmeras</a>
               </li>
               <li className="pdi">
                 <a href="/pdi">PDIs</a>

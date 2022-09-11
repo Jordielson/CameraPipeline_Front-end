@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CameraScreen from "../pages/CameraScreen/CameraScreen";
 import LoginScreen from "../pages/LoginScreen";
 import PDIScreen from "../pages/PDIScreen";
 import PipelineScreen from "../pages/PipelineScreen/PipelineScreen";
@@ -20,6 +21,9 @@ function MyRoutes() {
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/pdi" element={<PDIScreen />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/camera" element={<CameraScreen />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,0 +1,48 @@
+.form-search-camera{
+    position: relative;
+}
+
+.form-control-camera{
+    position: absolute;
+    display: block;
+    text-align: center;
+    line-height: 1.975rem;
+    pointer-events: none;
+    color: #9ca3af;
+    width: 2.375rem;
+    height: 2.375rem;
+}
+
+.form-input-camera{
+    padding-left: 1.1rem;
+    height: 30px;
+    text-indent: 20px;
+    border-radius: 10px;
+}
+
+.form-input-camera:focus{
+    box-shadow: none;
+    border:none;
+}
+
+.btn-add{
+    border-radius: 10px;
+    color: white;
+    background-color: rgba(130, 87, 229, 1);
+    border: none;
+    box-shadow: 0 0 0.4em rgba(130, 87, 229, 1);
+}
+.btn-add:hover {
+    color: white;
+}
+.btn-add:focus {
+    box-shadow: 0 0 0.6em rgba(130, 87, 229, 1);
+}
+
+.actions-camera{
+    width: 30%;
+}
+
+.icon-actions:hover {
+    cursor: pointer;
+}

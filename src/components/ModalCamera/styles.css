@@ -1,0 +1,8 @@
+.container-video {
+    background-color: rgb(58, 57, 57);
+    width: 640px;
+    height: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
