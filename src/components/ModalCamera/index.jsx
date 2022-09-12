@@ -3,30 +3,49 @@ import Modal from "react-bootstrap/Modal";
 import { Form } from "react-bootstrap";
 import VideoStream from "../VideoComponent";
 import "./styles.css";
+import CameraService from "../../services/camera";
 
 function ModalCamera(props) {
     const [name, setName] = useState("");
     const [url, setUrl] = useState("");
-    const [isPrivate, setIsPrivate] = useState(false);
-    const [latitude, setLatitude] = useState("");
-    const [longitude, setLongitude] = useState("");
-    const [fpsLimiter, setFpsLimiter] = useState("");
+    const [isPrivate, setIsPrivate] = useState();
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+    const [fpsLimiter, setFpsLimiter] = useState();
 
     useEffect(() => {
         setName(props.camera.name ?? "");
         setUrl(props.camera.url ?? "");
-        setIsPrivate(props.camera.isPrivate ?? "");
-        setFpsLimiter(props.camera.fpsLimiter ?? false);
+        setIsPrivate(props.camera.isPrivate ?? undefined);
+        setFpsLimiter(props.camera.fpsLimiter ?? undefined);
         setLatitude(props.camera.coordinate ? 
-            props.camera.coordinate.latitude : "");
+            props.camera.coordinate.latitude : undefined);
         setLongitude(props.camera.coordinate ? 
-            props.camera.coordinate.longitude : "");
+            props.camera.coordinate.longitude : undefined);
     }, [props.camera]);
 
     const handleClose = () => props.onShowChange(false);
 
-    const handleSignUp = async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
+        const cam = {
+            id: props.camera.id,
+            name: name,
+            isPrivate: isPrivate,
+            fpsLimiter: fpsLimiter,
+            coordinate: {
+                latitude: latitude,
+                longitude: longitude,
+            },
+            url: url,
+            isActive: props.camera.isActive,
+        }
+        if(cam.id === undefined) {
+            await CameraService.register(cam);
+        } else {
+            await CameraService.update(cam);
+        }
+        props.updateData();
         handleClose();
     }
 
@@ -58,6 +77,7 @@ function ModalCamera(props) {
                 {props.type === TypeModal.Form ? (
                     <Form
                         className="d-flex justify-content-center flex-column"
+                        onSubmit={handleSave}
                         >
                         <Form.Group
                             className="mb-2 d-flex flex-column"
@@ -153,7 +173,6 @@ function ModalCamera(props) {
                             type="number"
                             value={fpsLimiter}
                             onChange={(e) => setFpsLimiter(e.target.value)}
-                            required
                             placeholder="90"
                             />
                         </Form.Group>
@@ -162,7 +181,6 @@ function ModalCamera(props) {
                             className="btn btn-outline-secondary"
                             type="submit"
                             id="button-addon2"
-                            onClick={handleSignUp}
                             >
                             SALVAR
                             </button>
@@ -170,7 +188,7 @@ function ModalCamera(props) {
                     </Form>
                 ) : (
                     <div className="container-video mb-2">
-                        <VideoStream url={""} />
+                        <VideoStream url={url} />
                     </div>
                 )}
                 

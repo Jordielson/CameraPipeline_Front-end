@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalCamera, {TypeModal} from "../../components/ModalCamera";
 import SidebarMenu from "../../components/SideBarMenu";
 import { Form } from "react-bootstrap";
+import { useStateCallback } from "../../shared/Utils";
 import "./styles.css";
+import CameraService from "../../services/camera";
 
 const listCamera = [
     {
@@ -15,6 +17,7 @@ const listCamera = [
         longitude: 125.4561,
       },
       url: "rtsp://rtsp.stream/pattern",
+      isActive: false,
     },
     {
       id: 2,
@@ -26,6 +29,7 @@ const listCamera = [
         longitude: 125.4561,
       },
       url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+      isActive: false,
     },
     {
       id: 3,
@@ -37,6 +41,7 @@ const listCamera = [
         longitude: 125.4561,
       },
       url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+      isActive: false,
     },
     {
       id: 4,
@@ -48,6 +53,7 @@ const listCamera = [
         longitude: 125.4561,
       },
       url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+      isActive: false,
     },
     {
       id: 5,
@@ -59,25 +65,41 @@ const listCamera = [
         longitude: 125.4561,
       },
       url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+      isActive: false,
     },
 ];
 
 function CameraScreen() {
     const [show, setShow] = useState(false);
     const [typeModal, setTypeModal] = useState();
-    const [camera, setCamera] = useState(listCamera[0]);
+    const [camera, setCamera] = useStateCallback({});
     const [cameraList, setcameraList] = useState(listCamera);
 
-
-    const showFormCamera = (camera) => {
-        setCamera(camera);
-        setTypeModal(TypeModal.Form);
-        handleShow();
+    useEffect(() => {
+        fetchCameraList();
+    }, []);
+    
+    async function fetchCameraList() {
+        const response = await CameraService.getAll();
+        setcameraList(response);
     }
-    const showVideoCamera = (camera) => {
-        setCamera(camera);
-        setTypeModal(TypeModal.Video);
-        handleShow();
+    
+    const activeCamera = async (camera, index) => {
+        camera.isActive = !camera.isActive;
+        try {
+            const response = await CameraService.update(camera);
+            const arr = [...cameraList];
+            arr.splice(index, 1, response);
+            setcameraList(arr);
+        } catch (error) {
+            console.log("Unable to activate camera");
+        }
+    }
+    function showModal(cam, type) {
+        setCamera(cam, () => {
+            setTypeModal(type);
+            handleShow();
+        });
     }
     const handleShow = () => setShow(true);
 
@@ -105,7 +127,7 @@ function CameraScreen() {
                                         id="button-add-camera"
                                         type="button"
                                         className="btn btn-sm d-flex justify-content-between btn-add"
-                                        onClick={() => showFormCamera({})}
+                                        onClick={() => showModal({}, TypeModal.Form)}
                                         >
                                         <span className="fab fa fa-plus me-1"></span>
                                         NOVO
@@ -120,23 +142,25 @@ function CameraScreen() {
                             <div className="p-2">Nome</div>
                             <div className="p-2 align-self-start actions-camera"><span>Ações</span></div>
                         </li>
-                        {cameraList.map((camera) => (
+                        {cameraList.map((camera, index) => (
                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                 <div className="p-2">{camera.name}</div>
                                 <div className="p-2 d-flex justify-content-between align-self-center actions-camera">
                                     <span 
                                         className="fa fa-eye icon-actions"
-                                        onClick={() => showVideoCamera({})}
+                                        onClick={() => showModal(camera, TypeModal.Video)}
                                     />
                                     <span 
                                         className="fa fa-pencil-square icon-actions"
-                                        onClick={() => showFormCamera(camera)}
+                                        onClick={() => showModal(camera, TypeModal.Form)}
                                     />
                                     <Form>
                                         <Form.Check 
                                             type="switch"
                                             id="custom-switch"
                                             label=""
+                                            checked={camera.isActive}
+                                            onClick={() => activeCamera(camera, index)}
                                         />
                                     </Form>
                                 </div>
@@ -150,7 +174,7 @@ function CameraScreen() {
                     show={show} 
                     onShowChange={setShow} 
                     camera={camera} 
-                    onCameraChange={setCamera}
+                    updateData={fetchCameraList}
                     type={typeModal}
                 />
             </div>
