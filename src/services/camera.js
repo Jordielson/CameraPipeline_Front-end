@@ -10,6 +10,16 @@ const CameraService = {
         });
         return data;
     },
+    search: async (params) => {
+        var data = null;
+        await Api().get(
+            "/api/camera",
+            {params: params}
+        ).then((response) => {
+            data = response.data;
+        });
+        return data;
+    },
     register: async (params) => {
         var data = null;
         await Api()

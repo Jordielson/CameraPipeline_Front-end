@@ -70,6 +70,7 @@ const listCamera = [
 ];
 
 function CameraScreen() {
+    const [query, setQuery] = useState("");
     const [show, setShow] = useState(false);
     const [typeModal, setTypeModal] = useState();
     const [camera, setCamera] = useStateCallback({});
@@ -80,8 +81,26 @@ function CameraScreen() {
     }, []);
     
     async function fetchCameraList() {
-        const response = await CameraService.getAll();
-        setcameraList(response);
+        try {
+            const response = await CameraService.getAll();
+            setcameraList(response);
+        } catch (error) {
+            console.log("Could not get the cameras");
+        }
+    }
+    async function searchCamera(e) {
+        if (e.key === 'Enter') {
+            const cam = {
+                name: query
+            }
+            try {
+                const response = await CameraService.search(cam);
+                setQuery("");
+                setcameraList(response);
+            } catch (error) {
+                console.log("Could not search cameras");
+            }
+        }
     }
     
     const activeCamera = async (camera, index) => {
@@ -119,7 +138,14 @@ function CameraScreen() {
                         
                                 <div className="col-md-10 form-group has-search form-search-camera justify-content-between px-3">
                                     <span className="fa fa-search fa-sm form-control-camera"></span>
-                                    <input type="text" className="form-control form-input-camera" placeholder="Encontrar câmera"/>
+                                    <input 
+                                        type="text" 
+                                        className="form-control form-input-camera" 
+                                        placeholder="Encontrar câmera"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                        onKeyDown={searchCamera}
+                                    />
                                 </div>
 
                                 <div className="d-flex justify-content-end">
