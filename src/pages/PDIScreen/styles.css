@@ -1,22 +1,52 @@
 .content {
-    display: flex;
+  display: flex;
+  background-color: rgb(231, 231, 231);
 }
-  
+.listpdi {
+  max-height: 87vh;
+  overflow-y: scroll;
+}
+.pdilist-trash {
+  color: red;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+.pdilist-pencil {
+  margin-right: 0.4rem;
+  color: #000;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+.buttons {
+  height: 100%;
+}
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1%;
+}
 .modal-custom {
-    width: 60vw;    /* Occupy the 60% of the screen width */
-    max-width: 60vw;
-} 
+  width: 60vw; /* Occupy the 60% of the screen width */
+  max-width: 60vw;
+}
 .modal-header-custom {
-    width: 95%;
-    max-width: 95%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-} 
+  width: 95%;
+  max-width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
 
 .input-custom {
-    border: 0;
-    width: 80%;
-    
+  border: 0;
+  width: 80%;
 }
