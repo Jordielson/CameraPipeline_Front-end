@@ -74,7 +74,7 @@ function CameraScreen() {
     const [show, setShow] = useState(false);
     const [typeModal, setTypeModal] = useState();
     const [camera, setCamera] = useStateCallback({});
-    const [cameraList, setcameraList] = useState(listCamera);
+    const [cameraList, setCameraList] = useState(listCamera);
 
     useEffect(() => {
         fetchCameraList();
@@ -83,7 +83,7 @@ function CameraScreen() {
     async function fetchCameraList() {
         try {
             const response = await CameraService.getAll();
-            setcameraList(response);
+            setCameraList(response);
         } catch (error) {
             console.log("Could not get the cameras");
         }
@@ -96,7 +96,7 @@ function CameraScreen() {
             try {
                 const response = await CameraService.search(cam);
                 setQuery("");
-                setcameraList(response);
+                setCameraList(response);
             } catch (error) {
                 console.log("Could not search cameras");
             }
@@ -107,19 +107,32 @@ function CameraScreen() {
         camera.isActive = !camera.isActive;
         try {
             const response = await CameraService.update(camera);
-            const arr = [...cameraList];
-            arr.splice(index, 1, response);
-            setcameraList(arr);
+            fetchCameraList();
         } catch (error) {
             console.log("Unable to activate camera");
         }
     }
     function showModal(cam, type) {
-        setCamera(cam, () => {
+        if(cam !== camera) {
+            setCamera(cam, () => {
+                setTypeModal(type);
+                handleShow();
+            });
+        } else {
             setTypeModal(type);
             handleShow();
-        });
+        }
     }
+
+    const deleteCamera = async (cam) => {
+        try {
+            await CameraService.delete(cam);
+            fetchCameraList();
+        } catch (error) {
+            alert("Error")
+        }
+    }
+
     const handleShow = () => setShow(true);
 
     return (
@@ -173,22 +186,27 @@ function CameraScreen() {
                                 <div className="p-2">{camera.name}</div>
                                 <div className="p-2 d-flex justify-content-between align-self-center actions-camera">
                                     <span 
-                                        className="fa fa-eye icon-actions"
+                                        className="fa fa-eye icon-actions fa-lg"
                                         onClick={() => showModal(camera, TypeModal.Video)}
                                     />
                                     <span 
-                                        className="fa fa-pencil-square icon-actions"
+                                        className="fa fa-pencil-square icon-actions fa-lg"
                                         onClick={() => showModal(camera, TypeModal.Form)}
                                     />
                                     <Form>
                                         <Form.Check 
                                             type="switch"
+                                            className="switch-actions"
                                             id="custom-switch"
                                             label=""
                                             checked={camera.isActive}
                                             onClick={() => activeCamera(camera, index)}
                                         />
                                     </Form>
+                                    <span 
+                                        className="fa fa-trash icon-actions fa-lg"
+                                        onClick={() => deleteCamera(camera)}
+                                    />
                                 </div>
                             </li>
                         )

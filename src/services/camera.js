@@ -38,6 +38,10 @@ const CameraService = {
             });
         return data;
     },
+    delete: async (params) => {
+        await Api()
+            .delete(`/api/camera/${params.id}`);
+    }
 }
 
 export default CameraService;

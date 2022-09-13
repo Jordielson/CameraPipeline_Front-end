@@ -16,7 +16,7 @@ function ModalCamera(props) {
     useEffect(() => {
         setName(props.camera.name ?? "");
         setUrl(props.camera.url ?? "");
-        setIsPrivate(props.camera.isPrivate ?? undefined);
+        setIsPrivate(props.camera.isPrivate ?? false);
         setFpsLimiter(props.camera.fpsLimiter ?? undefined);
         setLatitude(props.camera.coordinate ? 
             props.camera.coordinate.latitude : undefined);
@@ -40,13 +40,18 @@ function ModalCamera(props) {
             url: url,
             isActive: props.camera.isActive,
         }
-        if(cam.id === undefined) {
-            await CameraService.register(cam);
-        } else {
-            await CameraService.update(cam);
+        try {
+            if(cam.id === undefined) {
+                await CameraService.register(cam);
+            } else {
+                await CameraService.update(cam);
+            }
+            props.updateData();
+            handleClose();
+            alert("Sucess!!!")
+        } catch (error) {
+            alert(error.message)
         }
-        props.updateData();
-        handleClose();
     }
 
     return (
@@ -60,12 +65,23 @@ function ModalCamera(props) {
                     <div>
                         <Modal.Title>
                             {props.type === TypeModal.Form ? (
-                                <a className="navbar-brand props.camera-title">
-                                    Cadastro de Câmera
-                                </a>
-
+                                <>
+                                    <a className="navbar-brand camera-title">
+                                        { props.camera.id === undefined ? (
+                                                <>
+                                                    Cadastro de Câmera
+                                                </>
+                                            ) : 
+                                            (
+                                                <>
+                                                    Edição de Câmera
+                                                </>
+                                            )
+                                        }
+                                    </a>
+                                </>
                             ) : (
-                                <a className="navbar-brand props.camera-title">
+                                <a className="navbar-brand camera-title">
                                     Visualização de Câmera
                                 </a>
                             )}

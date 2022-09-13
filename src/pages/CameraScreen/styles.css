@@ -43,6 +43,13 @@
     width: 30%;
 }
 
+.icon-actions {
+    margin-top: 13px;
+}
+.switch-actions {
+    margin-top: 3px;
+}
+
 .icon-actions:hover {
     cursor: pointer;
 }
