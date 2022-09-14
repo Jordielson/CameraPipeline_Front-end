@@ -15,25 +15,29 @@ const StreamStatus = {
 
 function VideoStream(props) {
   const [stream1, setStream] = useState(props.url);
+  const [response, setResponse] = useState();
   const [showVideo, setShowVideo] = useState(StreamStatus.EMPTY);
 
   const fetchStream = async (stream) => {
     setShowVideo(StreamStatus.LOADING);
 
     try {
-      await VideoStreamService.stopStream({
-        url: stream1,
-        id: 1,
-      });
+      if (response !== undefined) {
+        await VideoStreamService.stopStream({
+          url: response.url,
+          id: response.id,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
 
     try {
-      await VideoStreamService.createStream({
+      let resp = await VideoStreamService.createStream({
         url: stream,
       });
-      var videoUrl = `ws://${ffmpegIP}:7000/`;
+      setResponse(resp);
+      var videoUrl = `ws://${ffmpegIP}:${resp.port}/`;
       new JSMpeg.VideoElement("#video-canvas", videoUrl, {
         autoplay: true,
       });

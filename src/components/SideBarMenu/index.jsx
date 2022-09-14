@@ -18,9 +18,8 @@ function SidebarMenu(props) {
   }
   useEffect(() => {
     if (document.getElementsByClassName(props.page)[0]) {
-      document.getElementsByClassName(props.page)[0].style.background =
-        "#f1f1f1";
-      document.getElementsByClassName(props.page)[0].style.color = "#7386d5";
+      document.getElementsByClassName(props.page)[0].style.background = "#fff";
+      document.getElementsByClassName(props.page)[0].style.color = "#000";
     }
   }, [props.page]);
 
@@ -43,8 +42,7 @@ function SidebarMenu(props) {
               <h5>Câmera Pipeline</h5>
             </div>
             <div className="px-2 d-flex flex-row align-items-center pr-2">
-              <div className="px-1">
-              </div>
+              <div className="px-1"></div>
               <span className="email">{localStorage.getItem("login")}</span>
             </div>
             <ul class="list-unstyled components">
