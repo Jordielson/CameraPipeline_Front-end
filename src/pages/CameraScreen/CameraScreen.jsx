@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ModalCamera, {TypeModal} from "../../components/ModalCamera";
 import SidebarMenu from "../../components/SideBarMenu";
-import { Form } from "react-bootstrap";
+import { Form, ListGroup } from "react-bootstrap";
 import { useStateCallback } from "../../shared/Utils";
 import "./styles.css";
 import CameraService from "../../services/camera";
@@ -103,7 +103,7 @@ function CameraScreen() {
         }
     }
     
-    const activeCamera = async (camera, index) => {
+    const activeCamera = async (camera) => {
         camera.isActive = !camera.isActive;
         try {
             const response = await CameraService.update(camera);
@@ -138,12 +138,10 @@ function CameraScreen() {
     return (
         <>
             <div className="content">
-                <div className="sidebar-component">
                 <SidebarMenu page="camera" />
-                </div>
-                <div className="content-body justify-content-between">
-                    <div className="sticky-top contentbar">
-                        <nav className="navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 ">
+                <div className="content-body">
+                    <nav className="navbar nav-camera">
+                        <div className="container-fluid">
                             <a className="navbar-brand camera-title">
                                 Câmeras
                             </a>
@@ -165,7 +163,7 @@ function CameraScreen() {
                                     <button
                                         id="button-add-camera"
                                         type="button"
-                                        className="btn btn-sm d-flex justify-content-between btn-add"
+                                        className="btn btn-outline-secondary d-flex justify-content-between btn-add-camera"
                                         onClick={() => showModal({}, TypeModal.Form)}
                                         >
                                         <span className="fab fa fa-plus me-1"></span>
@@ -173,46 +171,47 @@ function CameraScreen() {
                                     </button>
                                 </div>
                             </div>
-                        </nav>
-                    </div>
-                    <div className="container-fluid py-2">
-                    <ul className="list-group list-group-flush">
-                        <li className="nav-header disabled d-flex justify-content-between">
-                            <div className="p-2">Nome</div>
-                            <div className="p-2 align-self-start actions-camera"><span>Ações</span></div>
-                        </li>
-                        {cameraList.map((camera, index) => (
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                <div className="p-2">{camera.name}</div>
-                                <div className="p-2 d-flex justify-content-between align-self-center actions-camera">
-                                    <span 
-                                        className="fa fa-eye icon-actions fa-lg"
-                                        onClick={() => showModal(camera, TypeModal.Video)}
+                        </div>
+                    </nav>
+                    <ListGroup className="m-4 listCamera">
+                        {cameraList.map((camera) => {
+                        return (
+                            <ListGroup.Item key={camera.id} variant="light">
+                            {camera.name}
+                            <div className="buttons">
+                                <button
+                                className="fa-solid fa-eye icon-actions camera-list-view"
+                                title="EDITAR"
+                                id={camera.id}
+                                onClick={() => showModal(camera, TypeModal.Video)}
+                                ></button>
+                                <button
+                                className="fa-solid fa-pen-to-square camera-list-pencil"
+                                title="EDITAR"
+                                id={camera.id}
+                                onClick={() => showModal(camera, TypeModal.Form)}
+                                ></button>
+                                <Form>
+                                    <Form.Check 
+                                        type="switch"
+                                        className="switch-actions"
+                                        id="custom-switch"
+                                        label=""
+                                        checked={camera.isActive}
+                                        onClick={() => activeCamera(camera)}
                                     />
-                                    <span 
-                                        className="fa fa-pencil-square icon-actions fa-lg"
-                                        onClick={() => showModal(camera, TypeModal.Form)}
-                                    />
-                                    <Form>
-                                        <Form.Check 
-                                            type="switch"
-                                            className="switch-actions"
-                                            id="custom-switch"
-                                            label=""
-                                            checked={camera.isActive}
-                                            onClick={() => activeCamera(camera, index)}
-                                        />
-                                    </Form>
-                                    <span 
-                                        className="fa fa-trash icon-actions fa-lg"
-                                        onClick={() => deleteCamera(camera)}
-                                    />
-                                </div>
-                            </li>
-                        )
-                        )}
-                    </ul>
-                    </div>
+                                </Form>
+                                <button
+                                className={"camera-list-trash fa-solid fa-trash "}
+                                title="EXCLUIR"
+                                id={camera.id}
+                                onClick={() => deleteCamera(camera)}
+                                ></button>
+                            </div>
+                            </ListGroup.Item>
+                        );
+                        })}
+                    </ListGroup>
                 </div>
                 <ModalCamera 
                     show={show} 
