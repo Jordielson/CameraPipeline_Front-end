@@ -145,7 +145,7 @@ function CameraScreen() {
                             <a className="navbar-brand camera-title">
                                 Câmeras
                             </a>
-                            <div className="d-flex flex-row justify-content-center">
+                            <div className="d-flex flex-row justify-content-end">
                         
                                 <div className="col-md-10 form-group has-search form-search-camera justify-content-between px-3">
                                     <span className="fa fa-search fa-sm form-control-camera"></span>
@@ -178,7 +178,7 @@ function CameraScreen() {
                         return (
                             <ListGroup.Item key={camera.id} variant="light">
                             {camera.name}
-                            <div className="buttons">
+                            <div className="buttons list-group-item-camera">
                                 <button
                                 className="fa-solid fa-eye icon-actions camera-list-view"
                                 title="EDITAR"

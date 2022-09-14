@@ -26,7 +26,7 @@ function ModalCamera(props) {
 
     const handleClose = () => props.onShowChange(false);
 
-    const handleSave = async (e) => {
+    const saveCamera = async (e) => {
         e.preventDefault();
         const cam = {
             id: props.camera.id,
@@ -41,10 +41,10 @@ function ModalCamera(props) {
             isActive: props.camera.isActive,
         }
         try {
-            if(cam.id === undefined) {
-                await CameraService.register(cam);
-            } else {
+            if(cam.id) {
                 await CameraService.update(cam);
+            } else {
+                await CameraService.register(cam);
             }
             props.updateData();
             handleClose();
@@ -93,7 +93,7 @@ function ModalCamera(props) {
                 {props.type === TypeModal.Form ? (
                     <Form
                         className="d-flex justify-content-center flex-column"
-                        onSubmit={handleSave}
+                        onSubmit={saveCamera}
                         >
                         <Form.Group
                             className="mb-2 d-flex flex-column"
@@ -194,7 +194,7 @@ function ModalCamera(props) {
                         </Form.Group>
                         <div className="col text-center">
                             <button
-                            className="btn btn-outline-secondary"
+                            className="btn btn-primary no-shadow"
                             type="submit"
                             id="button-addon2"
                             >
