@@ -83,7 +83,7 @@ function CameraScreen() {
     async function fetchCameraList() {
         try {
             const response = await CameraService.getAll();
-            setCameraList(response);
+            setCameraList(response.content);
         } catch (error) {
             console.log("Could not get the cameras");
         }
@@ -96,7 +96,7 @@ function CameraScreen() {
             try {
                 const response = await CameraService.search(cam);
                 setQuery("");
-                setCameraList(response);
+                setCameraList(response.content);
             } catch (error) {
                 console.log("Could not search cameras");
             }
