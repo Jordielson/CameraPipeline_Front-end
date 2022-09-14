@@ -6,6 +6,7 @@ import ToastContainer from "react-bootstrap/ToastContainer";
 import FormPDI from "./../../components/FormPDI/index";
 import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
+import { toast } from "react-toastify";
 
 const modelPDIList = [
   {
@@ -106,10 +107,16 @@ const modelPDIList = [
 
 function PDIScreen() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    getPDIs();
+  };
   const handleShow = () => setShow(true);
   const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
+  const handleCloseEdit = () => {
+    setShowEdit(false);
+    getPDIs();
+  };
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [pdi, setPdi] = useState();
 
@@ -125,16 +132,29 @@ function PDIScreen() {
     setShowEdit(true);
   };
 
-  function deleteHandler(e) {
-    setPdiList((oldPdi) => {
-      return oldPdi.filter((pdi) => pdi.id !== e);
+  async function deleteHandler(e) {
+    // await PDIService.delete(e);
+    await toast.promise(PDIService.delete(e), {
+      pending: "Deletando",
+      success: "Removido! ",
+      error: "PDI não pode ser removido poque está em uso ",
     });
+    getPDIs();
   }
 
   useEffect(() => {
     save();
     console.log("salvo");
   }, [modelPDI]);
+
+  async function getPDIs() {
+    const pdiList = await PDIService.getAll();
+    setPdiList(pdiList.content);
+  }
+
+  useEffect(() => {
+    getPDIs();
+  }, []);
 
   return (
     <>

@@ -69,79 +69,79 @@ const videoUrlJson = [
 
 const modelPDIList = [
   {
-      "id": 1,
-      "name": "Redimensionar imagem",
-      "parameters": [
-          {
-              "id": 1,
-              "name": "Tamanho da imagem",
-              "type": "STRING"
-          }
-      ],
-      "category": "PROCESSAMENTO",
-      "url": "http://localhost:5000/api"
+    id: 1,
+    name: "Redimensionar imagem",
+    parameters: [
+      {
+        id: 1,
+        name: "Tamanho da imagem",
+        type: "STRING",
+      },
+    ],
+    category: "PROCESSAMENTO",
+    url: "http://localhost:5000/api",
   },
   {
-      "id": 13,
-      "name": "CROP da imagem",
-      "parameters": [
-          {
-              "id": 55,
-              "name": "Imagem",
-              "type": "STRING"
-          },
-          {
-              "id": 56,
-              "name": "Dimensão da imagem",
-              "type": "STRING"
-          },
-          {
-              "id": 57,
-              "name": "Xmin",
-              "type": "NUMBER"
-          },
-          {
-              "id": 58,
-              "name": "Xmax",
-              "type": "NUMBER"
-          },
-          {
-              "id": 59,
-              "name": "Ymin",
-              "type": "NUMBER"
-          },
-          {
-              "id": 60,
-              "name": "Ymax",
-              "type": "NUMBER"
-          }
-      ],
-      "category": "EDICAO",
-      "url": "http://localhost:5000/crop-image"
+    id: 13,
+    name: "CROP da imagem",
+    parameters: [
+      {
+        id: 55,
+        name: "Imagem",
+        type: "STRING",
+      },
+      {
+        id: 56,
+        name: "Dimensão da imagem",
+        type: "STRING",
+      },
+      {
+        id: 57,
+        name: "Xmin",
+        type: "NUMBER",
+      },
+      {
+        id: 58,
+        name: "Xmax",
+        type: "NUMBER",
+      },
+      {
+        id: 59,
+        name: "Ymin",
+        type: "NUMBER",
+      },
+      {
+        id: 60,
+        name: "Ymax",
+        type: "NUMBER",
+      },
+    ],
+    category: "EDICAO",
+    url: "http://localhost:5000/crop-image",
   },
   {
-      "id": 14,
-      "name": "Reduzir tamalho da imagem",
-      "parameters": [
-          {
-              "id": 61,
-              "name": "Imagem",
-              "type": "STRING"
-          },
-          {
-              "id": 62,
-              "name": "Tamanho da imagem",
-              "type": "STRING"
-          },
-          {
-              "id": 63,
-              "name": "Novo tamanho da imagem",
-              "type": "STRING"
-          }
-      ],
-      "category": "EDICAO",
-      "url": "http://localhost:5000/reduzir-image"
-  }
+    id: 14,
+    name: "Reduzir tamalho da imagem",
+    parameters: [
+      {
+        id: 61,
+        name: "Imagem",
+        type: "STRING",
+      },
+      {
+        id: 62,
+        name: "Tamanho da imagem",
+        type: "STRING",
+      },
+      {
+        id: 63,
+        name: "Novo tamanho da imagem",
+        type: "STRING",
+      },
+    ],
+    category: "EDICAO",
+    url: "http://localhost:5000/reduzir-image",
+  },
 ];
 
 function PipelineScreen() {
@@ -276,7 +276,7 @@ function PipelineScreen() {
   const getPDIs = async () => {
     try {
       const response = await PDIService.getAll();
-      setPdiList(response);
+      setPdiList(response.content);
     } catch (error) {
       console.log("Error");
     }
@@ -284,7 +284,7 @@ function PipelineScreen() {
   const getCameras = async () => {
     try {
       const response = await CameraService.getAll();
-      setVideoUrl(response);
+      setVideoUrl(response.content);
     } catch (error) {
       console.log("Error");
     }
