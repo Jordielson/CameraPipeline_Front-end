@@ -7,3 +7,23 @@
   font-size: 0.8rem;
   color: red;
 }
+
+.trash {
+  font-size: 0.8rem;
+  color: #da1d1d;
+}
+
+.trash:hover {
+  color: red;
+}
+
+.editname {
+  color: rgb(155, 155, 155);
+}
+.btnparam:hover {
+  background-color: #fff;
+  color: #000;
+}
+.btnparam:focus {
+  box-shadow: none;
+}

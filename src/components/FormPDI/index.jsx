@@ -5,8 +5,8 @@ import styles from "./Pdi.module.css";
 import { Form } from "react-bootstrap";
 
 function FormPDI(props) {
-  const [PDIName, setPDIName] = useState("Nome do PDI");
-  const [url, setUrl] = useState("https://");
+  const [PDIName, setPDIName] = useState("");
+  const [url, setUrl] = useState("");
   const [parameters, setParameters] = useState([]);
   const [show, setShow] = useState(false);
   const [duplicatedParam, setDuplicatedParam] = useState();
@@ -32,6 +32,8 @@ function FormPDI(props) {
         throw "emptyUrl";
       } else if (parameters.length == 0) {
         throw "emptyPdi";
+      } else if (PDIName.length == 0) {
+        throw "emptyName";
       }
       parameters.map((param) => {
         parameters.forEach((param1) => {
@@ -52,10 +54,10 @@ function FormPDI(props) {
       console.log(pdi, "pdi salva");
       setParameters([]);
       setUrl("");
-      setPDIName("Nome do PDI");
+      setPDIName("");
     } catch (e) {
       setShow(false);
-      setDuplicatedParam("*Há parâmetro com nome Repetido: " + e);
+      setDuplicatedParam("*Há parâmetros com nome Repetido: " + e);
 
       if (e == "emptyparam") {
         setDuplicatedParam("*Há parametros vazios");
@@ -63,6 +65,8 @@ function FormPDI(props) {
         setDuplicatedParam("*Insira o Url");
       } else if (e == "emptyPdi") {
         setDuplicatedParam("*Não há parametros");
+      } else if (e == "emptyName") {
+        setDuplicatedParam("Insira o NOME do PDI");
       }
     }
   }
@@ -90,7 +94,7 @@ function FormPDI(props) {
   function exitHandler() {
     setParameters([]);
     setUrl("");
-    setPDIName("Nome do PDI");
+    setPDIName("");
     setShow(true);
   }
   function inputHandler(e) {
@@ -152,11 +156,18 @@ function FormPDI(props) {
       >
         <Modal.Header closeButton>
           <div className="modal-header-custom">
-            <div>
+            <div className="d-flex ">
+              <label
+                for="name"
+                className={styles.editname + " fa-solid fa-pen-to-square"}
+              ></label>
               <Modal.Title>
                 <input
                   className="input-custom"
-                  value={PDIName}
+                  // value={PDIName}
+                  id="name"
+                  defaultValue={PDIName}
+                  placeholder={"Insira o nome do PDI"}
                   onChange={(value) => setPDIName(value.target.value)}
                 ></input>
               </Modal.Title>
@@ -171,6 +182,7 @@ function FormPDI(props) {
                 className="form-control"
                 id="basic-url"
                 aria-describedby="basic-addon3"
+                placeholder="https://"
                 value={url}
                 onChange={(value) => setUrl(value.target.value)}
               ></input>
@@ -214,7 +226,7 @@ function FormPDI(props) {
                     }}
                   />
                   <i
-                    className={styles.error + " fa-solid fa-trash "}
+                    className={styles.trash + " fa-solid fa-trash "}
                     id={param.index}
                     onClick={(e) => {
                       deleteHandler(param.index);
@@ -228,7 +240,7 @@ function FormPDI(props) {
         <Modal.Footer>
           <div className="col text-start ">
             <button
-              className="btn btn-outline-secondary"
+              className={styles.btnparam + " btn btn-outline-secondary"}
               type="button"
               id="button-addon2"
               onClick={newParameterHandler}
@@ -238,7 +250,7 @@ function FormPDI(props) {
           </div>
           <div className="col text-end">
             <button
-              className="btn btn-outline-secondary"
+              className="btn btn-primary no-shadow "
               type="button"
               id="button-addon2"
               onClick={saveHandler}

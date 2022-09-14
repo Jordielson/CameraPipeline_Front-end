@@ -142,12 +142,12 @@ function PDIScreen() {
         <SidebarMenu page="pdi" />
 
         <div className="content-body">
-          <nav class="navbar bg-light">
+          <nav class="navbar navpdi">
             <div class="container-fluid">
               <a class="navbar-brand">Lista de PDIs</a>
 
               <button
-                className="btn btn-outline-secondary"
+                className="btn btn-outline-secondary addpdi no-shadow"
                 type="button"
                 id="button-addon2"
                 onClick={handleShow}
@@ -156,7 +156,7 @@ function PDIScreen() {
               </button>
             </div>
           </nav>
-          <ListGroup className="p-4 listpdi">
+          <ListGroup className="m-4 listpdi">
             {modelPDI.map((pdi) => {
               return (
                 <ListGroup.Item key={pdi.id} variant="light">
