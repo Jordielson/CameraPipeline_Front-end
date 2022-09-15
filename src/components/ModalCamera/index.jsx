@@ -60,6 +60,14 @@ function ModalCamera(props) {
           error: "Erro ao salvar, verifique se o nome já está sendo utilizados",
         });
       } else {
+        // const verifyName = await CameraService.verifyName();
+        // const verifyUrl = await CameraService.verifyUrl();
+        // if (verifyName.content) {
+        //   throw "nameExists";
+        // }
+        // if (verifyUrl) {
+        //   throw "urlExists";
+        // }
         await toast.promise(CameraService.register(cam), {
           pending: "Salvando",
           success: "Salvo com sucesso! ",
@@ -73,6 +81,10 @@ function ModalCamera(props) {
         setshowEmptyName(false);
       } else if (error == "emptyurl") {
         setshowEmptyUrl(false);
+      } else if (error == "nameExists") {
+        setshowName(false);
+      } else if (error == "urlExists") {
+        setshowUrl(false);
       }
     }
   };

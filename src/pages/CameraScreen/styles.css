@@ -1,72 +1,72 @@
-.form-search-camera{
-    position: relative;
+.form-search-camera {
+  position: relative;
 }
 
-.form-control-camera{
-    position: absolute;
-    display: block;
-    text-align: center;
-    line-height: 1.975rem;
-    pointer-events: none;
-    color: #9ca3af;
-    width: 2.375rem;
-    height: 2.375rem;
+.form-control-camera {
+  position: absolute;
+  display: block;
+  text-align: center;
+  line-height: 1.975rem;
+  pointer-events: none;
+  color: #9ca3af;
+  width: 2.375rem;
+  height: 2.375rem;
 }
 
-.form-input-camera{
-    padding-left: 1.1rem;
-    height: 30px;
-    text-indent: 20px;
-    border-radius: 10px;
+.form-input-camera {
+  padding-left: 1.1rem;
+  height: 30px;
+  text-indent: 20px;
+  border-radius: 10px;
 }
 
-.form-input-camera:focus{
-    box-shadow: none;
-    border:none;
+.form-input-camera:focus {
+  box-shadow: none;
+  border: none;
 }
 
-.btn-add-camera{
-    background-color: #ff0072;
-    color: #fff;
-    border: none;
+.btn-add-camera {
+  background-color: #ff0072;
+  color: #fff;
+  border: none;
 }
 .btn-add-camera:hover {
-    background-color: #e20166;
-    color: #fff;
+  background-color: #e20166 !important;
+  color: #fff;
 }
 .btn-add-camera:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .listCamera {
-    max-height: 80vh;
-    overflow-y: scroll;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .camera-list-trash {
-    color: #da1d1d;
-    border: none;
-    font-size: small;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
+  color: #da1d1d;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 .camera-list-pencil {
-    margin-right: 0.4rem;
-    color: #000;
-    border: none;
-    font-size: small;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
+  margin-right: 0.4rem;
+  color: #000;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 .camera-list-view {
-    margin-right: 0.4rem;
-    color: #000;
-    border: none;
-    font-size: small;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
+  margin-right: 0.4rem;
+  color: #000;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 .list-group-item-camera {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }

@@ -55,7 +55,7 @@
 }
 
 .addpdi:hover {
-  background-color: #e20166;
+  background-color: #e20166 !important;
   color: #fff;
 }
 .pdilist-trash {
