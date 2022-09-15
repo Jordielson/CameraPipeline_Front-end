@@ -31,6 +31,17 @@ const PDIService = {
 
     return data;
   },
+  update: async (params, id) => {
+    var data = null;
+    await Api()
+      .put(`/api/model-pdi/${id}`, params)
+      .then((response) => {
+        data = response.status;
+        console.log(response);
+      });
+
+    return data;
+  },
 };
 
 export default PDIService;

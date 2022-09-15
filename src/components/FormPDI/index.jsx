@@ -51,11 +51,24 @@ function FormPDI(props) {
       });
 
       try {
-        const response = await toast.promise(PDIService.register(pdi), {
-          pending: "Salvando",
-          success: "Salvo com sucesso! 👌",
-          error: "Promise rejected 🤯",
-        });
+        if (props.obj) {
+          const response = await toast.promise(
+            PDIService.update(pdi, props.obj.id),
+            {
+              pending: "Salvando",
+              success: "Salvo com sucesso! ",
+              error: "Promise rejected ",
+            }
+          );
+        } else {
+          await toast.promise(PDIService.register(pdi), {
+            pending: "Salvando",
+            success: "Salvo com sucesso! ",
+            error: "Promise rejected ",
+            position: "center",
+            autoClose: 1000,
+          });
+        }
       } catch (error) {
         throw error;
       }

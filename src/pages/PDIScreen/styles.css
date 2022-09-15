@@ -2,6 +2,9 @@
   display: flex;
   background-color: #e7e7e7;
 }
+.form-search-camera {
+  position: relative;
+}
 .listpdi {
   max-height: 87vh;
   overflow-y: scroll;
