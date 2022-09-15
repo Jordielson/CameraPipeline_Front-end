@@ -112,6 +112,7 @@ function PDIScreen() {
   const [showEdit, setShowEdit] = useState(false);
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [pdi, setPdi] = useState();
+  const [showResults, setShowResults] = useState(true);
 
   const handleClose = () => {
     setShow(false);
@@ -153,6 +154,7 @@ function PDIScreen() {
   async function getPDIs() {
     const pdiList = await PDIService.getAll();
     setPdiList(pdiList.content);
+    setShowResults(true);
   }
 
   async function searchPdi(e) {
@@ -164,6 +166,7 @@ function PDIScreen() {
         const response = await PDIService.search(pdiName);
         setQuery("");
         setPdiList(response.content);
+        setShowResults(false);
       } catch (error) {
         console.log("Could not search cameras");
       }
@@ -180,17 +183,20 @@ function PDIScreen() {
         <SidebarMenu page="pdi" />
 
         <div className="content-body">
-          <nav class="navbar navpdi">
+          <nav class="navbar navbar-dark navpdi">
             <div class="container-fluid">
               <a class="navbar-brand">Lista de PDIs</a>
 
-              <div className="width-full d-flex flex-row justify-content-end">
-                <div className="d-flex align-items-center form-group has-search px-3">
-                  <span className="fa fa-search fa-sm form-control-camera"></span>
+              <div className="width-full d-flex flex-row align-items-center justify-content-end">
+                <div className="d-flex align-items-center form-group px-3">
+                  <span
+                    className="fa fa-search fa-sm form-control-pdi 
+                  "
+                  ></span>
                   <input
                     type="text"
-                    className="form-control form-input-camera"
-                    placeholder="Encontrar câmera"
+                    className="form-control form-input-pdi"
+                    placeholder="Encontrar PDI"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={searchPdi}
@@ -219,7 +225,7 @@ function PDIScreen() {
               </div>
             </div>
           </nav>
-          <ListGroup className="m-4 listpdi">
+          <ListGroup className="mx-4 mt-4 mb-1 listpdi">
             {modelPDI.map((pdi) => {
               return (
                 <ListGroup.Item key={pdi.id} variant="light">
@@ -261,6 +267,13 @@ function PDIScreen() {
             <Pagination.Next />
             <Pagination.Last />
           </Pagination> */}
+          <div className="d-flex justify-content-center">
+            {!showResults && (
+              <span className="all-results" onClick={getPDIs}>
+                voltar para todos os resultados
+              </span>
+            )}
+          </div>
           <FormPDI show={show} hide={handleClose} obj={false} />
           <FormPDI
             key={pdi ? pdi.id : 1}

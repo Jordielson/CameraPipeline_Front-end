@@ -2,12 +2,43 @@
   display: flex;
   background-color: #e7e7e7;
 }
-.form-search-camera {
+.form-search-pdi {
   position: relative;
 }
+.all-results {
+  text-decoration: underline;
+  color: #58487e;
+}
+.all-results:hover {
+  text-decoration: underline;
+  color: #2a233c;
+  cursor: pointer;
+}
+.form-control-pdi {
+  position: absolute;
+  display: block;
+  text-align: center;
+  line-height: 1.975rem;
+  pointer-events: none;
+  color: #9ca3af;
+  width: 2.375rem;
+}
+
+.form-input-pdi {
+  padding-left: 1.1rem;
+  height: 30px;
+  text-indent: 20px;
+  border-radius: 10px;
+}
+
+.form-input-pdi:focus {
+  box-shadow: none;
+  border: none;
+}
 .listpdi {
-  max-height: 87vh;
+  max-height: 80vh;
   overflow-y: scroll;
+  margin-bottom: 0;
 }
 .navbar {
   color: #fff;

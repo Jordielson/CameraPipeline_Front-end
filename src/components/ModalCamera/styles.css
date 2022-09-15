@@ -1,8 +1,13 @@
 .container-video {
-    background-color: rgb(58, 57, 57);
-    width: 640px;
-    height: 360px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: rgb(58, 57, 57);
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.camera-form-error {
+  font-size: 0.8rem;
+  color: red;
 }

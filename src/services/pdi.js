@@ -20,6 +20,15 @@ const PDIService = {
       });
     return data;
   },
+  search: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/model-pdi", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   delete: async (params) => {
     var data = null;
     await Api()

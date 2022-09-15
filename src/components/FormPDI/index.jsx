@@ -57,14 +57,16 @@ function FormPDI(props) {
             {
               pending: "Salvando",
               success: "Salvo com sucesso! ",
-              error: "Promise rejected ",
+              error:
+                "Erro ao salvar, verifique se o nome já está sendo utilizado",
             }
           );
         } else {
           await toast.promise(PDIService.register(pdi), {
             pending: "Salvando",
             success: "Salvo com sucesso! ",
-            error: "Promise rejected ",
+            error:
+              "Erro ao salvar, verifique se o nome já está sendo utilizado",
             position: "center",
             autoClose: 1000,
           });
@@ -158,14 +160,6 @@ function FormPDI(props) {
     setParameters((oldParameters) => {
       return oldParameters.filter((param) => param.index !== e);
     });
-  }
-  function orderIndex() {
-    var count = 0;
-    parameters.map((param) => {
-      param.index = count++;
-    });
-    const novoEstado = [...parameters];
-    setParameters(novoEstado);
   }
 
   return (
