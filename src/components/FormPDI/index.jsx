@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import PDIService from "./../../services/pdi";
 import styles from "./Pdi.module.css";
 import { Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function FormPDI(props) {
   const [PDIName, setPDIName] = useState("");
@@ -20,7 +21,7 @@ function FormPDI(props) {
     }
   }, [props]);
 
-  function saveHandler() {
+  async function saveHandler() {
     const pdi = {
       name: PDIName,
       parameters: parameters,
@@ -49,6 +50,29 @@ function FormPDI(props) {
         });
       });
 
+      try {
+        if (props.obj) {
+          const response = await toast.promise(
+            PDIService.update(pdi, props.obj.id),
+            {
+              pending: "Salvando",
+              success: "Salvo com sucesso! ",
+              error: "Promise rejected ",
+            }
+          );
+        } else {
+          await toast.promise(PDIService.register(pdi), {
+            pending: "Salvando",
+            success: "Salvo com sucesso! ",
+            error: "Promise rejected ",
+            position: "center",
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        throw error;
+      }
+
       props.hide();
       // PDIService.save(pdi);
       console.log(pdi, "pdi salva");
@@ -67,6 +91,8 @@ function FormPDI(props) {
         setDuplicatedParam("*Não há parametros");
       } else if (e == "emptyName") {
         setDuplicatedParam("Insira o NOME do PDI");
+      } else {
+        setDuplicatedParam("ERRO AO SALVAR");
       }
     }
   }
@@ -141,10 +167,6 @@ function FormPDI(props) {
     const novoEstado = [...parameters];
     setParameters(novoEstado);
   }
-
-  // useEffect(() => {
-
-  // }, [parameters]);
 
   return (
     <>

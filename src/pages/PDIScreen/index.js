@@ -6,6 +6,7 @@ import ToastContainer from "react-bootstrap/ToastContainer";
 import FormPDI from "./../../components/FormPDI/index";
 import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
+import { toast } from "react-toastify";
 
 const modelPDIList = [
   {
@@ -106,12 +107,20 @@ const modelPDIList = [
 
 function PDIScreen() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const [query, setQuery] = useState("");
   const handleShow = () => setShow(true);
   const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [pdi, setPdi] = useState();
+
+  const handleClose = () => {
+    setShow(false);
+    getPDIs();
+  };
+  const handleCloseEdit = () => {
+    setShowEdit(false);
+    getPDIs();
+  };
 
   function save() {
     // PDIService.saveAll(modelPDI);
@@ -125,16 +134,45 @@ function PDIScreen() {
     setShowEdit(true);
   };
 
-  function deleteHandler(e) {
-    setPdiList((oldPdi) => {
-      return oldPdi.filter((pdi) => pdi.id !== e);
+  async function deleteHandler(e) {
+    // await PDIService.delete(e);
+    await toast.promise(PDIService.delete(e), {
+      pending: "Deletando",
+      success: "Removido! ",
+      error: "PDI não pode ser removido poque está em uso ",
     });
+    getPDIs();
   }
 
   useEffect(() => {
     save();
+
     console.log("salvo");
   }, [modelPDI]);
+
+  async function getPDIs() {
+    const pdiList = await PDIService.getAll();
+    setPdiList(pdiList.content);
+  }
+
+  async function searchPdi(e) {
+    if (e.key === "Enter") {
+      const pdiName = {
+        name: query,
+      };
+      try {
+        const response = await PDIService.search(pdiName);
+        setQuery("");
+        setPdiList(response.content);
+      } catch (error) {
+        console.log("Could not search cameras");
+      }
+    }
+  }
+
+  useEffect(() => {
+    getPDIs();
+  }, []);
 
   return (
     <>
@@ -146,14 +184,39 @@ function PDIScreen() {
             <div class="container-fluid">
               <a class="navbar-brand">Lista de PDIs</a>
 
-              <button
-                className="btn btn-outline-secondary addpdi no-shadow"
-                type="button"
-                id="button-addon2"
-                onClick={handleShow}
-              >
-                Adicionar novo PDI
-              </button>
+              <div className="width-full d-flex flex-row justify-content-end">
+                <div className="d-flex align-items-center form-group has-search px-3">
+                  <span className="fa fa-search fa-sm form-control-camera"></span>
+                  <input
+                    type="text"
+                    className="form-control form-input-camera"
+                    placeholder="Encontrar câmera"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={searchPdi}
+                  />
+                </div>
+
+                <div className="d-flex justify-content-end">
+                  {/* <button
+                    id="button-add-camera"
+                    type="button"
+                    className="btn btn-outline-secondary d-flex justify-content-between btn-add-camera"
+                    onClick={() => showModal({}, TypeModal.Form)}
+                  >
+                    <span className="fab fa fa-plus me-1"></span>
+                    NOVO
+                  </button> */}
+                  <button
+                    className="btn btn-outline-secondary addpdi no-shadow"
+                    type="button"
+                    id="button-addon2"
+                    onClick={handleShow}
+                  >
+                    Adicionar novo PDI
+                  </button>
+                </div>
+              </div>
             </div>
           </nav>
           <ListGroup className="m-4 listpdi">
@@ -199,7 +262,12 @@ function PDIScreen() {
             <Pagination.Last />
           </Pagination> */}
           <FormPDI show={show} hide={handleClose} obj={false} />
-          <FormPDI show={showEdit} hide={handleCloseEdit} obj={pdi} />
+          <FormPDI
+            key={pdi ? pdi.id : 1}
+            show={showEdit}
+            hide={handleCloseEdit}
+            obj={pdi}
+          />
         </div>
       </div>
     </>
