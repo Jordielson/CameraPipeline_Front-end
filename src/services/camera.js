@@ -19,6 +19,24 @@ const CameraService = {
       });
     return data;
   },
+  verifyName: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/camera/verify-name", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
+  verifyUrl: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/camera/verify-url", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   register: async (params) => {
     var data = null;
     await Api()

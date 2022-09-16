@@ -53,6 +53,18 @@ function ModalCamera(props) {
       } else if (cam.url == "") {
         throw "emptyurl";
       }
+      const verifyName = await CameraService.verifyName(
+        {name: name, id : cam.id}
+      );
+      if (!verifyName.valid) {
+        throw "nameExists";
+      }
+      const verifyUrl = await CameraService.verifyUrl(
+        {url: url, id : cam.id}
+      );
+      if (!verifyUrl.valid) {
+        throw "urlExists";
+      }
       if (cam.id) {
         await toast.promise(CameraService.update(cam), {
           pending: "Salvando",
@@ -60,14 +72,6 @@ function ModalCamera(props) {
           error: "Erro ao salvar, verifique se o nome já está sendo utilizados",
         });
       } else {
-        // const verifyName = await CameraService.verifyName();
-        // const verifyUrl = await CameraService.verifyUrl();
-        // if (verifyName.content) {
-        //   throw "nameExists";
-        // }
-        // if (verifyUrl) {
-        //   throw "urlExists";
-        // }
         await toast.promise(CameraService.register(cam), {
           pending: "Salvando",
           success: "Salvo com sucesso! ",
@@ -94,6 +98,12 @@ function ModalCamera(props) {
   }, [name]);
   useEffect(() => {
     setshowEmptyUrl(true);
+  }, [url]);
+  useEffect(() => {
+    setshowName(true);
+  }, [name]);
+  useEffect(() => {
+    setshowUrl(true);
   }, [url]);
 
   return (
@@ -146,9 +156,9 @@ function ModalCamera(props) {
               {!showEmptyName && (
                 <p className="camera-form-error">Nome é obrigatorio</p>
               )}
-              {/* {!show && (
+              {!showName && (
                 <p className="camera-form-error">Nome já foi cadastrado</p>
-              )} */}
+              )}
             </Form.Group>
             <Form.Group
               className="mb-2 d-flex flex-column"
@@ -165,9 +175,9 @@ function ModalCamera(props) {
               {!showEmptyUrl && (
                 <p className="camera-form-error">URL é obrigatorio</p>
               )}
-              {/* {!show && (
+              {!showUrl && (
                 <p className="camera-form-error">URL já foi cadastrado</p>
-              )} */}
+              )}
             </Form.Group>
             <div className="d-flex justify-content-between">
               <Form.Group

@@ -49,10 +49,16 @@ function FormPDI(props) {
           }
         });
       });
-
       try {
         if (props.obj) {
-          const response = await toast.promise(
+          const verifyName = await PDIService.verifyName(
+            {name: PDIName, id : props.obj.id}
+          );
+          console.log("Ok " + verifyName.valid);
+          if (!verifyName.valid) {
+            throw "nameExists";
+          }
+          await toast.promise(
             PDIService.update(pdi, props.obj.id),
             {
               pending: "Salvando",
@@ -62,6 +68,12 @@ function FormPDI(props) {
             }
           );
         } else {
+          const verifyName = await PDIService.verifyName(
+            {name: PDIName }
+          );
+          if (!verifyName.valid) {
+            throw "nameExists";
+          }
           await toast.promise(PDIService.register(pdi), {
             pending: "Salvando",
             success: "Salvo com sucesso! ",
@@ -93,6 +105,8 @@ function FormPDI(props) {
         setDuplicatedParam("*Não há parametros");
       } else if (e == "emptyName") {
         setDuplicatedParam("Insira o NOME do PDI");
+      } else if (e == "nameExists") {
+        setDuplicatedParam("Esse nome da PDI já foi cadastrado");
       } else {
         setDuplicatedParam("ERRO AO SALVAR");
       }

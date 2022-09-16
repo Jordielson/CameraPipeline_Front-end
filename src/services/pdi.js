@@ -11,6 +11,15 @@ const PDIService = {
 
     return data;
   },
+  verifyName: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/model-pdi/verify-name", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   getAll: async () => {
     var data = null;
     await Api()
