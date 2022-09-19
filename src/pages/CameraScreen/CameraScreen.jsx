@@ -5,6 +5,7 @@ import { Form, ListGroup } from "react-bootstrap";
 import { useStateCallback } from "../../shared/Utils";
 import "./styles.css";
 import CameraService from "../../services/camera";
+import { toast } from "react-toastify";
 
 const listCamera = [
   {
@@ -129,11 +130,14 @@ function CameraScreen() {
 
   const deleteCamera = async (cam) => {
     try {
-      await CameraService.delete(cam);
+      await toast.promise(CameraService.delete(cam), {
+        pending: "Deletando",
+        success: "Removido! ",
+        error: "Câmera não pode ser removida poque está em uso",
+      });
+
       fetchCameraList();
-    } catch (error) {
-      alert("Error");
-    }
+    } catch (error) {}
   };
 
   const handleShow = () => setShow(true);

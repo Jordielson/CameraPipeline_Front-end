@@ -14,7 +14,8 @@
 }
 
 .contentbar .navbar {
-  background-color: white;
+  background-color: #2a233c;
+  color: #fff;
   /* border-bottom: solid 3px rgba(37, 37, 37, 0.137); */
   /* box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.644); */
   /* z-index: -1; */
@@ -46,11 +47,12 @@
 }
 
 .pipeline-header {
-  background-color: #8257e5;
-  color: white;
+  background-color: #fff;
+  color: #2a233c;
 }
 
 .pipeline-name {
+  color: #fff;
   width: 20%;
 }
 
@@ -120,8 +122,18 @@ i:hover {
 
   transition: all 0.5s;
 }
+
+.save-btn {
+  color: #fff;
+  background-color: #ff0072;
+}
+.save-btn:hover {
+  background-color: #e20166 !important;
+}
 .history {
-  color: rgb(38, 0, 255);
+  display: flex;
+  align-items: center;
+  color: rgb(255, 255, 255);
   font-size: small;
 }
 
@@ -145,11 +157,11 @@ i:hover {
 
 .accordion-button {
   font-size: 1rem;
-  background-color: #8257e5 !important;
+  background-color: #2a233c !important;
   color: #fff;
 }
 .accordion-button:focus {
-  background-color: #8257e5 !important;
+  background-color: #2a233c !important;
   color: #fff;
   box-shadow: none;
 }

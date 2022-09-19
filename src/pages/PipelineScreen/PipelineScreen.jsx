@@ -377,15 +377,15 @@ function PipelineScreen() {
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </select>
-                <div class="input-group mx-1">
+                <div class="input-group-sm d-flex mx-1">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control input-create"
                     placeholder="Criar nova pipeline"
                     aria-describedby="button-addon2"
                   ></input>
                   <button
-                    class="btn btn-outline-secondary"
+                    className="btn save-btn"
                     type="button"
                     id="button-addon2"
                     onClick={(e) => {
@@ -398,11 +398,11 @@ function PipelineScreen() {
               </div>
               <div className="pipeline-save d-flex justify-content-end">
                 <a href="#s" className="align-self-center px-2 history">
-                  <BsClock /> Histórico
+                  <BsClock /> <text className="p-1">Histórico</text>
                 </a>
                 <button
                   type="button"
-                  class="btn btn-success btn-sm "
+                  class="btn save-btn btn-sm "
                   onClick={save}
                 >
                   Salvar
@@ -438,7 +438,7 @@ function PipelineScreen() {
                   className="accordeon-pdi"
                 >
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>PDI de edição de imagem</Accordion.Header>
+                    <Accordion.Header>PDI</Accordion.Header>
                     <Accordion.Body className="ab">
                       <ul className="list-group">
                         {modelPDI.map((pipe) => {
@@ -459,7 +459,7 @@ function PipelineScreen() {
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
-                    <Accordion.Header>PDI de detecção</Accordion.Header>
+                    <Accordion.Header>Pipeline</Accordion.Header>
                     <Accordion.Body></Accordion.Body>
                   </Accordion.Item>
                 </Accordion>

@@ -37,7 +37,7 @@ function FormLogin() {
           className="d-flex justify-content-center align-items-center flex-column"
           onSubmit={handleSignUp}
         >
-          <h2 className="mb-5 mt-5 pt-5" style={{ color: "#996DFF" }}>
+          <h2 className="mb-5 mt-5 pt-5" style={{ color: "#6c6c6c" }}>
             Login
           </h2>
           <Form.Group
@@ -73,7 +73,11 @@ function FormLogin() {
               <Button
                 className="mx-4 btn-lg py-0"
                 variant="primary"
-                style={{ backgroundColor: "#996DFF", fontSize: "1rem" }}
+                style={{
+                  backgroundColor: "#ff0072",
+                  fontSize: "1rem",
+                  border: "none",
+                }}
                 type="submit"
               >
                 Entrar
@@ -81,7 +85,7 @@ function FormLogin() {
               <Button
                 className="mx-4"
                 variant="primary"
-                style={{ backgroundColor: "#996DFF" }}
+                style={{ backgroundColor: "#ff0072", border: "none" }}
               >
                 Cadastrar
               </Button>
