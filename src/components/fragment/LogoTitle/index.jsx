@@ -1,12 +1,19 @@
 import { Navbar, Container } from "react-bootstrap";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 
 function LogoTitle() {
+  const navigate = useNavigate();
+
+  const guidePage = () => {
+    navigate("/guia");
+  };
+
   return (
     <>
-      <Navbar className="barra" variant="dark">
+      <Navbar variant="dark">
         <Container className="justify-content-center">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/login">
             <img
               alt=""
               src="/logo.svg"
@@ -17,6 +24,9 @@ function LogoTitle() {
             Câmera Pipeline
           </Navbar.Brand>
         </Container>
+        <span className="guide" onClick={guidePage}>
+          Guia
+        </span>
       </Navbar>
     </>
   );
