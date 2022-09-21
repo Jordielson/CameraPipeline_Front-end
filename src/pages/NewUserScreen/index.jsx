@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Card } from "react-bootstrap";
 import { useState } from "react";
 import UserService from "../../services/user";
 import { toast } from "react-toastify";
@@ -7,7 +7,6 @@ import LogoTitle from "../../components/fragment/LogoTitle";
 import { useNavigate } from "react-router-dom";
 
 function NewUser() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -15,40 +14,42 @@ function NewUser() {
   const validateFields = () => {
     let valid = {
       flag: true,
-      text: ''
+      text: "",
     };
 
-    if(email === ""){
+    if (email === "") {
       valid.flag = false;
-      valid.text = "Preencha o campo de email"
-    }else if(password.length < 6){
+      valid.text = "Preencha o campo de email";
+    } else if (password.length < 6) {
       valid.flag = false;
-      valid.text = "Senha deve conter no mínimo seis dígitos"
-    }else if(password !== confirmPassword){
+      valid.text = "Senha deve conter no mínimo seis dígitos";
+    } else if (password !== confirmPassword) {
       valid.flag = false;
-      valid.text = "Senha não confirmada"
+      valid.text = "Senha não confirmada";
     }
     return valid;
-  }
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if(validateFields().flag){
+    if (validateFields().flag) {
       try {
-        await toast.promise(UserService.register({
-          email: email,
-          password: confirmPassword
-        }), 
-        {
-          pending: "Processando",
-          success: "Conta criada com sucesso! ",
-        });
+        await toast.promise(
+          UserService.register({
+            email: email,
+            password: confirmPassword,
+          }),
+          {
+            pending: "Processando",
+            success: "Conta criada com sucesso! ",
+          }
+        );
         backPage();
       } catch (error) {
-        let errorMessage = '';
-        switch(error.message) {
+        let errorMessage = "";
+        switch (error.message) {
           case "Request failed with status code 400":
-            errorMessage = "Email já está sendo utilizado, tente outro."
+            errorMessage = "Email já está sendo utilizado, tente outro.";
             break;
           default:
             errorMessage = error.message;
@@ -56,7 +57,7 @@ function NewUser() {
         }
         toast.error(errorMessage);
       }
-    }else {
+    } else {
       toast.error(validateFields().text);
     }
   };
@@ -65,23 +66,18 @@ function NewUser() {
 
   const backPage = () => {
     navigate("/login");
-  }
+  };
 
   return (
     <>
-      <LogoTitle/>
-      <Form 
-          className="d-flex justify-content-center align-items-center flex-column"
-          onSubmit={handleRegister}
-          id="new-user"
-          >
-        <h2 className="mb-5">
-          Crie sua conta
-        </h2>
-        <Form.Group
-            className="mb-4 d-flex flex-column"
-          >
-
+      <LogoTitle />
+      <Form
+        className="d-flex justify-content-center align-items-center flex-column"
+        onSubmit={handleRegister}
+        id="new-user"
+      >
+        <h2 className="mb-5">Crie sua conta</h2>
+        <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
             className="px-4 py-1 mb-2"
@@ -109,20 +105,21 @@ function NewUser() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="d-flex">
-          <Button
-              className="no-shadow mx-4"
-              onClick={backPage}
-            >
-            Voltar
-          </Button>
-          <Button
-              className="no-shadow mx-4"
-              type="submit"
-            >
-            Cadastrar
-        </Button>
-        </div>
+        <Card
+          className="border-2 rounded-0"
+          style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
+        >
+          <Card.Body className="d-flex justify-content-center space">
+            {/* <div className="d-flex"> */}
+            <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
+              Voltar
+            </Button>
+            <Button className="no-shadow mx-4 btn-color" type="submit">
+              Cadastrar
+            </Button>
+            {/* </div> */}
+          </Card.Body>
+        </Card>
       </Form>
     </>
   );

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SidebarMenu from "../../components/SideBarMenu";
 import "./styles.css";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import FormPDI from "./../../components/FormPDI/index";
 import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
@@ -123,9 +123,6 @@ function PDIScreen() {
     getPDIs();
   };
 
-  function save() {
-    // PDIService.saveAll(modelPDI);
-  }
   const handleShowEdit = (e) => {
     modelPDI.map((pdi) => {
       if (pdi.id == e) {
@@ -135,19 +132,40 @@ function PDIScreen() {
     setShowEdit(true);
   };
 
-  async function deleteHandler(e) {
-    // await PDIService.delete(e);
+  async function deleteConfirm(e) {
     await toast.promise(PDIService.delete(e), {
       pending: "Deletando",
       success: "Removido! ",
-      error: "PDI não pode ser removido poque está em uso ",
+      error: "erro interno",
     });
     getPDIs();
   }
 
-  useEffect(() => {
-    save();
+  async function deleteHandler(e) {
+    if (PDIService.verifyUsed(e)) {
+      await confirmAlert({
+        title: "Deseja remover o Item?",
+        message:
+          "O Item solicitado está sendo utilizado no momento, deseja remover mesmo assim?",
+        buttons: [
+          {
+            label: "sim",
+            onClick: () => {
+              deleteConfirm(e);
+            },
+          },
+          {
+            label: "cancelar",
+            onClick: () => {},
+          },
+        ],
+      });
+    } else {
+      deleteConfirm(e);
+    }
+  }
 
+  useEffect(() => {
     console.log("salvo");
   }, [modelPDI]);
 

@@ -6,6 +6,8 @@ import { useStateCallback } from "../../shared/Utils";
 import "./styles.css";
 import CameraService from "../../services/camera";
 import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 const listCamera = [
   {
@@ -128,16 +130,44 @@ function CameraScreen() {
     }
   }
 
+  const deleteCameraConfirm = async (cam) => {
+    await toast.promise(CameraService.delete(cam), {
+      pending: "Deletando",
+      success: "Removido! ",
+      error: "Câmera não pode ser removida poque está em uso",
+    });
+
+    fetchCameraList();
+  };
+
   const deleteCamera = async (cam) => {
-    try {
+    if (CameraService.verifyUsed(cam.id)) {
+      await confirmAlert({
+        title: "Deseja remover o Item?",
+        message:
+          "O Item solicitado está sendo utilizado no momento, deseja remover mesmo assim?",
+        buttons: [
+          {
+            label: "sim",
+            onClick: () => {
+              deleteCameraConfirm(cam);
+            },
+          },
+          {
+            label: "cancelar",
+            onClick: () => {},
+          },
+        ],
+      });
+    } else {
       await toast.promise(CameraService.delete(cam), {
         pending: "Deletando",
         success: "Removido! ",
-        error: "Câmera não pode ser removida poque está em uso",
+        error: "erro interno",
       });
 
       fetchCameraList();
-    } catch (error) {}
+    }
   };
 
   const handleShow = () => setShow(true);

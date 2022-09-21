@@ -6,7 +6,6 @@ import UserService from "../../services/user";
 import { toast } from "react-toastify";
 
 function ChangePassword() {
-
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -14,21 +13,21 @@ function ChangePassword() {
   const validateFields = () => {
     let valid = {
       flag: true,
-      text: ''
+      text: "",
     };
 
-    if(currentPassword === ""){
+    if (currentPassword === "") {
       valid.flag = false;
-      valid.text = "Digite sua senha atual"
-    }else if(newPassword.length < 6){
+      valid.text = "Digite sua senha atual";
+    } else if (newPassword.length < 6) {
       valid.flag = false;
-      valid.text = "Sua nova senha deve conter no mínimo seis dígitos"
-    }else if(newPassword !== confirmNewPassword){
+      valid.text = "Sua nova senha deve conter no mínimo seis dígitos";
+    } else if (newPassword !== confirmNewPassword) {
       valid.flag = false;
-      valid.text = "Senha não confirmada"
+      valid.text = "Senha não confirmada";
     }
     return valid;
-  }
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -41,76 +40,72 @@ function ChangePassword() {
     } catch (error) {
       alert(error);
     }   */
-    if(validateFields().flag){
-      await toast.promise(UserService.changePassword({
-        oldpassword: currentPassword,
-        newpassword: confirmNewPassword
-      }), 
-      {
-        pending: "Processando",
-        success: "Senha alterada com sucesso! ",
-        error: "Ocorreu algum erro ao tentar alterar a senha...",
-      }); 
-    }else {
+    if (validateFields().flag) {
+      await toast.promise(
+        UserService.changePassword({
+          oldpassword: currentPassword,
+          newpassword: confirmNewPassword,
+        }),
+        {
+          pending: "Processando",
+          success: "Senha alterada com sucesso! ",
+          error: "Ocorreu algum erro ao tentar alterar a senha...",
+        }
+      );
+    } else {
       toast.error(validateFields().text);
-    } 
+    }
   };
 
   const getUser = () => localStorage.getItem("login");
 
   return (
-      <div className="content">
-        <SidebarMenu page="change-password"/>
-        <Form 
-            className="d-flex justify-content-center align-items-center flex-column"
-            onSubmit={handleSignUp}
-            id='change-password'
-            >
-          <h2 className="mb-5 btn-title">
-            Alterar senha
-          </h2>
-          <h5 className="mb-4">Usuário: {getUser()}</h5>
-          <Form.Group
-              className="mb-4 d-flex flex-column"
-              controlId="formBasicPassword"
-            >
+    <div className="content">
+      <SidebarMenu page="change-password" />
+      <Form
+        className="d-flex justify-content-center align-items-center flex-column"
+        onSubmit={handleSignUp}
+        id="change-password"
+      >
+        <h2 className="mb-5 txt-color">Alterar senha</h2>
+        <h5 className="mb-4 txt-color">Usuário: {getUser()}</h5>
+        <Form.Group
+          className="mb-4 d-flex flex-column"
+          controlId="formBasicPassword"
+        >
+          <Form.Label className="mb-0">Senha atual</Form.Label>
+          <Form.Control
+            className="px-4 py-1 mb-2"
+            type="password"
+            placeholder="Insira sua senha atual"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
 
-            <Form.Label className="mb-0">Senha atual</Form.Label>
-            <Form.Control
-              className="px-4 py-1 mb-2"
-              type="password"
-              placeholder="Insira sua senha atual"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
+          <Form.Label className="mb-0">Nova senha</Form.Label>
+          <Form.Control
+            className="px-4 py-1 mb-2"
+            type="password"
+            placeholder="Insira sua nova senha"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
 
-            <Form.Label className="mb-0">Nova senha</Form.Label>
-            <Form.Control
-              className="px-4 py-1 mb-2"
-              type="password"
-              placeholder="Insira sua nova senha"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
+          <Form.Label className="mb-0">Confirme a nova senha</Form.Label>
+          <Form.Control
+            className="px-4 py-1 mb-2"
+            type="password"
+            placeholder="Confirme sua nova senha"
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
+          />
+        </Form.Group>
 
-            <Form.Label className="mb-0">Confirme a nova senha</Form.Label>
-            <Form.Control
-              className="px-4 py-1 mb-2"
-              type="password"
-              placeholder="Confirme sua nova senha"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
-            />
-          </Form.Group>
-
-          <Button
-              className="mx-4 btn btn-primary no-shadow"
-              type="submit"
-            >
-            Alterar
-          </Button>
-        </Form>
-      </div>
+        <Button className="mx-4 btn no-shadow btn-color" type="submit">
+          Alterar
+        </Button>
+      </Form>
+    </div>
   );
 }
 

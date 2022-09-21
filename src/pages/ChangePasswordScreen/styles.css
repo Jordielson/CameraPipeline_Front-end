@@ -1,6 +1,17 @@
 Form#change-password {
-    width: 100%;
-    height: 100vh;
-    background-color: #e7e7e7;
-    margin: auto; 
+  width: 100%;
+  height: 100vh;
+  background-color: #e7e7e7;
+  margin: auto;
+}
+.txt-color {
+  color: #2a233c;
+}
+.btn-color {
+  background-color: #ff0072;
+  color: #fff;
+  border: none;
+}
+.btn-color:hover {
+  background-color: #e20166 !important;
 }

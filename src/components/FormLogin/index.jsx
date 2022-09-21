@@ -75,21 +75,18 @@ function FormLogin() {
           >
             <Card.Body className="d-flex justify-content-center space">
               <Button
-                className="mx-4 btn-lg py-0"
+                className="mx-4 btn-lg py-0 btn-color"
                 variant="primary"
                 style={{
-                  backgroundColor: "#ff0072",
                   fontSize: "1rem",
-                  border: "none",
                 }}
                 type="submit"
               >
                 Entrar
               </Button>
               <Button
-                className="mx-4"
+                className="mx-4 btn-color"
                 variant="primary"
-                style={{ backgroundColor: "#ff0072", border: "none" }}
                 onClick={newUser}
               >
                 Cadastrar
