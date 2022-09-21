@@ -1,18 +1,19 @@
 .area-navs {
-    margin: auto;
-    width: 90%;
+  margin: auto;
+  width: 90%;
 }
 
 .vision {
-    width: 100%;
-    height: 400px;
-    padding: 2%;
+  width: 100%;
+  height: 400px;
+  padding: 2%;
+  background-color: #ffff;
 }
 
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.active{
-    color: #000000 !important;
-} 
+.active {
+  color: #000000 !important;
+}

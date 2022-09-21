@@ -9,12 +9,13 @@ import NewUser from "../pages/NewUserScreen";
 import Guide from "../pages/Guide";
 import PrivateRouter from "./../components/PrivateRouter";
 import PublicRouter from "./../components/PublicRouter";
+import UserGuideScreen from "./../pages/Guide/UserGuide/index";
 
 function MyRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<RedirectDefault/>}/> 
+        <Route path="/" element={<RedirectDefault />} />
 
         <Route element={<PublicRouter />}>
           <Route path="/login" element={<LoginScreen />}></Route>
@@ -24,6 +25,9 @@ function MyRoutes() {
         </Route>
         <Route element={<PublicRouter />}>
           <Route path="/guia" element={<Guide />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/user-guide" element={<UserGuideScreen />}></Route>
         </Route>
 
         <Route path="/stream" element={<VideoStreamScreen />}></Route>
@@ -46,7 +50,7 @@ function MyRoutes() {
 }
 
 function RedirectDefault() {
-  return <Navigate to="/login" replace/>;
+  return <Navigate to="/login" replace />;
 }
 
 export default MyRoutes;

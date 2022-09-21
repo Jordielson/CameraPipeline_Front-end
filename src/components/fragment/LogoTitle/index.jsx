@@ -3,18 +3,17 @@ import "./styles.css";
 import { useNavigate } from "react-router-dom";
 
 function LogoTitle() {
-
   const navigate = useNavigate();
 
   const guidePage = () => {
     navigate("/guia");
-  }
+  };
 
   return (
     <>
       <Navbar variant="dark">
         <Container className="justify-content-center">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/login">
             <img
               alt=""
               src="/logo.svg"
@@ -25,7 +24,9 @@ function LogoTitle() {
             Câmera Pipeline
           </Navbar.Brand>
         </Container>
-        <span className='guide' onClick={guidePage}>Guia</span>
+        <span className="guide" onClick={guidePage}>
+          Guia
+        </span>
       </Navbar>
     </>
   );
