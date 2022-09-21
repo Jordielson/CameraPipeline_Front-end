@@ -10,7 +10,7 @@ const Api = () => {
     });
 }
 const ApiVideoStream = axios.create({ 
-    baseURL: "http://localhost:3333/camera-pipeline",
+    baseURL: "http://localhost:3333",
 });
 
 export default Api;

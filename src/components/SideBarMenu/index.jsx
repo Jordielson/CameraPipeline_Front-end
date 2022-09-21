@@ -61,8 +61,8 @@ function SidebarMenu(props) {
               <li className="pdi">
                 <a href="/pdi">PDIs</a>
               </li>
-              <li>
-                <a href="#home">Alterar senha</a>
+              <li className="change-password">
+                <a href="/alterar-senha">Alterar senha</a>
               </li>
             </ul>
           </div>

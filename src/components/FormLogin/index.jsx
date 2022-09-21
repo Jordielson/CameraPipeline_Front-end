@@ -30,6 +30,10 @@ function FormLogin() {
     }
   };
 
+  const newUser = () => {
+    navigate("/criar-conta");
+  }
+
   return (
     <>
       <div className="">
@@ -82,6 +86,7 @@ function FormLogin() {
                 className="mx-4"
                 variant="primary"
                 style={{ backgroundColor: "#996DFF" }}
+                onClick={newUser}
               >
                 Cadastrar
               </Button>
