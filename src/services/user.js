@@ -14,6 +14,22 @@ const UserService = {
     const response = await Api().post(`/api/user/register`, params);
     return response.data;
   },
+  
+  forgotPassword: async (params) => {
+    const response = await Api().post(`/api/user/forgot-password`, params);
+    return response.data;
+  },
+  
+  passwordReset: async (params) => {
+    const response = await Api(params.token).post(
+      `/api/user/password-reset`, 
+      null, 
+      {
+      params: params
+      }
+    );
+    return response.data;
+  },
 
   logout: () => {
     localStorage.removeItem("login", null);

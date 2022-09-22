@@ -10,6 +10,8 @@ import Guide from "../pages/Guide";
 import PrivateRouter from "./../components/PrivateRouter";
 import PublicRouter from "./../components/PublicRouter";
 import UserGuideScreen from "./../pages/Guide/UserGuide/index";
+import ForgottenPassword from "../pages/ForgottenPassword";
+import PasswordReset from "../pages/PasswordReset";
 
 function MyRoutes() {
   return (
@@ -43,6 +45,12 @@ function MyRoutes() {
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/alterar-senha" element={<ChangePassword />}></Route>
+        </Route>
+        <Route element={<PublicRouter />}>
+          <Route path="/forgotten-password" element={<ForgottenPassword />}></Route>
+        </Route>
+        <Route element={<PublicRouter />}>
+          <Route path="/password-reset/:resetString" element={<PasswordReset />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
