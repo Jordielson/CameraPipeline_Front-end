@@ -112,10 +112,11 @@ function CameraScreen() {
   const activeCamera = async (camera) => {
     camera.isActive = !camera.isActive;
     try {
-      const response = await CameraService.update(camera);
+      await CameraService.active(camera);
       fetchCameraList();
     } catch (error) {
-      console.log("Unable to activate camera");
+      camera.isActive = !camera.isActive;
+      toast.error("Não foi possível ativar/desativar a camera");
     }
   };
   function showModal(cam, type) {
@@ -134,14 +135,16 @@ function CameraScreen() {
     await toast.promise(CameraService.delete(cam), {
       pending: "Deletando",
       success: "Removido! ",
-      error: "Câmera não pode ser removida poque está em uso",
+      error: "Erro interno",
     });
 
     fetchCameraList();
   };
 
   const deleteCamera = async (cam) => {
-    if (CameraService.verifyUsed(cam.id)) {
+    const response = await CameraService.verifyUsed({ id: cam.id});
+
+    if (response.valid) {
       await confirmAlert({
         title: "Deseja remover o Item?",
         message:
@@ -160,13 +163,7 @@ function CameraScreen() {
         ],
       });
     } else {
-      await toast.promise(CameraService.delete(cam), {
-        pending: "Deletando",
-        success: "Removido! ",
-        error: "erro interno",
-      });
-
-      fetchCameraList();
+      deleteCameraConfirm(cam)
     }
   };
 

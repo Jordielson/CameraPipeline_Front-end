@@ -46,6 +46,17 @@ const CameraService = {
       });
     return data;
   },
+  active: async (params) => {
+    var data = null;
+    await Api()
+      .patch(`/api/camera/${params.id}/state`, null, {
+        params: { active: params.isActive }
+      })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   update: async (params) => {
     var data = null;
     await Api()
@@ -57,6 +68,15 @@ const CameraService = {
   },
   delete: async (params) => {
     await Api().delete(`/api/camera/${params.id}`);
+  },
+  verifyUsed: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/camera/verify-used", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
   },
 };
 

@@ -142,7 +142,9 @@ function PDIScreen() {
   }
 
   async function deleteHandler(e) {
-    if (PDIService.verifyUsed(e)) {
+    const response = await PDIService.verifyUsed({ id: e});
+
+    if (response.valid) {
       await confirmAlert({
         title: "Deseja remover o Item?",
         message:
