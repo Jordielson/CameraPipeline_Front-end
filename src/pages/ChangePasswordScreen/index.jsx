@@ -63,7 +63,7 @@ function ChangePassword() {
     <div className="content">
       <SidebarMenu page="change-password" />
       <Form
-        className="d-flex justify-content-center align-items-center flex-column"
+        className="d-flex justify-content-center align-items-center flex-column form-bg"
         onSubmit={handleSignUp}
         id="change-password"
       >

@@ -92,7 +92,7 @@ function Guide() {
             <span>
               Bem-vindo ao Guia do CameraPipeline. Neste capítulo,
               apresentaremos os fundamentos do CameraPipeline, incluindo
-              informações básicas sobre por que fundamos e uma visão geral das
+              informações básicas sobre Pipeline e uma visão geral das
               funcionalidades do sistema.
             </span>
           </div>

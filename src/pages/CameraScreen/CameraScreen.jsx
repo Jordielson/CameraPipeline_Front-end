@@ -142,28 +142,39 @@ function CameraScreen() {
   };
 
   const deleteCamera = async (cam) => {
-    const response = await CameraService.verifyUsed({ id: cam.id});
+    const response = await CameraService.verifyUsed({ id: cam.id });
 
     if (response.valid) {
       await confirmAlert({
-        title: "Deseja remover o Item?",
-        message:
-          "O Item solicitado está sendo utilizado no momento, deseja remover mesmo assim?",
-        buttons: [
-          {
-            label: "sim",
-            onClick: () => {
-              deleteCameraConfirm(cam);
-            },
-          },
-          {
-            label: "cancelar",
-            onClick: () => {},
-          },
-        ],
+        customUI: ({ onClose }) => {
+          return (
+            <div className="custom-ui">
+              <h1>Item em uso!</h1>
+              <p>
+                O Item solicitado está alocado em uma ou mais Pipelines, deseja
+                remover mesmo assim?
+              </p>
+              <div className="confirm-btn">
+                <button className="btn btn-secondary" onClick={onClose}>
+                  Cancelar
+                </button>
+                <button
+                  className="btn btn-danger m-2"
+                  onClick={() => {
+                    deleteCameraConfirm(cam);
+                    onClose();
+                  }}
+                >
+                  Deletar
+                </button>
+              </div>
+            </div>
+          );
+        },
+        overlayClassName: "overlay",
       });
     } else {
-      deleteCameraConfirm(cam)
+      deleteCameraConfirm(cam);
     }
   };
 
