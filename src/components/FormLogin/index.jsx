@@ -96,7 +96,7 @@ function FormLogin() {
 
           <Card className="" style={{ width: "14.3rem", border: "none" }}>
             <Card.Body className="p-0">
-              <Card.Link href="#">Recuperar a senha</Card.Link>
+              <Card.Link href="/forgotten-password">Recuperar a senha</Card.Link>
             </Card.Body>
           </Card>
         </Form>
