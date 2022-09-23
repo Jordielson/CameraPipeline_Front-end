@@ -154,39 +154,45 @@ function PDIScreen() {
   }
 
   async function deleteHandler(e) {
-    const response = await PDIService.verifyUsed({ id: e });
-
-    if (response.valid) {
-      await confirmAlert({
-        customUI: ({ onClose }) => {
-          return (
-            <div className="custom-ui">
-              <h1>Item em uso!</h1>
-              <p>
-                O Item solicitado está alocado em uma ou mais Pipelines, deseja
-                remover mesmo assim?
-              </p>
-              <div className="confirm-btn">
-                <button className="btn btn-secondary" onClick={onClose}>
-                  Cancelar
-                </button>
-                <button
-                  className="btn btn-danger m-2"
-                  onClick={() => {
-                    deleteConfirm(e);
-                    onClose();
-                  }}
-                >
-                  Deletar
-                </button>
+    try {
+      const response = await PDIService.verifyUsed({ id: e });
+  
+      if (response.valid) {
+        await confirmAlert({
+          customUI: ({ onClose }) => {
+            return (
+              <div className="custom-ui">
+                <h1>Item em uso!</h1>
+                <p>
+                  O Item solicitado está alocado em uma ou mais Pipelines, deseja
+                  remover mesmo assim?
+                </p>
+                <div className="confirm-btn">
+                  <button className="btn btn-secondary" onClick={onClose}>
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn btn-danger m-2"
+                    onClick={() => {
+                      deleteConfirm(e);
+                      onClose();
+                    }}
+                  >
+                    Deletar
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        },
-        overlayClassName: "overlay",
-      });
-    } else {
-      deleteConfirm(e);
+            );
+          },
+          overlayClassName: "overlay",
+        });
+      } else {
+        deleteConfirm(e);
+      }
+    } catch (error) {
+      toast.error(
+        <text id="toastMsg">Não foi remover o pdi</text>
+      );
     }
   }
 

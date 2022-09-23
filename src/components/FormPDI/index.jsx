@@ -51,11 +51,16 @@ function FormPDI(props) {
       });
       try {
         if (props.obj) {
-          const verifyName = await PDIService.verifyName({
-            name: PDIName,
-            id: props.obj.id,
-          });
-          console.log("Ok " + verifyName.valid);
+          const verifyName = {
+            valid: true
+          }
+          try {
+            verifyName = await PDIService.verifyName({
+              name: PDIName,
+              id: props.obj.id,
+            });
+          } catch (error) {}
+
           if (!verifyName.valid) {
             throw "nameExists";
           }
@@ -74,14 +79,22 @@ function FormPDI(props) {
               render({ data }) {
                 return (
                   <text id="toastMsg">
-                    Erro ao salvar, verifique se o nome já está sendo utilizado
+                    Erro ao salvar
                   </text>
                 );
               },
             },
           });
         } else {
-          const verifyName = await PDIService.verifyName({ name: PDIName });
+          const verifyName = {
+            valid: true
+          }
+          try {
+            verifyName = await PDIService.verifyName({
+              name: PDIName
+            });
+          } catch (error) {}
+
           if (!verifyName.valid) {
             throw "nameExists";
           }
@@ -100,7 +113,7 @@ function FormPDI(props) {
               render({ data }) {
                 return (
                   <text id="toastMsg">
-                    Erro ao salvar, verifique se o nome já está sendo utilizado
+                    Erro ao salvar
                   </text>
                 );
               },
