@@ -66,7 +66,7 @@ function NewUser() {
         toast.error(<text>{errorMessage}</text>);
       }
     } else {
-      toast.error(<text>{validateFields().text}</text>);
+      toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
 
