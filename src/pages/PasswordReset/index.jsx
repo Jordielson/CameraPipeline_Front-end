@@ -120,13 +120,12 @@ function PasswordReset() {
           style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
         >
           <Card.Body className="d-flex justify-content-center space">
-            {/* <div className="d-flex"> */}
-            <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
+            <button className="btn no-shadow mx-4 btn-color" onClick={backPage}>
               Voltar
-            </Button>
-            <Button className="no-shadow mx-4 btn-color" type="submit">
+            </button>
+            <button className="btn no-shadow mx-4 btn-color" type="submit">
               Alterar
-            </Button>
+            </button>
             {/* </div> */}
           </Card.Body>
         </Card>
