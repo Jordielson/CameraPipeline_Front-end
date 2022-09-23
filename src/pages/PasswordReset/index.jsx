@@ -37,8 +37,16 @@ function PasswordReset() {
             newpassword: confirmPassword,
           }),
           {
-            pending: "Processando",
-            success: "Senha alterada! "
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Senha alterada!!</text>;
+              },
+            },
           }
         );
         backPage();
@@ -57,11 +65,13 @@ function PasswordReset() {
                 "a um erro interno, tente novamente mais tarde.";
             break;
           default:
-            errorMessage = error.response.data.originalExceptionMessage;
+            errorMessage = "Não foi possível alterar a senha";
             break;
         }
-        toast.error(errorMessage);
-        // navigateToForgotPassword();
+
+        toast.error(
+          <text id="toastMsg">{errorMessage}</text>
+        );
       }
     } else {
       toast.error(validateFields().text);

@@ -33,8 +33,16 @@ function ForgottenPassword() {
             redirect: `${localURL}password-reset`
           }),
           {
-            pending: "Processando",
-            success: "Email enviado",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Email alterada!!</text>;
+              },
+            },
           }
         );
         backPage();
@@ -49,13 +57,17 @@ function ForgottenPassword() {
               "a um erro interno, tente novamente mais tarde";
             break;
           default:
-            errorMessage = error.response.data.originalExceptionMessage;
+            errorMessage = "Não foi possível enviar o email";
             break;
         }
-        toast.error(errorMessage);
+        toast.error(
+          <text id="toastMsg">{errorMessage}</text>
+        );
       }
     } else {
-      toast.error(validateFields().text);
+      toast.error(
+        <text id="toastMsg">{validateFields().text}</text>
+      );
     }
   };
 
@@ -89,13 +101,12 @@ function ForgottenPassword() {
           style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
         >
           <Card.Body className="d-flex justify-content-center space">
-            {/* <div className="d-flex"> */}
-            <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
+            <button className="btn no-shadow mx-4 btn-color" onClick={backPage}>
               Voltar
-            </Button>
-            <Button className="no-shadow mx-4 btn-color" type="submit">
+            </button>
+            <button className="btn no-shadow mx-4 btn-color" type="submit">
               Enviar
-            </Button>
+            </button>
             {/* </div> */}
           </Card.Body>
         </Card>
