@@ -15,7 +15,7 @@ const Api = (token = localStorage.getItem("token")) => {
   }
 };
 const ApiVideoStream = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: "http://localhost:3333/camera-pipeline",
 });
 
 const localURL = "http://localhost:3000/"

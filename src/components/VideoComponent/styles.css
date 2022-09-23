@@ -1,10 +1,19 @@
-#bodyc {
+.loading {
+  position: absolute; 
+}
+
+.border-video {
+  border: 1px solid #ccc;
+}
+
+.container { 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-
-.border-video {
-  border: 1px solid #ccc;
+.container .child {
+  background-color: rgb(58, 57, 57);
+  width: 100%;
+  padding-top: 56.25%;
 }

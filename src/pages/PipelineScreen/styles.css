@@ -145,11 +145,7 @@ i:hover {
 }
 
 .background-video {
-  background-color: rgb(58, 57, 57);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 106%;
 }
 .ab {
   padding: 0;

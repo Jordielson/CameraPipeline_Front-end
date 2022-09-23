@@ -263,8 +263,8 @@ function ModalCamera(props) {
             </div>
           </Form>
         ) : (
-          <div className="container-video mb-2">
-            <VideoStream url={url} />
+          <div className="mb-2">
+            <VideoStream url={url} width="100%" />
           </div>
         )}
       </Modal.Body>

@@ -430,7 +430,7 @@ function PipelineScreen() {
                   </span>
                 </div>
                 <div className="background-video mb-2">
-                  <VideoStream url={url} />
+                  <VideoStream url={url} width="100%"/>
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}

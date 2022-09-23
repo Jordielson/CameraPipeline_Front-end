@@ -53,31 +53,38 @@ function VideoStream(props) {
   useEffect(() => {
     if (props.url !== "") {
       setStream(props.url);
-      fetchStream(props.url);
+      // fetchStream(props.url);
+      setShowVideo(StreamStatus.LOADING)
     }
   }, [props.url]);
 
   return (
-    <div id="bodyc">
+    <div id="container">
       {showVideo === StreamStatus.SUCCESS ? (
-        <div>
-          <div id="video-canvas" style={{ width: "319px", height: "240px" }} />
+        <div className="container" style={{ width: props.width }}>
+          <div 
+            id="video-canvas" 
+            className="child" />
         </div>
       ) : showVideo === StreamStatus.LOADING ? (
-        <div>
-          <div id="video-canvas"></div>
-          <div
-            id="bodyc"
-            className=""
-            style={{ width: "100%", height: "240px" }}
-          >
-            <img src={load} alt="loading..." width={"100%"} height={"120px"} />
-          </div>
+        <div className="container" style={{ width: props.width }}>
+          <div id="video-canvas" className="child"></div>
+            <img 
+              src={load} 
+              alt="loading..." 
+              width={"120px"} 
+              height={"120px"} 
+              className="loading"
+            />
         </div>
       ) : showVideo === StreamStatus.EMPTY ? (
-        <div className="" style={{ width: "100%", height: "240px" }}></div>
+        <div className="container" style={{ width: props.width }}>
+          <div className="child" ></div>
+        </div>
       ) : (
-        <label htmlFor="">NULL</label>
+        <div className="container" style={{ width: props.width }}>
+          <div className="child" ></div>
+        </div>
       )}
     </div>
   );
