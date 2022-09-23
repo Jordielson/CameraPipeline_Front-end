@@ -116,7 +116,9 @@ function CameraScreen() {
       fetchCameraList();
     } catch (error) {
       camera.isActive = !camera.isActive;
-      toast.error("Não foi possível ativar/desativar a camera");
+      toast.error(
+        <text id="toastMsg">Não foi possível ativar/desativar a camera</text>
+      );
     }
   };
   function showModal(cam, type) {
@@ -133,9 +135,21 @@ function CameraScreen() {
 
   const deleteCameraConfirm = async (cam) => {
     await toast.promise(CameraService.delete(cam), {
-      pending: "Deletando",
-      success: "Removido! ",
-      error: "Erro interno",
+      pending: {
+        render({ data }) {
+          return <text id="toastMsg">Deletando</text>;
+        },
+      },
+      success: {
+        render({ data }) {
+          return <text id="toastMsg">Removido!</text>;
+        },
+      },
+      error: {
+        render({ data }) {
+          return <text id="toastMsg">Erro interno</text>;
+        },
+      },
     });
 
     fetchCameraList();

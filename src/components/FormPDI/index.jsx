@@ -51,34 +51,60 @@ function FormPDI(props) {
       });
       try {
         if (props.obj) {
-          const verifyName = await PDIService.verifyName(
-            {name: PDIName, id : props.obj.id}
-          );
+          const verifyName = await PDIService.verifyName({
+            name: PDIName,
+            id: props.obj.id,
+          });
           console.log("Ok " + verifyName.valid);
           if (!verifyName.valid) {
             throw "nameExists";
           }
-          await toast.promise(
-            PDIService.update(pdi, props.obj.id),
-            {
-              pending: "Salvando",
-              success: "Salvo com sucesso! ",
-              error:
-                "Erro ao salvar, verifique se o nome já está sendo utilizado",
-            }
-          );
+          await toast.promise(PDIService.update(pdi, props.obj.id), {
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Salvando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Salvo com sucesso!</text>;
+              },
+            },
+            error: {
+              render({ data }) {
+                return (
+                  <text id="toastMsg">
+                    Erro ao salvar, verifique se o nome já está sendo utilizado
+                  </text>
+                );
+              },
+            },
+          });
         } else {
-          const verifyName = await PDIService.verifyName(
-            {name: PDIName }
-          );
+          const verifyName = await PDIService.verifyName({ name: PDIName });
           if (!verifyName.valid) {
             throw "nameExists";
           }
           await toast.promise(PDIService.register(pdi), {
-            pending: "Salvando",
-            success: "Salvo com sucesso! ",
-            error:
-              "Erro ao salvar, verifique se o nome já está sendo utilizado",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Salvando!</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Salvo com sucesso!</text>;
+              },
+            },
+            error: {
+              render({ data }) {
+                return (
+                  <text id="toastMsg">
+                    Erro ao salvar, verifique se o nome já está sendo utilizado
+                  </text>
+                );
+              },
+            },
             position: "center",
             autoClose: 1000,
           });

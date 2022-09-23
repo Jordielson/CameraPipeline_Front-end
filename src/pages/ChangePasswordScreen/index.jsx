@@ -47,13 +47,33 @@ function ChangePassword() {
           newpassword: confirmNewPassword,
         }),
         {
-          pending: "Processando",
-          success: "Senha alterada com sucesso! ",
-          error: "Ocorreu algum erro ao tentar alterar a senha...",
+          pending: {
+            render({ data }) {
+              return (
+                <text id="" className="">
+                  Processando
+                </text>
+              );
+            },
+          },
+          success: {
+            render({ data }) {
+              return (
+                <text id="" className="">
+                  Senha alterada com sucesso!
+                </text>
+              );
+            },
+          },
+          error: {
+            render({ data }) {
+              return <text id="toastMsg">Senha inválida</text>;
+            },
+          },
         }
       );
     } else {
-      toast.error(validateFields().text);
+      toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
 

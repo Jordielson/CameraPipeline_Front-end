@@ -134,9 +134,21 @@ function PDIScreen() {
 
   async function deleteConfirm(e) {
     await toast.promise(PDIService.delete(e), {
-      pending: "Deletando",
-      success: "Removido! ",
-      error: "erro interno",
+      pending: {
+        render({ data }) {
+          return <text id="toastMsg">Deletando</text>;
+        },
+      },
+      success: {
+        render({ data }) {
+          return <text id="toastMsg">Removido!</text>;
+        },
+      },
+      error: {
+        render({ data }) {
+          return <text id="toastMsg">Erro interno</text>;
+        },
+      },
     });
     getPDIs();
   }

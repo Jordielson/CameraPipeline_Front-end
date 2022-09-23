@@ -40,8 +40,16 @@ function NewUser() {
             password: confirmPassword,
           }),
           {
-            pending: "Processando",
-            success: "Conta criada com sucesso! ",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Conta criada com sucesso!</text>;
+              },
+            },
           }
         );
         backPage();
@@ -55,10 +63,10 @@ function NewUser() {
             errorMessage = error.message;
             break;
         }
-        toast.error(errorMessage);
+        toast.error(<text>{errorMessage}</text>);
       }
     } else {
-      toast.error(validateFields().text);
+      toast.error(<text>{validateFields().text}</text>);
     }
   };
 
