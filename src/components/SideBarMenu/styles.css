@@ -20,7 +20,11 @@ a:focus {
 }
 
 .email {
-  font-weight: 600;
+  font-size: 0.9rem;
+  min-width: 225px;
+  max-width: 225px;
+  font-weight: 500;
+  overflow-wrap: break-word;
 }
 
 #sidebar {
