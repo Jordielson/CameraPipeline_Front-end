@@ -16,9 +16,14 @@ function ForgottenPassword() {
       text: "",
     };
 
+    var regexEmail = /[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z](?:[a-z-][a-z])?.)+[a-z](?:[a-z-]*[a-z])?/;
+
     if (email === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de email";
+    } else if (!regexEmail.test(email)) {
+      valid.flag = false;
+      valid.text = "Formato de email inválido.";
     }
     return valid;
   };
