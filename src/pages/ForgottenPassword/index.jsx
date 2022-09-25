@@ -45,7 +45,7 @@ function ForgottenPassword() {
             },
             success: {
               render({ data }) {
-                return <text id="toastMsg">Foi envidado o link de recuperação para seu email</text>;
+                return <text id="toastMsg">Foi enviado o link de recuperação para seu email</text>;
               },
             },
           }
@@ -95,7 +95,6 @@ function ForgottenPassword() {
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
             className="px-4 py-1 mb-2"
-            type="email"
             placeholder="Insira seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
