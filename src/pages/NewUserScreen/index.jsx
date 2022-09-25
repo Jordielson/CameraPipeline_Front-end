@@ -89,7 +89,7 @@ function NewUser() {
         onSubmit={handleRegister}
         id="new-user"
       >
-        <h2 className="mb-5">Crie sua conta</h2>
+        <h2 className="mb-5" style={{color: "#6c6c6c"}}>Crie sua conta</h2>
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
