@@ -38,7 +38,7 @@ function VideoStream(props) {
       });
       setResponse(resp);
       var videoUrl = `ws://${ffmpegIP}:${resp.port}/`;
-      new JSMpeg.VideoElement("#video-canvas", videoUrl, {
+      new JSMpeg.VideoElement("#video-waapper", videoUrl, {
         autoplay: true,
       });
       setTimeout(() => {
@@ -53,8 +53,8 @@ function VideoStream(props) {
   useEffect(() => {
     if (props.url !== "") {
       setStream(props.url);
-      // fetchStream(props.url);
-      setShowVideo(StreamStatus.LOADING)
+      fetchStream(props.url);
+      // setShowVideo(StreamStatus.LOADING)
     }
   }, [props.url]);
 
@@ -63,12 +63,12 @@ function VideoStream(props) {
       {showVideo === StreamStatus.SUCCESS ? (
         <div className="container" style={{ width: props.width }}>
           <div 
-            id="video-canvas" 
+            id="video-waapper" 
             className="child" />
         </div>
       ) : showVideo === StreamStatus.LOADING ? (
         <div className="container" style={{ width: props.width }}>
-          <div id="video-canvas" className="child"></div>
+          <div id="video-waapper" className="child"></div>
             <img 
               src={load} 
               alt="loading..." 
