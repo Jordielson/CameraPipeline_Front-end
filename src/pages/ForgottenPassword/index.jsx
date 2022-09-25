@@ -40,7 +40,7 @@ function ForgottenPassword() {
             },
             success: {
               render({ data }) {
-                return <text id="toastMsg">Email alterada!!</text>;
+                return <text id="toastMsg">Foi envidado o link de recuperação para seu email</text>;
               },
             },
           }
@@ -85,7 +85,7 @@ function ForgottenPassword() {
         onSubmit={handleForgotPassword}
         id="forgot-password"
       >
-        <h2 className="mb-5">Endereço de email</h2>
+        <h2 className="mb-5">Recuperar Email</h2>
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
