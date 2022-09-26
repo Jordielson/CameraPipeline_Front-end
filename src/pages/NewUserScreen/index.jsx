@@ -17,8 +17,8 @@ function NewUser() {
       text: "",
     };
 
-    var regexEmail = /[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z](?:[a-z-][a-z])?.)+[a-z](?:[a-z-]*[a-z])?/;
-
+    var regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])/;
+                      
     if (email === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de email";
