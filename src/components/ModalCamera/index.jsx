@@ -54,11 +54,11 @@ function ModalCamera(props) {
         throw "emptyurl";
       }
       const verifyName = {
-        valid: true
-      }
+        valid: true,
+      };
       const verifyUrl = {
-        valid: true
-      }
+        valid: true,
+      };
       try {
         verifyName = await CameraService.verifyName({
           name: name,
@@ -86,11 +86,7 @@ function ModalCamera(props) {
           },
           error: {
             render({ data }) {
-              return (
-                <text id="toastMsg">
-                  Erro ao salvar
-                </text>
-              );
+              return <text id="toastMsg">Erro ao salvar</text>;
             },
           },
         });
@@ -108,11 +104,7 @@ function ModalCamera(props) {
           },
           error: {
             render({ data }) {
-              return (
-                <text id="toastMsg">
-                  Erro ao salvar
-                </text>
-              );
+              return <text id="toastMsg">Erro ao salvar</text>;
             },
           },
         });
@@ -293,7 +285,7 @@ function ModalCamera(props) {
             </Form.Group>
             <div className="col text-center">
               <button
-                className="btn btn-primary no-shadow"
+                className="btn btn-color no-shadow"
                 type="submit"
                 id="button-addon2"
               >

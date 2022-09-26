@@ -52,8 +52,8 @@ function FormPDI(props) {
       try {
         if (props.obj) {
           const verifyName = {
-            valid: true
-          }
+            valid: true,
+          };
           try {
             verifyName = await PDIService.verifyName({
               name: PDIName,
@@ -77,21 +77,17 @@ function FormPDI(props) {
             },
             error: {
               render({ data }) {
-                return (
-                  <text id="toastMsg">
-                    Erro ao salvar
-                  </text>
-                );
+                return <text id="toastMsg">Erro ao salvar</text>;
               },
             },
           });
         } else {
           const verifyName = {
-            valid: true
-          }
+            valid: true,
+          };
           try {
             verifyName = await PDIService.verifyName({
-              name: PDIName
+              name: PDIName,
             });
           } catch (error) {}
 
@@ -111,11 +107,7 @@ function FormPDI(props) {
             },
             error: {
               render({ data }) {
-                return (
-                  <text id="toastMsg">
-                    Erro ao salvar
-                  </text>
-                );
+                return <text id="toastMsg">Erro ao salvar</text>;
               },
             },
             position: "center",
@@ -319,7 +311,7 @@ function FormPDI(props) {
           </div>
           <div className="col text-end">
             <button
-              className="btn btn-primary no-shadow "
+              className="btn btn-color no-shadow "
               type="button"
               id="button-addon2"
               onClick={saveHandler}

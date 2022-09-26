@@ -134,7 +134,15 @@ span {
 .account a {
   color: #000;
 }
-
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+#edicao:focus {
+  background-color: #fff;
+}
+.submenu-list {
+}
 /* @media (max-width: 768px) {
   #sidebar {
     margin-left: -250px;

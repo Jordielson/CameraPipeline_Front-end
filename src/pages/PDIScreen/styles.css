@@ -80,6 +80,10 @@
   display: flex;
   justify-content: space-between;
 }
+.list-group-item:focus {
+  border-color: #000;
+}
+
 .pagination {
   display: flex;
   justify-content: center;

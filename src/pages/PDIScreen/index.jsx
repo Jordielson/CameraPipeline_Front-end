@@ -156,7 +156,7 @@ function PDIScreen() {
   async function deleteHandler(e) {
     try {
       const response = await PDIService.verifyUsed({ id: e });
-  
+
       if (response.valid) {
         await confirmAlert({
           customUI: ({ onClose }) => {
@@ -164,8 +164,8 @@ function PDIScreen() {
               <div className="custom-ui">
                 <h1>Item em uso!</h1>
                 <p>
-                  O Item solicitado está alocado em uma ou mais Pipelines, deseja
-                  remover mesmo assim?
+                  O Item solicitado está alocado em uma ou mais Pipelines,
+                  deseja remover mesmo assim?
                 </p>
                 <div className="confirm-btn">
                   <button className="btn btn-secondary" onClick={onClose}>
@@ -190,9 +190,7 @@ function PDIScreen() {
         deleteConfirm(e);
       }
     } catch (error) {
-      toast.error(
-        <text id="toastMsg">Não foi remover o pdi</text>
-      );
+      toast.error(<text id="toastMsg">Não foi remover o pdi</text>);
     }
   }
 
@@ -277,7 +275,11 @@ function PDIScreen() {
           <ListGroup className="mx-4 mt-4 mb-1 listpdi">
             {modelPDI.map((pdi) => {
               return (
-                <ListGroup.Item key={pdi.id} variant="light">
+                <ListGroup.Item
+                  key={pdi.id}
+                  variant="light"
+                  className="list-item"
+                >
                   {pdi.name}
                   <div className="buttons">
                     <button

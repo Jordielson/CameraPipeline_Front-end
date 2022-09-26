@@ -7,6 +7,7 @@ import { IoIosLogOut } from "react-icons/io";
 
 function SidebarMenu(props) {
   const [redirectToHome, setRedirectToHome] = useState(false);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
   const logOut = async () => {
@@ -25,6 +26,15 @@ function SidebarMenu(props) {
 
   if (redirectToHome == true) {
     navigate("../login", { replace: true });
+  }
+
+  function handlerSubmenu() {
+    var submenu = document.getElementById("submenu");
+    if (submenu.style.display == "block") {
+      submenu.style.display = "none";
+    } else {
+      submenu.style.display = "block";
+    }
   }
   return (
     <>
@@ -45,12 +55,25 @@ function SidebarMenu(props) {
               <div className="px-1"></div>
               <span className="email">{localStorage.getItem("login")}</span>
             </div>
-            <ul class="list-unstyled components">
+            <ul className="list-unstyled components">
               <li>
                 <a href="#home">Home</a>
               </li>
               <li>
-                <a href="#home">Mosaico</a>
+                <a href="#home" id="edicao" onClick={handlerSubmenu}>
+                  Edição
+                </a>
+                <li className="submenu" id="submenu">
+                  <a href="#a" className="submenu-list">
+                    Imagem
+                  </a>
+                  <a href="#a" className="submenu-list">
+                    Video
+                  </a>
+                  <a href="#home" className="submenu-list">
+                    Camera/Mosaico
+                  </a>
+                </li>
               </li>
               <li className="pipeline">
                 <a href="/pipeline">Pipelines</a>
