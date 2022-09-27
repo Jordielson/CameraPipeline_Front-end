@@ -53,19 +53,12 @@ function ModalCamera(props) {
       } else if (cam.url == "") {
         throw "emptyurl";
       }
-      const verifyName = {
-        valid: true,
-      };
-      const verifyUrl = {
-        valid: true,
-      };
-      try {
-        verifyName = await CameraService.verifyName({
-          name: name,
-          id: cam.id,
-        });
-        verifyUrl = await CameraService.verifyUrl({ url: url, id: cam.id });
-      } catch (error) {}
+      const verifyName = await CameraService.verifyName({
+        name: name,
+        id: cam.id,
+      });
+      const verifyUrl = await CameraService.verifyUrl({ url: url, id: cam.id });
+
       if (!verifyName.valid) {
         throw "nameExists";
       }

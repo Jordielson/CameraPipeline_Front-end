@@ -20,6 +20,15 @@ const PDIService = {
       });
     return data;
   },
+  verifyUrl: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/model-pdi/verify-url", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   getAll: async () => {
     var data = null;
     await Api()
