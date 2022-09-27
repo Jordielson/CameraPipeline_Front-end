@@ -3,6 +3,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { useState } from "react";
 import UserService from "../../services/user";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FormLogin() {
   const [email, setEmail] = useState("");
@@ -12,15 +13,16 @@ function FormLogin() {
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const login = await UserService.login({
         login: email,
         password: password,
       });
       setRedirectToPipeline(true);
+      navigate("../pipeline", { replace: true });
     } catch (error) {
-      alert(error);
+      toast.error(<text id="toastMsg">Email ou senha inválida</text>);
     }
     // if (redirectToRegister) {
     //   navigate("../register", { replace: true });
@@ -38,13 +40,15 @@ function FormLogin() {
     <>
       <div className="">
         <Form
+          key={1}
           className="d-flex justify-content-center align-items-center flex-column"
-          onSubmit={handleSignUp}
+          // onSubmit={handleSignUp}
         >
           <h2 className="mb-5 mt-5 pt-5" style={{ color: "#6c6c6c" }}>
             Login
           </h2>
           <Form.Group
+            key={2}
             className="mb-2 d-flex flex-column"
             controlId="formBasicEmail"
           >
@@ -73,14 +77,18 @@ function FormLogin() {
             className="border-2 rounded-0"
             style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
           >
-            <Card.Body className="d-flex justify-content-center space">
+            <Card.Body key={3} className="d-flex justify-content-center space">
               <Button
+                key={4}
                 className="mx-4 btn-lg py-0 btn-color"
                 variant="primary"
                 style={{
                   fontSize: "1rem",
                 }}
-                type="submit"
+                onClick={(e) => {
+                  handleSignUp();
+                }}
+                // type="submit"
               >
                 Entrar
               </Button>
@@ -96,7 +104,9 @@ function FormLogin() {
 
           <Card className="" style={{ width: "14.3rem", border: "none" }}>
             <Card.Body className="p-0">
-              <Card.Link href="/forgotten-password">Recuperar a senha</Card.Link>
+              <Card.Link href="/forgotten-password">
+                Recuperar a senha
+              </Card.Link>
             </Card.Body>
           </Card>
         </Form>

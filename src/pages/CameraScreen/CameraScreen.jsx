@@ -116,7 +116,9 @@ function CameraScreen() {
       fetchCameraList();
     } catch (error) {
       camera.isActive = !camera.isActive;
-      toast.error("Não foi possível ativar/desativar a camera");
+      toast.error(
+        <text id="toastMsg">Não foi possível ativar/desativar a camera</text>
+      );
     }
   };
   function showModal(cam, type) {
@@ -133,49 +135,67 @@ function CameraScreen() {
 
   const deleteCameraConfirm = async (cam) => {
     await toast.promise(CameraService.delete(cam), {
-      pending: "Deletando",
-      success: "Removido! ",
-      error: "Erro interno",
+      pending: {
+        render({ data }) {
+          return <text id="toastMsg">Deletando</text>;
+        },
+      },
+      success: {
+        render({ data }) {
+          return <text id="toastMsg">Removido!</text>;
+        },
+      },
+      error: {
+        render({ data }) {
+          return <text id="toastMsg">Erro interno</text>;
+        },
+      },
     });
 
     fetchCameraList();
   };
 
   const deleteCamera = async (cam) => {
-    const response = await CameraService.verifyUsed({ id: cam.id });
-
-    if (response.valid) {
-      await confirmAlert({
-        customUI: ({ onClose }) => {
-          return (
-            <div className="custom-ui">
-              <h1>Item em uso!</h1>
-              <p>
-                O Item solicitado está alocado em uma ou mais Pipelines, deseja
-                remover mesmo assim?
-              </p>
-              <div className="confirm-btn">
-                <button className="btn btn-secondary" onClick={onClose}>
-                  Cancelar
-                </button>
-                <button
-                  className="btn btn-danger m-2"
-                  onClick={() => {
-                    deleteCameraConfirm(cam);
-                    onClose();
-                  }}
-                >
-                  Deletar
-                </button>
+    try {
+      const response = await CameraService.verifyUsed({ id: cam.id });
+      if (response.valid) {
+        await confirmAlert({
+          customUI: ({ onClose }) => {
+            return (
+              <div className="custom-ui">
+                <h1>Item em uso!</h1>
+                <p>
+                  O Item solicitado está alocado em uma ou mais Pipelines, deseja
+                  remover mesmo assim?
+                </p>
+                <div className="confirm-btn">
+                  <button className="btn btn-secondary" onClick={onClose}>
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn btn-danger m-2"
+                    onClick={() => {
+                      deleteCameraConfirm(cam);
+                      onClose();
+                    }}
+                  >
+                    Deletar
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        },
-        overlayClassName: "overlay",
-      });
-    } else {
-      deleteCameraConfirm(cam);
+            );
+          },
+          overlayClassName: "overlay",
+        });
+      } else {
+        deleteCameraConfirm(cam);
+      }
+    } catch (error) {
+      toast.error(
+        <text id="toastMsg">Não foi remover a camera</text>
+      );
     }
+
   };
 
   const handleShow = () => setShow(true);

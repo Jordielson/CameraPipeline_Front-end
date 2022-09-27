@@ -16,9 +16,14 @@ function ForgottenPassword() {
       text: "",
     };
 
+    var regexEmail = /[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z](?:[a-z-][a-z])?.)+[a-z](?:[a-z-]*[a-z])?/;
+
     if (email === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de email";
+    } else if (!regexEmail.test(email)) {
+      valid.flag = false;
+      valid.text = "Formato de email inválido.";
     }
     return valid;
   };
@@ -33,8 +38,16 @@ function ForgottenPassword() {
             redirect: `${localURL}password-reset`
           }),
           {
-            pending: "Processando",
-            success: "Email enviado",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Foi enviado o link de recuperação para seu email</text>;
+              },
+            },
           }
         );
         backPage();
@@ -49,13 +62,17 @@ function ForgottenPassword() {
               "a um erro interno, tente novamente mais tarde";
             break;
           default:
-            errorMessage = error.response.data.originalExceptionMessage;
+            errorMessage = "Não foi possível enviar o email";
             break;
         }
-        toast.error(errorMessage);
+        toast.error(
+          <text id="toastMsg">{errorMessage}</text>
+        );
       }
     } else {
-      toast.error(validateFields().text);
+      toast.error(
+        <text id="toastMsg">{validateFields().text}</text>
+      );
     }
   };
 
@@ -73,12 +90,11 @@ function ForgottenPassword() {
         onSubmit={handleForgotPassword}
         id="forgot-password"
       >
-        <h2 className="mb-5">Endereço de email</h2>
+        <h2 className="mb-5">Recuperar Email</h2>
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
             className="px-4 py-1 mb-2"
-            type="email"
             placeholder="Insira seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -89,13 +105,12 @@ function ForgottenPassword() {
           style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
         >
           <Card.Body className="d-flex justify-content-center space">
-            {/* <div className="d-flex"> */}
-            <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
+            <button className="btn no-shadow mx-4 btn-color" onClick={backPage}>
               Voltar
-            </Button>
-            <Button className="no-shadow mx-4 btn-color" type="submit">
+            </button>
+            <button className="btn no-shadow mx-4 btn-color" type="submit">
               Enviar
-            </Button>
+            </button>
             {/* </div> */}
           </Card.Body>
         </Card>

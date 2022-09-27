@@ -53,29 +53,60 @@ function ModalCamera(props) {
       } else if (cam.url == "") {
         throw "emptyurl";
       }
-      const verifyName = await CameraService.verifyName(
-        {name: name, id : cam.id}
-      );
+      const verifyName = {
+        valid: true,
+      };
+      const verifyUrl = {
+        valid: true,
+      };
+      try {
+        verifyName = await CameraService.verifyName({
+          name: name,
+          id: cam.id,
+        });
+        verifyUrl = await CameraService.verifyUrl({ url: url, id: cam.id });
+      } catch (error) {}
       if (!verifyName.valid) {
         throw "nameExists";
       }
-      const verifyUrl = await CameraService.verifyUrl(
-        {url: url, id : cam.id}
-      );
       if (!verifyUrl.valid) {
         throw "urlExists";
       }
       if (cam.id) {
         await toast.promise(CameraService.update(cam), {
-          pending: "Salvando",
-          success: "Atualizado com sucesso! ",
-          error: "Erro ao salvar, verifique se o nome já está sendo utilizados",
+          pending: {
+            render({ data }) {
+              return <text id="toastMsg">Salvando</text>;
+            },
+          },
+          success: {
+            render({ data }) {
+              return <text id="toastMsg">Atualizado com sucesso!</text>;
+            },
+          },
+          error: {
+            render({ data }) {
+              return <text id="toastMsg">Erro ao salvar</text>;
+            },
+          },
         });
       } else {
         await toast.promise(CameraService.register(cam), {
-          pending: "Salvando",
-          success: "Salvo com sucesso! ",
-          error: "Erro ao salvar, verifique se o nome já está sendo utilizado",
+          pending: {
+            render({ data }) {
+              return <text id="toastMsg">Salvando</text>;
+            },
+          },
+          success: {
+            render({ data }) {
+              return <text id="toastMsg">Salvo com sucesso!</text>;
+            },
+          },
+          error: {
+            render({ data }) {
+              return <text id="toastMsg">Erro ao salvar</text>;
+            },
+          },
         });
       }
       props.updateData();
@@ -254,7 +285,7 @@ function ModalCamera(props) {
             </Form.Group>
             <div className="col text-center">
               <button
-                className="btn btn-primary no-shadow"
+                className="btn btn-color no-shadow"
                 type="submit"
                 id="button-addon2"
               >

@@ -15,4 +15,6 @@ Form#change-password {
 }
 .btn-color:hover {
   background-color: #e20166 !important;
+  color: #fff !important;
+
 }

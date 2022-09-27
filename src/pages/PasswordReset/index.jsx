@@ -37,8 +37,16 @@ function PasswordReset() {
             newpassword: confirmPassword,
           }),
           {
-            pending: "Processando",
-            success: "Senha alterada! "
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Senha alterada!!</text>;
+              },
+            },
           }
         );
         backPage();
@@ -57,11 +65,13 @@ function PasswordReset() {
                 "a um erro interno, tente novamente mais tarde.";
             break;
           default:
-            errorMessage = error.response.data.originalExceptionMessage;
+            errorMessage = "Não foi possível alterar a senha";
             break;
         }
-        toast.error(errorMessage);
-        // navigateToForgotPassword();
+
+        toast.error(
+          <text id="toastMsg">{errorMessage}</text>
+        );
       }
     } else {
       toast.error(validateFields().text);
@@ -110,13 +120,12 @@ function PasswordReset() {
           style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
         >
           <Card.Body className="d-flex justify-content-center space">
-            {/* <div className="d-flex"> */}
-            <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
+            <button className="btn no-shadow mx-4 btn-color" onClick={backPage}>
               Voltar
-            </Button>
-            <Button className="no-shadow mx-4 btn-color" type="submit">
+            </button>
+            <button className="btn no-shadow mx-4 btn-color" type="submit">
               Alterar
-            </Button>
+            </button>
             {/* </div> */}
           </Card.Body>
         </Card>

@@ -1,16 +1,17 @@
 import axios from "axios";
 
 const Api = (token = localStorage.getItem("token")) => {
+  const baseURL = "https://camera-pipeline-api.herokuapp.com";
   if (token) {
     return axios.create({
-      baseURL: "http://localhost:8080",
+      baseURL: baseURL,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
   } else {
     return axios.create({
-      baseURL: "http://localhost:8080",
+      baseURL: baseURL,
     });
   }
 };

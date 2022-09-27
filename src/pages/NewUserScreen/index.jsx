@@ -17,15 +17,20 @@ function NewUser() {
       text: "",
     };
 
+    var regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])/;
+                      
     if (email === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de email";
+    } else if (!regexEmail.test(email)) {
+      valid.flag = false;
+      valid.text = "Formato de email inválido.";
     } else if (password.length < 6) {
       valid.flag = false;
       valid.text = "Senha deve conter no mínimo seis dígitos";
     } else if (password !== confirmPassword) {
       valid.flag = false;
-      valid.text = "Senha não confirmada";
+      valid.text = "Senha não confirmada.";
     }
     return valid;
   };
@@ -40,8 +45,16 @@ function NewUser() {
             password: confirmPassword,
           }),
           {
-            pending: "Processando",
-            success: "Conta criada com sucesso! ",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Processando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Conta criada com sucesso!</text>;
+              },
+            },
           }
         );
         backPage();
@@ -55,10 +68,10 @@ function NewUser() {
             errorMessage = error.message;
             break;
         }
-        toast.error(errorMessage);
+        toast.error(<text>{errorMessage}</text>);
       }
     } else {
-      toast.error(validateFields().text);
+      toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
 
@@ -76,12 +89,11 @@ function NewUser() {
         onSubmit={handleRegister}
         id="new-user"
       >
-        <h2 className="mb-5">Crie sua conta</h2>
+        <h2 className="mb-5" style={{color: "#6c6c6c"}}>Crie sua conta</h2>
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
             className="px-4 py-1 mb-2"
-            type="email"
             placeholder="Insira seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -110,14 +122,12 @@ function NewUser() {
           style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
         >
           <Card.Body className="d-flex justify-content-center space">
-            {/* <div className="d-flex"> */}
             <Button className="no-shadow mx-4 btn-color" onClick={backPage}>
               Voltar
             </Button>
             <Button className="no-shadow mx-4 btn-color" type="submit">
               Cadastrar
             </Button>
-            {/* </div> */}
           </Card.Body>
         </Card>
       </Form>

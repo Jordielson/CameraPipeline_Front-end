@@ -51,34 +51,65 @@ function FormPDI(props) {
       });
       try {
         if (props.obj) {
-          const verifyName = await PDIService.verifyName(
-            {name: PDIName, id : props.obj.id}
-          );
-          console.log("Ok " + verifyName.valid);
+          const verifyName = {
+            valid: true,
+          };
+          try {
+            verifyName = await PDIService.verifyName({
+              name: PDIName,
+              id: props.obj.id,
+            });
+          } catch (error) {}
+
           if (!verifyName.valid) {
             throw "nameExists";
           }
-          await toast.promise(
-            PDIService.update(pdi, props.obj.id),
-            {
-              pending: "Salvando",
-              success: "Salvo com sucesso! ",
-              error:
-                "Erro ao salvar, verifique se o nome já está sendo utilizado",
-            }
-          );
+          await toast.promise(PDIService.update(pdi, props.obj.id), {
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Salvando</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Salvo com sucesso!</text>;
+              },
+            },
+            error: {
+              render({ data }) {
+                return <text id="toastMsg">Erro ao salvar</text>;
+              },
+            },
+          });
         } else {
-          const verifyName = await PDIService.verifyName(
-            {name: PDIName }
-          );
+          const verifyName = {
+            valid: true,
+          };
+          try {
+            verifyName = await PDIService.verifyName({
+              name: PDIName,
+            });
+          } catch (error) {}
+
           if (!verifyName.valid) {
             throw "nameExists";
           }
           await toast.promise(PDIService.register(pdi), {
-            pending: "Salvando",
-            success: "Salvo com sucesso! ",
-            error:
-              "Erro ao salvar, verifique se o nome já está sendo utilizado",
+            pending: {
+              render({ data }) {
+                return <text id="toastMsg">Salvando!</text>;
+              },
+            },
+            success: {
+              render({ data }) {
+                return <text id="toastMsg">Salvo com sucesso!</text>;
+              },
+            },
+            error: {
+              render({ data }) {
+                return <text id="toastMsg">Erro ao salvar</text>;
+              },
+            },
             position: "center",
             autoClose: 1000,
           });
@@ -280,7 +311,7 @@ function FormPDI(props) {
           </div>
           <div className="col text-end">
             <button
-              className="btn btn-primary no-shadow "
+              className="btn btn-color no-shadow "
               type="button"
               id="button-addon2"
               onClick={saveHandler}

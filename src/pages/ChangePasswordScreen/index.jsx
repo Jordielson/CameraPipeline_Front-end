@@ -18,13 +18,13 @@ function ChangePassword() {
 
     if (currentPassword === "") {
       valid.flag = false;
-      valid.text = "Digite sua senha atual";
+      valid.text = "Digite sua senha atual.";
     } else if (newPassword.length < 6) {
       valid.flag = false;
-      valid.text = "Sua nova senha deve conter no mínimo seis dígitos";
+      valid.text = "Sua nova senha deve conter no mínimo seis dígitos.";
     } else if (newPassword !== confirmNewPassword) {
       valid.flag = false;
-      valid.text = "Senha não confirmada";
+      valid.text = "Senha não confirmada.";
     }
     return valid;
   };
@@ -47,13 +47,33 @@ function ChangePassword() {
           newpassword: confirmNewPassword,
         }),
         {
-          pending: "Processando",
-          success: "Senha alterada com sucesso! ",
-          error: "Ocorreu algum erro ao tentar alterar a senha...",
+          pending: {
+            render({ data }) {
+              return (
+                <text id="" className="">
+                  Processando
+                </text>
+              );
+            },
+          },
+          success: {
+            render({ data }) {
+              return (
+                <text id="" className="">
+                  Senha alterada com sucesso!
+                </text>
+              );
+            },
+          },
+          error: {
+            render({ data }) {
+              return <text id="toastMsg">Senha inválida</text>;
+            },
+          },
         }
       );
     } else {
-      toast.error(validateFields().text);
+      toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
 

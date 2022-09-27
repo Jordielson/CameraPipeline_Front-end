@@ -1,4 +1,15 @@
-.guide{
+.guide {
   margin-right: 10px;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  background: #fff;
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #606060;
+  border-radius: 10px;
+  border: 2px solid #fff;
 }

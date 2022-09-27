@@ -1,2 +1,9 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+::-webkit-scrollbar {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #606060;
+}
