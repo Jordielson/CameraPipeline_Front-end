@@ -12,8 +12,9 @@
   align-items: center;
   flex-direction: column;
 }
-.container .child {
-  background-color: rgb(58, 57, 57);
+.child {
   width: 100%;
-  padding-top: 56.25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -31,7 +31,7 @@ function ModalCamera(props) {
     );
   }, [props.camera]);
 
-  const handleClose = () => props.onShowChange(false);
+  const handleClose = async () => props.onShowChange(false);
 
   const saveCamera = async (e) => {
     e.preventDefault();
@@ -264,7 +264,7 @@ function ModalCamera(props) {
           </Form>
         ) : (
           <div className="mb-2">
-            <VideoStream url={url} width="100%" />
+            <VideoStream show={props.show} url={url} width="100%" />
           </div>
         )}
       </Modal.Body>
