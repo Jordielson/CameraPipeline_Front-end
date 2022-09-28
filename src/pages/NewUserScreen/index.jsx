@@ -12,12 +12,14 @@ function NewUser() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const validateFields = () => {
+    
     let valid = {
       flag: true,
       text: "",
     };
-
+    
     var regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])/;
+    var regexSpace = /^\S*$/;
                       
     if (email === "") {
       valid.flag = false;
@@ -25,6 +27,9 @@ function NewUser() {
     } else if (!regexEmail.test(email)) {
       valid.flag = false;
       valid.text = "Formato de email inválido.";
+    } else if (!regexSpace.test(password)) {
+      valid.flag = false;
+      valid.text = "Senha não pode conter caracteres vazios.";
     } else if (password.length < 6) {
       valid.flag = false;
       valid.text = "Senha deve conter no mínimo seis dígitos";
