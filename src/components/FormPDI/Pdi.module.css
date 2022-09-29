@@ -27,3 +27,24 @@
 .btnparam:focus {
   box-shadow: none;
 }
+.formTxt {
+  display: flex;
+  width: 98%;
+  align-items: center;
+  padding-left: 0.89rem;
+  padding-bottom: 1rem;
+}
+.formPdi {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+.formDescLabel {
+  width: 30vh;
+}
+.modalHeader {
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+}

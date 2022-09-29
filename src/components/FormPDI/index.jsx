@@ -216,8 +216,8 @@ function FormPDI(props) {
         onExit={exitHandler}
       >
         <Modal.Header closeButton>
-          <div className="modal-header-custom">
-            <div className="d-flex ">
+          <div className={styles.modalHeader}>
+            <div className="d-flex">
               <label
                 for="name"
                 className={styles.editname + " fa-solid fa-pen-to-square"}
@@ -251,6 +251,12 @@ function FormPDI(props) {
           </div>
         </Modal.Header>
         <Modal.Body className={styles.modal}>
+          <div className={styles.formPdi}>
+            <Form.Label className={styles.formDescLabel}>
+              Decrição da PDI
+            </Form.Label>
+            <Form.Control className="" as="textarea" rows={1} />
+          </div>
           {!show && <p className={styles.error}>{duplicatedParam}</p>}
           {parameters.map((param) => {
             return (
@@ -293,6 +299,10 @@ function FormPDI(props) {
                       deleteHandler(param.index);
                     }}
                   ></i>
+                </div>
+                <div className={styles.formTxt}>
+                  <Form.Label className="px-2">Decrição</Form.Label>
+                  <Form.Control className="" as="textarea" rows={1} />
                 </div>
               </div>
             );
