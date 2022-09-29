@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Card } from "react-bootstrap";
 import { useState } from "react";
 import UserService from "../../services/user";
 import { toast } from "react-toastify";
@@ -12,19 +12,29 @@ function PasswordReset() {
   const { resetString } = useParams();
 
   const validateFields = () => {
+
     let valid = {
       flag: true,
       text: "",
     };
 
-    if (password.length < 6) {
+    var regexSpace = /^\S*$/;
+
+    if (password === "") {
       valid.flag = false;
-      valid.text = "Senha deve conter no mínimo seis dígitos";
+      valid.text = "Preencha o campo de senha.";
+    } if (!regexSpace.test(password)) {
+      valid.flag = false;
+      valid.text = "Senha não pode conter caracteres vazios.";
+    }else if (password.length < 6) {
+      valid.flag = false;
+      valid.text = "Senha deve conter no mínimo seis dígitos.";
     } else if (password !== confirmPassword) {
       valid.flag = false;
-      valid.text = "Senha não confirmada";
+      valid.text = "Senha não confirmada.";
     }
     return valid;
+
   };
 
   const handleRegister = async (e) => {

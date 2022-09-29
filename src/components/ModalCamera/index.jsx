@@ -31,7 +31,7 @@ function ModalCamera(props) {
     );
   }, [props.camera]);
 
-  const handleClose = () => props.onShowChange(false);
+  const handleClose = async () => props.onShowChange(false);
 
   const saveCamera = async (e) => {
     e.preventDefault();
@@ -53,19 +53,12 @@ function ModalCamera(props) {
       } else if (cam.url == "") {
         throw "emptyurl";
       }
-      const verifyName = {
-        valid: true,
-      };
-      const verifyUrl = {
-        valid: true,
-      };
-      try {
-        verifyName = await CameraService.verifyName({
-          name: name,
-          id: cam.id,
-        });
-        verifyUrl = await CameraService.verifyUrl({ url: url, id: cam.id });
-      } catch (error) {}
+      const verifyName = await CameraService.verifyName({
+        name: name,
+        id: cam.id,
+      });
+      const verifyUrl = await CameraService.verifyUrl({ url: url, id: cam.id });
+
       if (!verifyName.valid) {
         throw "nameExists";
       }
@@ -294,8 +287,8 @@ function ModalCamera(props) {
             </div>
           </Form>
         ) : (
-          <div className="container-video mb-2">
-            <VideoStream url={url} />
+          <div className="mb-2">
+            <VideoStream show={props.show} url={url} width="100%" />
           </div>
         )}
       </Modal.Body>

@@ -11,6 +11,8 @@ function ChangePassword() {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const validateFields = () => {
+    var regexSpace = /^\S*$/;
+
     let valid = {
       flag: true,
       text: "",
@@ -19,6 +21,9 @@ function ChangePassword() {
     if (currentPassword === "") {
       valid.flag = false;
       valid.text = "Digite sua senha atual.";
+    } else if (!regexSpace.test(newPassword)) {
+      valid.flag = false;
+      valid.text = "Senha não pode conter caracteres vazios.";
     } else if (newPassword.length < 6) {
       valid.flag = false;
       valid.text = "Sua nova senha deve conter no mínimo seis dígitos.";
@@ -31,51 +36,53 @@ function ChangePassword() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    /* try {
-      await UserService.changePassword({
-        oldpassword: currentPassword,
-        newpassword: confirmNewPassword
-      });
-      alert("Alterou")
-    } catch (error) {
-      alert(error);
-    }   */
+    
     if (validateFields().flag) {
-      await toast.promise(
-        UserService.changePassword({
-          oldpassword: currentPassword,
-          newpassword: confirmNewPassword,
-        }),
-        {
-          pending: {
-            render({ data }) {
-              return (
-                <text id="" className="">
-                  Processando
-                </text>
-              );
+      try {
+        await toast.promise(
+          UserService.changePassword({
+            oldpassword: currentPassword,
+            newpassword: confirmNewPassword,
+          }),
+          {
+            pending: {
+              render({ data }) {
+                return (
+                  <text id="" className="">
+                    Processando
+                  </text>
+                );
+              },
             },
-          },
-          success: {
-            render({ data }) {
-              return (
-                <text id="" className="">
-                  Senha alterada com sucesso!
-                </text>
-              );
-            },
-          },
-          error: {
-            render({ data }) {
-              return <text id="toastMsg">Senha inválida</text>;
-            },
-          },
+            success: {
+              render({ data }) {
+                return (
+                  <text id="" className="">
+                    Senha alterada com sucesso!
+                  </text>
+                );
+              },
+            }
+          }
+        );
+        clearInputs();
+      } catch (error) {
+        if(error.response.data.code === "ERR_SAME_PASSWORD"){
+          toast.error(<text id="toastMsg">Sua nova senha não pode ser igual a anterior.</text>);
+        }else {
+          toast.error(<text id="toastMsg">Ocorreu um erro tentar alterar sua senha.</text>);
         }
-      );
+      }
     } else {
       toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
+
+  const clearInputs = () => {
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+  }
 
   const getUser = () => localStorage.getItem("login");
 

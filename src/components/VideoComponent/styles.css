@@ -1,10 +1,20 @@
-#bodyc {
+.loading {
+  position: absolute; 
+}
+
+.border-video {
+  border: 1px solid #ccc;
+}
+
+.container { 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-
-.border-video {
-  border: 1px solid #ccc;
+.child {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

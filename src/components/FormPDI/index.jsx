@@ -51,18 +51,17 @@ function FormPDI(props) {
       });
       try {
         if (props.obj) {
-          const verifyName = {
-            valid: true,
-          };
-          try {
-            verifyName = await PDIService.verifyName({
-              name: PDIName,
-              id: props.obj.id,
-            });
-          } catch (error) {}
+          const verifyName = await PDIService.verifyName({
+            name: PDIName,
+            id: props.obj.id,
+          });
+          const verifyUrl = await PDIService.verifyUrl({ url: url, id: props.obj.id });
 
           if (!verifyName.valid) {
             throw "nameExists";
+          }
+          if (!verifyUrl.valid) {
+            throw "urlExists";
           }
           await toast.promise(PDIService.update(pdi, props.obj.id), {
             pending: {
@@ -82,17 +81,16 @@ function FormPDI(props) {
             },
           });
         } else {
-          const verifyName = {
-            valid: true,
-          };
-          try {
-            verifyName = await PDIService.verifyName({
-              name: PDIName,
-            });
-          } catch (error) {}
+          const verifyName = await PDIService.verifyName({
+            name: PDIName
+          });
+          const verifyUrl = await PDIService.verifyUrl({ url: url });
 
           if (!verifyName.valid) {
             throw "nameExists";
+          }
+          if (!verifyUrl.valid) {
+            throw "urlExists";
           }
           await toast.promise(PDIService.register(pdi), {
             pending: {
@@ -119,8 +117,6 @@ function FormPDI(props) {
       }
 
       props.hide();
-      // PDIService.save(pdi);
-      console.log(pdi, "pdi salva");
       setParameters([]);
       setUrl("");
       setPDIName("");
@@ -138,6 +134,8 @@ function FormPDI(props) {
         setDuplicatedParam("Insira o NOME do PDI");
       } else if (e == "nameExists") {
         setDuplicatedParam("Esse nome da PDI já foi cadastrado");
+      } else if (e == "urlExists") {
+        setDuplicatedParam("Essa url da PDI já foi cadastrado");
       } else {
         setDuplicatedParam("ERRO AO SALVAR");
       }

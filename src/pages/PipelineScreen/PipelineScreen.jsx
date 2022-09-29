@@ -33,7 +33,21 @@ const pipelineJson = {
   pdilist: [
     {
       id: 1,
-      name: "Redimensionar imagem",
+      modelPdi: {
+        id: 3,
+        name: "Redimensionar imagem ",
+        parameters: [
+            {
+                id: 3,
+                name: "Tamanho da imagem",
+                type: "STRING",
+                required: false,
+                index: 0
+            }
+        ],
+        category: "PDI",
+        url: "http://localhost:5000/reduzir-ima"
+    },
       valueParameters: [
         {
           id: 1,
@@ -70,7 +84,21 @@ const videoUrlJson = [
 const modelPDIList = [
   {
     id: 1,
-    name: "Redimensionar imagem",
+    modelPdi: {
+      id: 3,
+      name: "Redimensionar imagem ",
+      parameters: [
+          {
+              id: 3,
+              name: "Tamanho da imagem",
+              type: "STRING",
+              required: false,
+              index: 0
+          }
+      ],
+      category: "PDI",
+      url: "http://localhost:5000/reduzir-ima"
+    },
     parameters: [
       {
         id: 1,
@@ -240,7 +268,7 @@ function PipelineScreen() {
         });
         const newPdi = {
           id: pipeline.pdilist.length + 1,
-          name: pdi.name,
+          modelPdi: pdi,
           valueParameters: valueParameter,
           pipelineId: 1,
         };
@@ -430,7 +458,7 @@ function PipelineScreen() {
                   </span>
                 </div>
                 <div className="background-video mb-2">
-                  <VideoStream url={url} />
+                  <VideoStream show={true} url={url} width="100%"/>
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -499,7 +527,7 @@ function PipelineScreen() {
                                         className="card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center"
                                         title="Arraste e solte para ordenar..."
                                       >
-                                        <div className="col-7">{pipe.name}</div>
+                                        <div className="col-7">{pipe.modelPdi.name}</div>
                                         <div className="">{pipe.id}</div>
 
                                         <div className="card-button">

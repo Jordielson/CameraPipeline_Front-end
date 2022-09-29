@@ -17,10 +17,9 @@ function VideoStream(props) {
   const [stream1, setStream] = useState(props.url);
   const [response, setResponse] = useState();
   const [showVideo, setShowVideo] = useState(StreamStatus.EMPTY);
+  const [player, setPlayer] = useState();
 
-  const fetchStream = async (stream) => {
-    setShowVideo(StreamStatus.LOADING);
-
+  const stopStream = async () => {
     try {
       if (response !== undefined) {
         await VideoStreamService.stopStream({
@@ -31,26 +30,47 @@ function VideoStream(props) {
     } catch (error) {
       console.log(error);
     }
+  }
 
+  useEffect(() => {
+    if(!props.show) {
+      stopStream();
+      player.destroy();
+    }
+  }, [props.show]);
+
+  const fetchStream = async (stream) => {
+    setShowVideo(StreamStatus.LOADING);
+    
     try {
       let resp = await VideoStreamService.createStream({
         url: stream,
       });
       setResponse(resp);
+      let canvas = document.getElementById("video-wrapper");
       var videoUrl = `ws://${ffmpegIP}:${resp.port}/`;
-      new JSMpeg.VideoElement("#video-canvas", videoUrl, {
-        autoplay: true,
-      });
-      setTimeout(() => {
-        setShowVideo(StreamStatus.SUCCESS);
-      }, 7000);
+
+      new JSMpeg.Player(videoUrl, { 
+        canvas: canvas,
+        audio: false,
+        onPlay: setPlayer,
+        onVideoDecode: videoDecode,
+        }
+      );
     } catch (error) {
       alert(error);
       setShowVideo(StreamStatus.ERROR);
     }
   };
 
+  const videoDecode = (decoder, time) => {
+    setShowVideo(StreamStatus.SUCCESS);
+  }
+
   useEffect(() => {
+    if(player) {
+      stopStream();
+    }
     if (props.url !== "") {
       setStream(props.url);
       fetchStream(props.url);
@@ -58,27 +78,20 @@ function VideoStream(props) {
   }, [props.url]);
 
   return (
-    <div id="bodyc">
-      {showVideo === StreamStatus.SUCCESS ? (
-        <div>
-          <div id="video-canvas" style={{ width: "319px", height: "240px" }} />
-        </div>
-      ) : showVideo === StreamStatus.LOADING ? (
-        <div>
-          <div id="video-canvas"></div>
-          <div
-            id="bodyc"
-            className=""
-            style={{ width: "100%", height: "240px" }}
-          >
-            <img src={load} alt="loading..." width={"100%"} height={"120px"} />
-          </div>
-        </div>
-      ) : showVideo === StreamStatus.EMPTY ? (
-        <div className="" style={{ width: "100%", height: "240px" }}></div>
-      ) : (
-        <label htmlFor="">NULL</label>
-      )}
+    <div className="container" style={{ width: props.width }}>
+      <canvas 
+        id="video-wrapper" 
+        className="child" 
+      />
+      {showVideo === StreamStatus.LOADING ? (
+        <img 
+          src={load} 
+          alt="loading..." 
+          width={"120px"} 
+          height={"120px"} 
+          className="loading"
+        />
+      ) : null }
     </div>
   );
 }
