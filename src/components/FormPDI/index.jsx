@@ -11,6 +11,7 @@ function FormPDI(props) {
   const [parameters, setParameters] = useState([]);
   const [show, setShow] = useState(false);
   const [duplicatedParam, setDuplicatedParam] = useState();
+  const [description, setDescription] = useState([]);
 
   useEffect(() => {
     if (props.obj) {
@@ -21,9 +22,12 @@ function FormPDI(props) {
     }
   }, [props]);
 
+  useEffect(() => {}, []);
+
   async function saveHandler() {
     const pdi = {
       name: PDIName,
+      description: description,
       parameters: parameters,
       category: "PDI",
       url: url,
@@ -55,7 +59,10 @@ function FormPDI(props) {
             name: PDIName,
             id: props.obj.id,
           });
-          const verifyUrl = await PDIService.verifyUrl({ url: url, id: props.obj.id });
+          const verifyUrl = await PDIService.verifyUrl({
+            url: url,
+            id: props.obj.id,
+          });
 
           if (!verifyName.valid) {
             throw "nameExists";
@@ -82,7 +89,7 @@ function FormPDI(props) {
           });
         } else {
           const verifyName = await PDIService.verifyName({
-            name: PDIName
+            name: PDIName,
           });
           const verifyUrl = await PDIService.verifyUrl({ url: url });
 
@@ -155,11 +162,7 @@ function FormPDI(props) {
     };
 
     setParameters([...parameters, newParameter]);
-    // setParameters((oldParameters) => {
-    //   return oldParameters.sort(function (x, y) {
-    //     return x.index - y.index;
-    //   });
-    // });
+
     console.log(parameters);
   }
   function exitHandler() {
@@ -181,13 +184,24 @@ function FormPDI(props) {
   function selectHandler(e) {
     setShow(true);
 
-    parameters.map((param) => {
-      if (param.index == e.target.id) {
-        param.type = e.target.value;
-      }
+    setParameters((oldParameters) => {
+      const index = oldParameters.findIndex((i) => i.index == e.target.id);
+
+      oldParameters[index].type = e.target.value;
+
+      return oldParameters;
     });
-    setParameters(parameters);
   }
+  // function selectHandler(e) {
+  //   setShow(true);
+
+  //   parameters.map((param) => {
+  //     if (param.index == e.target.id) {
+  //       param.type = e.target.value;
+  //     }
+  //   });
+  //   setParameters(parameters);
+  // }
   function checkHandler(e) {
     setShow(true);
 
@@ -203,6 +217,16 @@ function FormPDI(props) {
     setParameters((oldParameters) => {
       return oldParameters.filter((param) => param.index !== e);
     });
+  }
+  function handleDescritionParameter(e) {
+    setShow(true);
+
+    parameters.map((param) => {
+      if (param.index == e.target.id) {
+        param.description = e.target.value;
+      }
+    });
+    setParameters(parameters);
   }
 
   return (
@@ -250,7 +274,12 @@ function FormPDI(props) {
         </Modal.Header>
         <Modal.Body className={styles.modal}>
           <div className={styles.formPdi}>
-            <Form.Label className={styles.formDescLabel}>
+            <Form.Label
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              className={styles.formDescLabel}
+            >
               Decrição da PDI
             </Form.Label>
             <Form.Control className="" as="textarea" rows={1} />
@@ -268,6 +297,7 @@ function FormPDI(props) {
                     onChange={(e) => inputHandler(e)}
                   ></input>
                   <Form.Select
+                    key={param.index}
                     id={param.index}
                     value={param.type}
                     className="mx-2"
@@ -275,8 +305,10 @@ function FormPDI(props) {
                       selectHandler(e);
                     }}
                   >
-                    <option>STRING</option>
-                    <option>NUMBER</option>
+                    <option value="STRING">STRING</option>
+                    <option value="NUMBER">NUMBER</option>
+                    <option value="BOOLEAN">BOOLEAN</option>
+                    <option value="FILE">FILE</option>
                   </Form.Select>
                   <Form.Check
                     // checked
@@ -300,7 +332,14 @@ function FormPDI(props) {
                 </div>
                 <div className={styles.formTxt}>
                   <Form.Label className="px-2">Decrição</Form.Label>
-                  <Form.Control className="" as="textarea" rows={1} />
+                  <Form.Control
+                    onChange={(e) => {
+                      handleDescritionParameter(e);
+                    }}
+                    className=""
+                    as="textarea"
+                    rows={1}
+                  />
                 </div>
               </div>
             );

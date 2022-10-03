@@ -136,21 +136,18 @@ span {
 }
 .submenu {
   display: none;
-  padding-left: 20px;
+  flex-direction: column;
+  justify-content: center;
+
+  /* border-left: 20px solid #fff; */
 }
+
 #edicao:focus {
   background-color: #fff;
 }
 .submenu-list {
+  border-left: 20px solid #e6e4e4;
 }
-/* @media (max-width: 768px) {
-  #sidebar {
-    margin-left: -250px;
-  }
-  #sidebar.active {
-    margin-left: 0;
-  }
-  #sidebarCollapse span {
-    display: none;
-  }
-} */
+.submenu-list:hover {
+  border-left: 20px solid #fff;
+}

@@ -30,10 +30,10 @@ function SidebarMenu(props) {
 
   function handlerSubmenu() {
     var submenu = document.getElementById("submenu");
-    if (submenu.style.display == "block") {
+    if (submenu.style.display == "flex") {
       submenu.style.display = "none";
     } else {
-      submenu.style.display = "block";
+      submenu.style.display = "flex";
     }
   }
   return (
