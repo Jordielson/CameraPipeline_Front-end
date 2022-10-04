@@ -14,6 +14,7 @@ import ForgottenPassword from "../pages/ForgottenPassword";
 import PasswordReset from "../pages/PasswordReset";
 import EditImageScreen from "../pages/EditImageScreen";
 import EditVideoScreen from "../pages/EditVideoScreen";
+import FlowScreen from "../pages/FlowScreen";
 
 function MyRoutes() {
   return (
@@ -38,6 +39,9 @@ function MyRoutes() {
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/editar-video" element={<EditVideoScreen />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/flow" element={<FlowScreen />}></Route>
         </Route>
 
         <Route path="/stream" element={<VideoStreamScreen />}></Route>

@@ -7,3 +7,8 @@
 ::-webkit-scrollbar-thumb {
   background: #606060;
 }
+
+.bg-white {
+  width: 100%;
+  background-color: #fff;
+}

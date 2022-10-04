@@ -5,6 +5,7 @@ import { BsClock } from "react-icons/bs";
 import "./styles.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { TiFlowMerge } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
@@ -174,6 +175,7 @@ const modelPDIList = [
 ];
 
 function PipelineScreen() {
+  const navigate = useNavigate();
   const [pipeline, setPipeline] = useState(pipelineJson);
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [update, setUpdate] = useState(false);
@@ -322,6 +324,10 @@ function PipelineScreen() {
   const refresh = () => {
     setUpdate(!update);
   };
+
+  function flow() {
+    navigate("../flow", { replace: true });
+  }
 
   useEffect(() => {
     console.log(selectedPipelineId);
@@ -500,7 +506,7 @@ function PipelineScreen() {
                     Pipeline
                     <menu>
                       <div className="li">
-                        <button>
+                        <button onClick={flow}>
                           <span>
                             <TiFlowMerge />
                           </span>

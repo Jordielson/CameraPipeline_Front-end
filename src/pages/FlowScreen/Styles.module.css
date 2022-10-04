@@ -1,0 +1,13 @@
+.back {
+  color: red;
+}
+
+.position {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
