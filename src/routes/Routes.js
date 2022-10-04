@@ -12,6 +12,8 @@ import PublicRouter from "./../components/PublicRouter";
 import UserGuideScreen from "./../pages/Guide/UserGuide/index";
 import ForgottenPassword from "../pages/ForgottenPassword";
 import PasswordReset from "../pages/PasswordReset";
+import EditImageScreen from "../pages/EditImageScreen";
+import EditVideoScreen from "../pages/EditVideoScreen";
 
 function MyRoutes() {
   return (
@@ -31,6 +33,12 @@ function MyRoutes() {
         <Route element={<PrivateRouter />}>
           <Route path="/user-guide" element={<UserGuideScreen />}></Route>
         </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/editar-imagem" element={<EditImageScreen />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/editar-video" element={<EditVideoScreen />}></Route>
+        </Route>
 
         <Route path="/stream" element={<VideoStreamScreen />}></Route>
 
@@ -47,10 +55,16 @@ function MyRoutes() {
           <Route path="/alterar-senha" element={<ChangePassword />}></Route>
         </Route>
         <Route element={<PublicRouter />}>
-          <Route path="/forgotten-password" element={<ForgottenPassword />}></Route>
+          <Route
+            path="/forgotten-password"
+            element={<ForgottenPassword />}
+          ></Route>
         </Route>
         <Route element={<PublicRouter />}>
-          <Route path="/password-reset/:resetString" element={<PasswordReset />}></Route>
+          <Route
+            path="/password-reset/:resetString"
+            element={<PasswordReset />}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>

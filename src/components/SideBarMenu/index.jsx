@@ -60,14 +60,19 @@ function SidebarMenu(props) {
                 <a href="#home">Home</a>
               </li>
               <li>
-                <a href="#home" id="edicao" onClick={handlerSubmenu}>
+                <a
+                  href="#home"
+                  className="edicao"
+                  id="edicao"
+                  onClick={handlerSubmenu}
+                >
                   Edição
                 </a>
                 <li className="submenu" id="submenu">
-                  <a href="#a" className="submenu-list">
+                  <a href="/editar-imagem" className="submenu-list">
                     Imagem
                   </a>
-                  <a href="#a" className="submenu-list">
+                  <a href="/editar-video" className="submenu-list">
                     Video
                   </a>
                   <a href="#home" className="submenu-list">
