@@ -93,6 +93,14 @@ function UserGuideScreen() {
                 informações básicas sobre Pipeline e uma visão geral das
                 funcionalidades do sistema.
               </span>
+              {/* <menu>
+                <div className="li">
+                  <button>
+                    <span>$</span>
+                    <span>shop</span>
+                  </button>
+                </div>
+              </menu> */}
             </div>
           ) : vision === 1 ? (
             <div className="vision">

@@ -4,6 +4,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { BsClock } from "react-icons/bs";
 import "./styles.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { TiFlowMerge } from "react-icons/ti";
 
 import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
@@ -37,17 +38,17 @@ const pipelineJson = {
         id: 3,
         name: "Redimensionar imagem ",
         parameters: [
-            {
-                id: 3,
-                name: "Tamanho da imagem",
-                type: "STRING",
-                required: false,
-                index: 0
-            }
+          {
+            id: 3,
+            name: "Tamanho da imagem",
+            type: "STRING",
+            required: false,
+            index: 0,
+          },
         ],
         category: "PDI",
-        url: "http://localhost:5000/reduzir-ima"
-    },
+        url: "http://localhost:5000/reduzir-ima",
+      },
       valueParameters: [
         {
           id: 1,
@@ -88,16 +89,16 @@ const modelPDIList = [
       id: 3,
       name: "Redimensionar imagem ",
       parameters: [
-          {
-              id: 3,
-              name: "Tamanho da imagem",
-              type: "STRING",
-              required: false,
-              index: 0
-          }
+        {
+          id: 3,
+          name: "Tamanho da imagem",
+          type: "STRING",
+          required: false,
+          index: 0,
+        },
       ],
       category: "PDI",
-      url: "http://localhost:5000/reduzir-ima"
+      url: "http://localhost:5000/reduzir-ima",
     },
     parameters: [
       {
@@ -458,7 +459,7 @@ function PipelineScreen() {
                   </span>
                 </div>
                 <div className="background-video mb-2">
-                  <VideoStream show={true} url={url} width="100%"/>
+                  <VideoStream show={true} url={url} width="100%" />
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -495,7 +496,19 @@ function PipelineScreen() {
 
               <div className="col-4 b2">
                 <div class="card my-2">
-                  <div className="card-header pipeline-header">Pipeline</div>
+                  <div className="card-header pipeline-header2 ">
+                    Pipeline
+                    <menu>
+                      <div className="li">
+                        <button>
+                          <span>
+                            <TiFlowMerge />
+                          </span>
+                          <span>Editar Fluxo</span>
+                        </button>
+                      </div>
+                    </menu>
+                  </div>
                   <div class="card-body pipeline-card">
                     <div className="container p-2">
                       <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -527,7 +540,9 @@ function PipelineScreen() {
                                         className="card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center"
                                         title="Arraste e solte para ordenar..."
                                       >
-                                        <div className="col-7">{pipe.modelPdi.name}</div>
+                                        <div className="col-7">
+                                          {pipe.modelPdi.name}
+                                        </div>
                                         <div className="">{pipe.id}</div>
 
                                         <div className="card-button">
