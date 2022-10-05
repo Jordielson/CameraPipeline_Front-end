@@ -6,6 +6,7 @@ import Styles from "./image.module.css";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ImageService from "../../services/image";
 
 const pipelineJson = [
   {
@@ -156,8 +157,13 @@ function EditComponent(props) {
     }
   };
 
-  function generateImage() {
+  async function generateImage() {
     if (props.type == "imagem") {
+      const data = new FormData();
+      data.append("name", "Image Upload");
+      data.append("file_attachment", image);
+      const returnedImage = await ImageService.upload(data);
+      setgeneratedImageUrl(returnedImage.url);
       setgeneratedImageUrl(imageUrl);
     } else {
       setgeneratedVideoUrl(videoUrl);
@@ -183,9 +189,11 @@ function EditComponent(props) {
     setVideoUrl(null);
     setActiveStep((currentStep) => 0);
   }
+
   function handleImage(e) {
     if (props.type == "imagem") {
-      setImage(e.target.value);
+      setImage(e.target.files);
+      console.log(image);
     } else {
       setVideo(e.target.value);
     }

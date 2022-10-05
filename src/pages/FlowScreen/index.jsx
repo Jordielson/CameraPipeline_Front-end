@@ -142,6 +142,10 @@ function FlowScreen() {
     height: 300,
     zIndex: 1,
   };
+
+  useEffect(() => {
+    console.log(edges);
+  }, [edges]);
   return (
     <div className="content">
       <SidebarMenu page={"pipeline"} />
