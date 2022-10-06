@@ -7,17 +7,17 @@ import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ImageService from "../../services/image";
+import VideoService from "../../services/video";
 
 const pipelineJson = [
   {
-    id: 3,
+    id: 1,
     name: "Aumentar imagem",
     description:
       "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
     creationDate: "2022-06-26T14:30:30",
     modificationTime: "2022-06-26T14:30:30",
     isActive: false,
-    groupPipelineId: 1,
     cameraList: [
       {
         id: 1,
@@ -126,7 +126,7 @@ function EditComponent(props) {
   const [generatedVideoUrl, setgeneratedVideoUrl] = useState();
 
   function nextStep() {
-    if (imageUrl != null || image != null || videoUrl != null) {
+    if (imageUrl != null || image != null || videoUrl != null || video) {
       if (activeStep < 2) {
         setActiveStep((currentStep) => currentStep + 1);
       }
@@ -142,7 +142,6 @@ function EditComponent(props) {
         theme: "colored",
       });
     }
-    console.log(image);
   }
   function previousStep() {
     if (activeStep > 0) {
@@ -159,14 +158,20 @@ function EditComponent(props) {
 
   async function generateImage() {
     if (props.type == "imagem") {
+      console.log(image);
       const data = new FormData();
-      data.append("name", "Image Upload");
-      data.append("file_attachment", image);
+      data.append("image", image);
+      data.append("pipeline", pipeline.id);
       const returnedImage = await ImageService.upload(data);
+      // const resultImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
-      setgeneratedImageUrl(imageUrl);
     } else {
-      setgeneratedVideoUrl(videoUrl);
+      const data = new FormData();
+      data.append("video", video);
+      data.append("pipeline", pipeline.id);
+      const response = await VideoService.upload(data);
+      // const response = await VideoService.generateVideo(data);
+      setgeneratedVideoUrl(response.url);
     }
   }
 
@@ -192,10 +197,9 @@ function EditComponent(props) {
 
   function handleImage(e) {
     if (props.type == "imagem") {
-      setImage(e.target.files);
-      console.log(image);
+      setImage(e.target.files[0]);
     } else {
-      setVideo(e.target.value);
+      setVideo(e.target.files[0]);
     }
   }
   function handleUrl(e) {

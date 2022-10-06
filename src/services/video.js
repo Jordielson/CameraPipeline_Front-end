@@ -1,20 +1,20 @@
 import Api from "../config/server/config";
 
-const ImageService = {
+const VideoService = {
   upload: async (params) => {
     var data = null;
     await Api()
-      .post("/api/image/storage/upload", params)
+      .post("/api/video/storage/upload", params)
       .then((response) => {
         data = response.data;
       });
 
     return data;
   },
-  generateImage: async (params) => {
+  generateVideo: async (params) => {
     var data = null;
     await Api()
-      .post("/api/pipeline/generateImage/" + params)
+      .post("/api/pipeline/generateVideo/" + params)
       .then((response) => {
         data = response.data;
       });
@@ -22,4 +22,4 @@ const ImageService = {
   },
 };
 
-export default ImageService;
+export default VideoService;
