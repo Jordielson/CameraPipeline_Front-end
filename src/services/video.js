@@ -14,7 +14,7 @@ const VideoService = {
   generateVideo: async (params) => {
     var data = null;
     await Api()
-      .post("/api/pipeline/generateVideo/" + params)
+      .post("/api/video/generateVideo", params)
       .then((response) => {
         data = response.data;
       });

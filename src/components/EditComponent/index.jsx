@@ -156,21 +156,18 @@ function EditComponent(props) {
     }
   };
 
-  async function generateImage() {
+  async function generateImage(pipelineId) {
     if (props.type == "imagem") {
-      console.log(image);
       const data = new FormData();
       data.append("image", image);
-      data.append("pipeline", pipeline.id);
-      const returnedImage = await ImageService.upload(data);
-      // const resultImage = await ImageService.generateImage(data);
+      data.append("pipeline", pipelineId);
+      const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
     } else {
       const data = new FormData();
       data.append("video", video);
-      data.append("pipeline", pipeline.id);
-      const response = await VideoService.upload(data);
-      // const response = await VideoService.generateVideo(data);
+      data.append("pipeline", pipelineId);
+      const response = await VideoService.generateVideo(data);
       setgeneratedVideoUrl(response.url);
     }
   }
@@ -178,11 +175,12 @@ function EditComponent(props) {
   function handlePipeline(e) {
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
+        console.log(item);
         setPipeline(item);
+        generateImage(item.id);
       }
     });
 
-    generateImage();
 
     setActiveStep((currentStep) => currentStep + 1);
   }

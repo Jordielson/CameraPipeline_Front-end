@@ -14,7 +14,7 @@ const ImageService = {
   generateImage: async (params) => {
     var data = null;
     await Api()
-      .post("/api/pipeline/generateImage/" + params)
+      .post("/api/image/generateImage", params)
       .then((response) => {
         data = response.data;
       });
