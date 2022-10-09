@@ -210,7 +210,7 @@ function EditComponent(props) {
   function handlePipeline(e) {
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
-        console.log(item)
+        console.log(item);
         setPipeline(item);
         //  if(props.type !== "camera"){
         generateImage(item.id);

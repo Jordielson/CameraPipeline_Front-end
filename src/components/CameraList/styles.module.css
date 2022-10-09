@@ -13,23 +13,18 @@
   cursor: pointer;
 }
 
-.list-group-item-camera {
+.listGroupItemCamera {
   display: flex;
   justify-content: space-between;
 }
 
-.camera-list-view {
+.cameraListView {
   margin-right: 0.4rem;
   color: #000;
   border: none;
   font-size: small;
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
-}
-
-span {
-  color: #646464;
-  margin: auto;
 }
 
 #flexRadioDefault1 {

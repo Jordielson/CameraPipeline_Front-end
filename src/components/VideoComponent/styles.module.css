@@ -1,17 +1,17 @@
 .loading {
-  position: absolute; 
+  position: absolute;
 }
 
 .border-video {
   border: 1px solid #ccc;
 }
 
-.container { 
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: black; 
+  background: black;
 }
 .child {
   width: 100%;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
+import Styles from "./styles.module.css";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
 import VideoStreamService from "../../services/video_stream";
 import load from "../../assets/load.gif";
@@ -30,10 +30,10 @@ function VideoStream(props) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    if(!props.show) {
+    if (!props.show) {
       stopStream();
       player.destroy();
     }
@@ -41,7 +41,7 @@ function VideoStream(props) {
 
   const fetchStream = async (stream) => {
     setShowVideo(StreamStatus.LOADING);
-    
+
     try {
       let resp = await VideoStreamService.createStream({
         url: stream,
@@ -50,13 +50,12 @@ function VideoStream(props) {
       let canvas = document.getElementById("video-wrapper");
       var videoUrl = `ws://${ffmpegIP}:${resp.port}/`;
 
-      new JSMpeg.Player(videoUrl, { 
+      new JSMpeg.Player(videoUrl, {
         canvas: canvas,
         audio: false,
         onPlay: setPlayer,
         onVideoDecode: videoDecode,
-        }
-      );
+      });
     } catch (error) {
       alert(error);
       setShowVideo(StreamStatus.ERROR);
@@ -65,10 +64,10 @@ function VideoStream(props) {
 
   const videoDecode = (decoder, time) => {
     setShowVideo(StreamStatus.SUCCESS);
-  }
+  };
 
   useEffect(() => {
-    if(player) {
+    if (player) {
       stopStream();
     }
     if (props.url !== "") {
@@ -78,20 +77,17 @@ function VideoStream(props) {
   }, [props.url]);
 
   return (
-    <div className="container" style={{ width: props.width }}>
-      <canvas 
-        id="video-wrapper" 
-        className="child" 
-      />
+    <div className={Styles.container} style={{ width: props.width }}>
+      <canvas id="video-wrapper" className={Styles.child} />
       {showVideo === StreamStatus.LOADING ? (
-        <img 
-          src={load} 
-          alt="loading..." 
-          width={"120px"} 
-          height={"120px"} 
-          className="loading"
+        <img
+          src={load}
+          alt="loading..."
+          width={"120px"}
+          height={"120px"}
+          className={Styles.loading}
         />
-      ) : null }
+      ) : null}
     </div>
   );
 }

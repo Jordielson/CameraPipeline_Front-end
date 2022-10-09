@@ -78,10 +78,10 @@ function FormLogin() {
             style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
           >
             <Card.Body key={3} className="d-flex justify-content-center space">
-              <Button
+              <button
                 key={4}
-                className="mx-4 btn-lg py-0 btn-color"
-                variant="primary"
+                className="btn mx-4 btn-lg py-0 btn-color"
+                // variant="primary"
                 style={{
                   fontSize: "1rem",
                 }}
@@ -91,14 +91,14 @@ function FormLogin() {
                 // type="submit"
               >
                 Entrar
-              </Button>
-              <Button
-                className="mx-4 btn-color"
-                variant="primary"
+              </button>
+              <button
+                className="btn mx-4 btn-color"
+                // variant="primary"
                 onClick={newUser}
               >
                 Cadastrar
-              </Button>
+              </button>
             </Card.Body>
           </Card>
 

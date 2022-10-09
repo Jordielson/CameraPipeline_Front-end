@@ -464,8 +464,8 @@ function PipelineScreen() {
                     O video abaixo é uma pré-visualização da pipeline
                   </span>
                 </div>
-                <div className="background-video mb-2">
-                  <VideoStream show={true} url={url} width="100%" />
+                <div className="background-video mb-2 d-flex justify-content-center">
+                  <VideoStream show={true} url={url} width="94%" />
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}

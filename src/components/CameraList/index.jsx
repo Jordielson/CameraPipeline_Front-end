@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ModalCamera, { TypeModal } from "../../components/ModalCamera";
 import { ListGroup } from "react-bootstrap";
 import { useStateCallback } from "../../shared/Utils";
-import "./styles.css";
+import Styles from "./styles.module.css";
 import CameraService from "../../services/camera";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -48,7 +48,7 @@ function CameraList(props) {
 
   return (
     <>
-      <ListGroup className="mx-4 mt-4 mb-1 listCamera">
+      <ListGroup className={"mx-4 mt-4 mb-1 " + Styles.listCamera}>
         {cameraList.map((obj) => {
           return (
             <>
@@ -56,12 +56,14 @@ function CameraList(props) {
                 <ListGroup.Item
                   key={obj.id}
                   variant="light"
-                  className="item"
+                  className={Styles.item}
                 >
                   {obj.name}
-                  <div className="buttons list-group-item-camera">
+                  <div className={"buttons " + Styles.listGroupItemCamera}>
                     <button
-                      className="fa-solid fa-eye icon-actions camera-list-view"
+                      className={
+                        "fa-solid fa-eye icon-actions " + Styles.cameraListView
+                      }
                       title="visualizar"
                       id={obj.id}
                       onClick={() => showModal(obj, TypeModal.Video)}
