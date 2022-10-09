@@ -3,7 +3,6 @@ import CameraScreen from "../pages/CameraScreen/CameraScreen";
 import LoginScreen from "../pages/LoginScreen";
 import PDIScreen from "../pages/PDIScreen";
 import PipelineScreen from "../pages/PipelineScreen/PipelineScreen";
-import VideoStreamScreen from "../pages/VideoStreamScreen";
 import ChangePassword from "../pages/ChangePasswordScreen";
 import NewUser from "../pages/NewUserScreen";
 import Guide from "../pages/Guide";
@@ -14,6 +13,7 @@ import ForgottenPassword from "../pages/ForgottenPassword";
 import PasswordReset from "../pages/PasswordReset";
 import EditImageScreen from "../pages/EditImageScreen";
 import EditVideoScreen from "../pages/EditVideoScreen";
+import EditCameraScreen from "../pages/EditCameraScreen";
 import FlowScreen from "../pages/FlowScreen";
 
 function MyRoutes() {
@@ -41,10 +41,11 @@ function MyRoutes() {
           <Route path="/editar-video" element={<EditVideoScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
+          <Route path="/editar-camera" element={<EditCameraScreen />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
           <Route path="/flow" element={<FlowScreen />}></Route>
         </Route>
-
-        <Route path="/stream" element={<VideoStreamScreen />}></Route>
 
         <Route element={<PrivateRouter />}>
           <Route path="/pipeline" element={<PipelineScreen />}></Route>
