@@ -12,15 +12,15 @@ function NewUser() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const validateFields = () => {
-    
     let valid = {
       flag: true,
       text: "",
     };
-    
-    var regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])/;
+
+    var regexEmail =
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])/;
     var regexSpace = /^\S*$/;
-                      
+
     if (email === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de email";
@@ -65,9 +65,12 @@ function NewUser() {
         backPage();
       } catch (error) {
         let errorMessage = "";
-        switch (error.message) {
-          case "Request failed with status code 400":
+        switch (error.response.data.code) {
+          case "ERR_CONSTRAINT_VIOLATION":
             errorMessage = "Email já está sendo utilizado, tente outro.";
+            break;
+          case "ERR_INAVALID_ARGUMENT":
+            errorMessage = "Email inválido";
             break;
           default:
             errorMessage = error.message;
@@ -94,7 +97,9 @@ function NewUser() {
         onSubmit={handleRegister}
         id="new-user"
       >
-        <h2 className="mb-5" style={{color: "#6c6c6c"}}>Crie sua conta</h2>
+        <h2 className="mb-5" style={{ color: "#6c6c6c" }}>
+          Crie sua conta
+        </h2>
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
