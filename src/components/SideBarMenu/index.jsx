@@ -75,8 +75,8 @@ function SidebarMenu(props) {
                   <a href="/editar-video" className="submenu-list">
                     Video
                   </a>
-                  <a href="#home" className="submenu-list">
-                    Camera/Mosaico
+                  <a href="/editar-camera" className="submenu-list">
+                    Camera
                   </a>
                 </li>
               </li>

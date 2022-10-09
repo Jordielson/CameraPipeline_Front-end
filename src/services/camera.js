@@ -50,7 +50,7 @@ const CameraService = {
     var data = null;
     await Api()
       .patch(`/api/camera/${params.id}/state`, null, {
-        params: { active: params.isActive }
+        params: { active: params.isActive },
       })
       .then((response) => {
         data = response.data;
@@ -73,6 +73,17 @@ const CameraService = {
     var data = null;
     await Api()
       .get("/api/camera/verify-used", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
+  generateCamera: async (params) => {
+    var data = null;
+    await Api()
+      .post(`/api/camera/generateCamera`, null, {
+        params: params
+      })
       .then((response) => {
         data = response.data;
       });

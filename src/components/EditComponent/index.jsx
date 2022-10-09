@@ -1,13 +1,16 @@
 import { Step, StepLabel } from "@mui/material";
 import Stepper from "@mui/material/Stepper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, ListGroup } from "react-bootstrap";
 import Styles from "./image.module.css";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
-import axios from "axios";
 import ImageService from "../../services/image";
 import VideoService from "../../services/video";
+import CameraService from "../../services/camera";
+import CameraList from "../CameraList";
+import VideoComponent from "../VideoComponent";
+import PDIService from "./../../services/pdi";
 
 const pipelineJson = [
   {
@@ -122,11 +125,29 @@ function EditComponent(props) {
   const [returnedImage, setReturnedImage] = useState();
   const [video, setVideo] = useState();
   const [videoUrl, setVideoUrl] = useState();
+  const [cameraId, setCameraId] = useState();
   const [generatedImageUrl, setgeneratedImageUrl] = useState();
   const [generatedVideoUrl, setgeneratedVideoUrl] = useState();
+  const [generatedCameraUrl, setgeneratedCameraUrl] = useState();
+  const [showCamera, setShowCamera] = useState(false);
+
+  /* useEffect(() => {
+    getPDIs();
+  }, []);
+
+  async function getPDIs() {
+    const pdiList = await PDIService.getAll();
+    setPipelineList(pdiList.content);
+  } */
 
   function nextStep() {
-    if (imageUrl != null || image != null || videoUrl != null || video) {
+    if (
+      imageUrl != null ||
+      image != null ||
+      videoUrl != null ||
+      video ||
+      cameraId !== undefined
+    ) {
       if (activeStep < 2) {
         setActiveStep((currentStep) => currentStep + 1);
       }
@@ -144,6 +165,7 @@ function EditComponent(props) {
     }
   }
   function previousStep() {
+    setShowCamera(false);
     if (activeStep > 0) {
       setActiveStep((currentStep) => currentStep - 1);
     }
@@ -163,26 +185,45 @@ function EditComponent(props) {
       data.append("pipeline", pipelineId);
       const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
-    } else {
+    } else if (props.type == "video") {
       const data = new FormData();
       data.append("video", video);
       data.append("pipeline", pipelineId);
       const response = await VideoService.generateVideo(data);
       setgeneratedVideoUrl(response.url);
+    } else {
+      setgeneratedCameraUrl(
+        "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+      );
+      setShowCamera(true);
+      try {
+        const response = await CameraService.generateCamera({
+          pipelineId: pipelineId,
+          cameraId: cameraId,
+        });
+      } catch (error) {
+        console.log("erro");
+      }
     }
   }
 
   function handlePipeline(e) {
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
-        console.log(item);
+        console.log(item)
         setPipeline(item);
+        //  if(props.type !== "camera"){
         generateImage(item.id);
+        //  }
       }
     });
 
-
     setActiveStep((currentStep) => currentStep + 1);
+  }
+
+  function saveCamera() {
+    console.log("Clicou em salvar -> " + pipeline.id);
+    // generateImage(pipeline.id);
   }
 
   function handleEnd() {
@@ -206,6 +247,23 @@ function EditComponent(props) {
     } else {
       setVideoUrl(e.target.value);
     }
+  }
+
+  function handleCameraId(e) {
+    setCameraId(e.id);
+    toast.success(
+      "A câmera de nome " + e.name + " foi selecionada com sucesso",
+      {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      }
+    );
   }
 
   const theme = {
@@ -247,21 +305,28 @@ function EditComponent(props) {
               className="d-flex flex-column align-items-center "
             >
               <h2 className={Styles.stepTitle}>Selecione o arquivo</h2>
-              <Form.Control
-                type="file"
-                size="sm"
-                accept={props.format}
-                className={Styles.input}
-                onChange={(e) => handleImage(e)}
-              />
-              <text>ou insira o URL do conteúdo</text>
-              <Form.Control
-                className={Styles.input}
-                size="sm"
-                type="text"
-                placeholder="URL"
-                onChange={(e) => handleUrl(e)}
-              />
+
+              {props.type !== "camera" ? (
+                <>
+                  <Form.Control
+                    type="file"
+                    size="sm"
+                    accept={props.format}
+                    className={Styles.input}
+                    onChange={(e) => handleImage(e)}
+                  />
+                  <text>ou insira o URL do conteúdo</text>
+                  <Form.Control
+                    className={Styles.input}
+                    size="sm"
+                    type="text"
+                    placeholder="URL"
+                    onChange={(e) => handleUrl(e)}
+                  />
+                </>
+              ) : (
+                <CameraList sendCamera={(e) => handleCameraId(e)} />
+              )}
             </Form.Group>
           )) ||
             (activeStep == 1 && (
@@ -315,6 +380,25 @@ function EditComponent(props) {
                     >
                       Baixar
                     </button>
+                  )}
+                  {props.type == "camera" && (
+                    <div
+                      style={{ width: "60%", maxHeight: "70%", margin: "auto" }}
+                    >
+                      <>
+                        <VideoComponent
+                          show={showCamera}
+                          url={generatedCameraUrl}
+                          width="100%"
+                        />
+                        <button
+                          className={"btn btn-color " + Styles.downloadButton}
+                          onClick={saveCamera}
+                        >
+                          Salvar
+                        </button>
+                      </>
+                    </div>
                   )}
                 </div>
               </div>
