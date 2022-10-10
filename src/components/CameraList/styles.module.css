@@ -4,9 +4,9 @@
 }
 
 .listCamera {
-  max-height: 80vh;
+  max-height: 60vh;
   width: 80%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .item {

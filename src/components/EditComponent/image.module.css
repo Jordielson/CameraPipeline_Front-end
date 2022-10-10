@@ -28,11 +28,12 @@
 .btnNext {
   display: flex;
   align-self: end;
+  border-radius: 5px;
 }
 
 .btn:hover {
   /* border: 1px solid #2a233c !important; */
-
+  border-radius: 5px;
   box-shadow: 0px 0px 3px 1px #616161;
 }
 
@@ -51,7 +52,7 @@
 .image {
   display: flex;
   align-self: center;
-  max-height: 60vh;
+  max-height: 55vh;
   max-width: 60vw;
 }
 .downloadButton {
@@ -71,8 +72,9 @@
 }
 .step {
   background-image: #fff;
+  height: auto !important;
 }
 .list {
-  overflow-y: scroll;
-  max-height: 65vh;
+  overflow-y: auto;
+  max-height: 60vh;
 }

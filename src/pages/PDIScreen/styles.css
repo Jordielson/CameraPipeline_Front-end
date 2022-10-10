@@ -37,7 +37,7 @@
 }
 .listpdi {
   max-height: 80vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 0;
 }
 .navbar {

@@ -29,10 +29,10 @@ function EditComponent(props) {
   const [showCamera, setShowCamera] = useState(false);
 
   useEffect(() => {
-    if(activeStep === 1) {
+    if (activeStep === 1) {
       getPipeline();
     }
-  }, [activeStep])
+  }, [activeStep]);
 
   function nextStep() {
     if (
@@ -46,16 +46,19 @@ function EditComponent(props) {
         setActiveStep((currentStep) => currentStep + 1);
       }
     } else {
-      toast.error(`Selecione um(a) ${props.type} antes de prosseguir`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(
+        <text>Selecione um(a) {props.type} antes de prosseguir</text>,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      );
     }
   }
   function previousStep() {
@@ -69,26 +72,29 @@ function EditComponent(props) {
     if (props.type == "imagem") {
       fetch(generatedImageUrl, {
         method: "GET",
-        headers: {}
+        headers: {},
       })
-        .then(response => {
-          response.arrayBuffer().then(function(buffer) {
+        .then((response) => {
+          response.arrayBuffer().then(function (buffer) {
             const url = window.URL.createObjectURL(new Blob([buffer]));
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", "image."+returnedImage.format.split("/")[1]); //or any other extension
+            link.setAttribute(
+              "download",
+              "image." + returnedImage.format.split("/")[1]
+            ); //or any other extension
             document.body.appendChild(link);
             link.click();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           var errorMessage = "";
           switch (error.response.data.code) {
             case "ERR_INTERNAL_SERVER_ERROR":
-              errorMessage = "Ocorreu um erro no servidor"
+              errorMessage = "Ocorreu um erro no servidor";
               break;
             default:
-              errorMessage = "Erro ao baixar a imagem"
+              errorMessage = "Erro ao baixar a imagem";
               break;
           }
           toast.error(<text id="toastMsg">{errorMessage}</text>);
@@ -102,10 +108,10 @@ function EditComponent(props) {
       //   ], { type: "image/*" });
       // saveAs(blob, "image.png");
       // console.log(blob);
-    } 
+    }
   }
 
-  async function generateImage(pipelineId) {
+  async function generateContent(pipelineId) {
     if (props.type == "imagem") {
       const data = new FormData();
       data.append("image", image);
@@ -123,27 +129,26 @@ function EditComponent(props) {
       CameraService.generateCamera({
         pipelineId: pipelineId,
         cameraId: cameraId,
-      }).then((response) => {
-        setCamera(response);
+      })
+        .then((response) => {
+          setCamera(response);
 
-        setgeneratedCameraUrl(
-          response.url
-        );
+          setgeneratedCameraUrl(response.url);
           console.log(response);
-        setShowCamera(true);
-
-      }).catch((error) => {
-        var errorMessage = "";
+          setShowCamera(true);
+        })
+        .catch((error) => {
+          var errorMessage = "";
           switch (error.response.data.code) {
             case "ERR_INTERNAL_SERVER_ERROR":
-              errorMessage = "Ocorreu um erro no servidor"
+              errorMessage = "Ocorreu um erro no servidor";
               break;
             default:
-              errorMessage = "Erro ao buscar as cameras"
+              errorMessage = "Erro ao buscar as cameras";
               break;
           }
           toast.error(<text id="toastMsg">{errorMessage}</text>);
-      });
+        });
     }
   }
 
@@ -151,7 +156,7 @@ function EditComponent(props) {
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
         setPipeline(item);
-        generateImage(item.id);
+        generateContent(item.id);
       }
     });
 
@@ -162,14 +167,15 @@ function EditComponent(props) {
     PipelineService.getAll()
       .then((response) => {
         setPipelineList(response.content);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         var errorMessage = "";
         switch (error.response.data.code) {
           case "ERR_INTERNAL_SERVER_ERROR":
-            errorMessage = "Ocorreu um erro no servidor"
+            errorMessage = "Ocorreu um erro no servidor";
             break;
           default:
-            errorMessage = "Erro ao buscar os pipeline"
+            errorMessage = "Erro ao buscar os pipeline";
             break;
         }
         toast.error(<text id="toastMsg">{errorMessage}</text>);
@@ -178,26 +184,29 @@ function EditComponent(props) {
 
   function saveCamera() {
     CameraService.register(camera)
-    .then(() => {
-      toast.success(<text id="toastMsg">Pipeline aplicada a câmera com sucesso</text>);
-    }).catch((error) => {
+      .then(() => {
+        toast.success(
+          <text id="toastMsg">Pipeline aplicada a câmera com sucesso</text>
+        );
+      })
+      .catch((error) => {
         var errorMessage = "";
         switch (error.response.data.code) {
           case "ERR_NOT_FOUND":
-            errorMessage = "Camera ou pipeline não encontrado"
+            errorMessage = "Camera ou pipeline não encontrado";
             break;
           case "ERR_INAVALID_ARGUMENT":
-              errorMessage = "Camera inválida";
-              break;
+            errorMessage = "Camera inválida";
+            break;
           case "ERR_INTERNAL_SERVER_ERROR":
-            errorMessage = "Ocorreu um erro no servidor"
+            errorMessage = "Ocorreu um erro no servidor";
             break;
           default:
-            errorMessage = "Erro ao salvar a camera com pipeline"
+            errorMessage = "Erro ao salvar a camera com pipeline";
             break;
         }
         toast.error(<text id="toastMsg">{errorMessage}</text>);
-    });
+      });
   }
 
   function handleEnd() {
@@ -225,19 +234,19 @@ function EditComponent(props) {
 
   function handleCameraId(e) {
     setCameraId(e.id);
-    toast.success(
-      "A câmera de nome " + e.name + " foi selecionada com sucesso",
-      {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      }
-    );
+    // toast.success(
+    //   "A câmera de nome " + e.name + " foi selecionada com sucesso",
+    //   {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "colored",
+    //   }
+    // );
   }
 
   const theme = {
@@ -261,7 +270,11 @@ function EditComponent(props) {
   return (
     <div className="content-body">
       <div className={Styles.content}>
-        <Stepper alternativeLabel activeStep={activeStep}>
+        <Stepper
+          alternativeLabel
+          activeStep={activeStep}
+          className={Styles.grid1}
+        >
           <Step sx={theme} className={Styles.step}>
             <StepLabel>Selecionar {props.type}</StepLabel>
           </Step>
@@ -325,7 +338,7 @@ function EditComponent(props) {
             )) ||
             (activeStep == 2 && (
               <div className={Styles.stepdownload}>
-                <h3>Resultado:</h3>
+                <h5>Resultado:</h5>
                 <div>
                   {props.type == "imagem" && (
                     <img

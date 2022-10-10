@@ -274,18 +274,17 @@ function FormPDI(props) {
         </Modal.Header>
         <Modal.Body className={styles.modal}>
           <div className={styles.formPdi}>
-            <Form.Label
-              className={styles.formDescLabel}
-              >
+            <Form.Label className={styles.formDescLabel}>
               Decrição da PDI
             </Form.Label>
-            <Form.Control 
+            <Form.Control
+              tValue={props.obj.description} //
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
-              className="" 
-              as="textarea" 
-              rows={1} 
+              className=""
+              as="textarea"
+              rows={1}
             />
           </div>
           {!show && <p className={styles.error}>{duplicatedParam}</p>}
@@ -337,6 +336,7 @@ function FormPDI(props) {
                 <div className={styles.formTxt}>
                   <Form.Label className="px-2">Decrição</Form.Label>
                   <Form.Control
+                    defaultValue={param.description}
                     onChange={(e) => {
                       handleDescritionParameter(e);
                     }}
