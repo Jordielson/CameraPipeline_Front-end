@@ -10,117 +10,14 @@ import VideoService from "../../services/video";
 import CameraService from "../../services/camera";
 import CameraList from "../CameraList";
 import VideoComponent from "../VideoComponent";
-import PDIService from "./../../services/pdi";
-
-const pipelineJson = [
-  {
-    id: 1,
-    name: "Aumentar imagem",
-    description:
-      "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
-    creationDate: "2022-06-26T14:30:30",
-    modificationTime: "2022-06-26T14:30:30",
-    isActive: false,
-    cameraList: [
-      {
-        id: 1,
-        name: "Camera 01",
-        isPrivate: true,
-        fpsLimiter: 60,
-        url: "http://localhost:5000/api",
-      },
-    ],
-    pdilist: [
-      {
-        id: 1,
-        modelPdi: {
-          id: 3,
-          name: "Redimensionar imagem ",
-          parameters: [
-            {
-              id: 3,
-              name: "Tamanho da imagem",
-              type: "STRING",
-              required: false,
-              index: 0,
-            },
-          ],
-          category: "PDI",
-          url: "http://localhost:5000/reduzir-ima",
-        },
-        valueParameters: [
-          {
-            id: 1,
-            value: "25x30",
-            parameter: {
-              id: 1,
-              name: "Tamanho da imagem",
-              type: "STRING",
-            },
-          },
-        ],
-        pipelineId: 1,
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Redimencionar imagem",
-    description:
-      "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
-    creationDate: "2022-06-26T14:30:30",
-    modificationTime: "2022-06-26T14:30:30",
-    isActive: false,
-    groupPipelineId: 1,
-    cameraList: [
-      {
-        id: 1,
-        name: "Camera 01",
-        isPrivate: true,
-        fpsLimiter: 60,
-        url: "http://localhost:5000/api",
-      },
-    ],
-    pdilist: [
-      {
-        id: 1,
-        modelPdi: {
-          id: 3,
-          name: "Redimensionar imagem ",
-          parameters: [
-            {
-              id: 3,
-              name: "Tamanho da imagem",
-              type: "STRING",
-              required: false,
-              index: 0,
-            },
-          ],
-          category: "PDI",
-          url: "http://localhost:5000/reduzir-ima",
-        },
-        valueParameters: [
-          {
-            id: 1,
-            value: "25x30",
-            parameter: {
-              id: 1,
-              name: "Tamanho da imagem",
-              type: "STRING",
-            },
-          },
-        ],
-        pipelineId: 1,
-      },
-    ],
-  },
-];
+import PipelineService from "../../services/pipeline";
 
 function EditComponent(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [image, setImage] = useState();
+  const [camera, setCamera] = useState();
   const [imageUrl, setImageUrl] = useState();
-  const [pipelineList, setPipelineList] = useState(pipelineJson);
+  const [pipelineList, setPipelineList] = useState([]);
   const [pipeline, setPipeline] = useState();
   const [returnedImage, setReturnedImage] = useState();
   const [video, setVideo] = useState();
@@ -130,6 +27,12 @@ function EditComponent(props) {
   const [generatedVideoUrl, setgeneratedVideoUrl] = useState();
   const [generatedCameraUrl, setgeneratedCameraUrl] = useState();
   const [showCamera, setShowCamera] = useState(false);
+
+  useEffect(() => {
+    if(activeStep === 1) {
+      getPipeline();
+    }
+  }, [activeStep])
 
   function nextStep() {
     if (
@@ -178,8 +81,17 @@ function EditComponent(props) {
             link.click();
           });
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          var errorMessage = "";
+          switch (error.response.data.code) {
+            case "ERR_INTERNAL_SERVER_ERROR":
+              errorMessage = "Ocorreu um erro no servidor"
+              break;
+            default:
+              errorMessage = "Erro ao baixar a imagem"
+              break;
+          }
+          toast.error(<text id="toastMsg">{errorMessage}</text>);
         });
 
       // const imageByte = await ImageService.getImage(returnedImage);
@@ -190,8 +102,7 @@ function EditComponent(props) {
       //   ], { type: "image/*" });
       // saveAs(blob, "image.png");
       // console.log(blob);
-    } else {
-    }
+    } 
   }
 
   async function generateImage(pipelineId) {
@@ -209,38 +120,84 @@ function EditComponent(props) {
       const response = await VideoService.generateVideo(data);
       setgeneratedVideoUrl(response.url);
     } else {
-      setgeneratedCameraUrl(
-        "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
-      );
-      setShowCamera(true);
-      try {
-        const response = await CameraService.generateCamera({
-          pipelineId: pipelineId,
-          cameraId: cameraId,
-        });
-      } catch (error) {
-        console.log("erro");
-      }
+      CameraService.generateCamera({
+        pipelineId: pipelineId,
+        cameraId: cameraId,
+      }).then((response) => {
+        setCamera(response);
+
+        setgeneratedCameraUrl(
+          response.url
+        );
+          console.log(response);
+        setShowCamera(true);
+
+      }).catch((error) => {
+        var errorMessage = "";
+          switch (error.response.data.code) {
+            case "ERR_INTERNAL_SERVER_ERROR":
+              errorMessage = "Ocorreu um erro no servidor"
+              break;
+            default:
+              errorMessage = "Erro ao buscar as cameras"
+              break;
+          }
+          toast.error(<text id="toastMsg">{errorMessage}</text>);
+      });
     }
   }
 
   function handlePipeline(e) {
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
-        console.log(item);
         setPipeline(item);
-        //  if(props.type !== "camera"){
         generateImage(item.id);
-        //  }
       }
     });
 
     setActiveStep((currentStep) => currentStep + 1);
   }
 
+  async function getPipeline() {
+    PipelineService.getAll()
+      .then((response) => {
+        setPipelineList(response.content);
+      }).catch((error) => {
+        var errorMessage = "";
+        switch (error.response.data.code) {
+          case "ERR_INTERNAL_SERVER_ERROR":
+            errorMessage = "Ocorreu um erro no servidor"
+            break;
+          default:
+            errorMessage = "Erro ao buscar os pipeline"
+            break;
+        }
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
+      });
+  }
+
   function saveCamera() {
-    console.log("Clicou em salvar -> " + pipeline.id);
-    // generateImage(pipeline.id);
+    CameraService.register(camera)
+    .then(() => {
+      toast.success(<text id="toastMsg">Pipeline aplicada a câmera com sucesso</text>);
+    }).catch((error) => {
+        var errorMessage = "";
+        switch (error.response.data.code) {
+          case "ERR_NOT_FOUND":
+            errorMessage = "Camera ou pipeline não encontrado"
+            break;
+          case "ERR_INAVALID_ARGUMENT":
+              errorMessage = "Camera inválida";
+              break;
+          case "ERR_INTERNAL_SERVER_ERROR":
+            errorMessage = "Ocorreu um erro no servidor"
+            break;
+          default:
+            errorMessage = "Erro ao salvar a camera com pipeline"
+            break;
+        }
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
+    });
   }
 
   function handleEnd() {

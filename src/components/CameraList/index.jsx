@@ -77,21 +77,21 @@ function CameraList(props) {
                       onClick={() => cameraSelected(obj)}
                     />
                   </div>
-                  <ModalCamera
-                    show={show}
-                    onShowChange={setShow}
-                    camera={camera}
-                    updateData={fetchCameraList}
-                    type={typeModal}
-                  />
                 </ListGroup.Item>
-              ) : (
-                <span>Nenhuma câmera foi encontrada</span>
-              )}
+                ) : (
+                  <span>Nenhuma câmera foi encontrada</span>
+                )}
             </>
           );
         })}
       </ListGroup>
+      <ModalCamera
+        show={show}
+        onShowChange={setShow}
+        camera={camera}
+        updateData={fetchCameraList}
+        type={typeModal}
+      />
     </>
   );
 }

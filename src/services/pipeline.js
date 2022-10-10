@@ -20,6 +20,15 @@ const PipelineService = {
       });
     return data;
   },
+  getAll: async () => {
+    var data = null;
+    await Api()
+      .get("/api/pipeline/all")
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
 };
 
 export default PipelineService;

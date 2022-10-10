@@ -33,7 +33,7 @@ function VideoStream(props) {
   };
 
   useEffect(() => {
-    if (!props.show) {
+    if (player) {
       stopStream();
       player.destroy();
     }
@@ -45,6 +45,7 @@ function VideoStream(props) {
     try {
       let resp = await VideoStreamService.createStream({
         url: stream,
+        resolution: "640x360"
       });
       setResponse(resp);
       let canvas = document.getElementById("video-wrapper");
