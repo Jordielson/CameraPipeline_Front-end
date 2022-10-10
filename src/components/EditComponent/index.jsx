@@ -113,12 +113,14 @@ function EditComponent(props) {
       const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
       setReturnedImage(returnedImage);
+      nextStep();
     } else if (props.type == "video") {
       const data = new FormData();
       data.append("video", video);
       data.append("pipeline", pipelineId);
       const response = await VideoService.generateVideo(data);
       setgeneratedVideoUrl(response.url);
+      nextStep();
     } else {
       CameraService.generateCamera({
         pipelineId: pipelineId,
@@ -129,9 +131,9 @@ function EditComponent(props) {
         setgeneratedCameraUrl(
           response.url
         );
-          console.log(response);
         setShowCamera(true);
 
+        nextStep();
       }).catch((error) => {
         var errorMessage = "";
           switch (error.response.data.code) {
@@ -160,7 +162,9 @@ function EditComponent(props) {
         generateImage(item.id);
       }
     });
+  }
 
+  function nextStep() {
     setActiveStep((currentStep) => currentStep + 1);
   }
 
