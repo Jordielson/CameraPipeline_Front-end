@@ -119,12 +119,14 @@ function EditComponent(props) {
       const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
       setReturnedImage(returnedImage);
+      nextStep();
     } else if (props.type == "video") {
       const data = new FormData();
       data.append("video", video);
       data.append("pipeline", pipelineId);
       const response = await VideoService.generateVideo(data);
       setgeneratedVideoUrl(response.url);
+      nextStep();
     } else {
       CameraService.generateCamera({
         pipelineId: pipelineId,
@@ -134,14 +136,21 @@ function EditComponent(props) {
           setCamera(response);
 
           setgeneratedCameraUrl(response.url);
-          console.log(response);
           setShowCamera(true);
+
+          nextStep();
         })
         .catch((error) => {
           var errorMessage = "";
           switch (error.response.data.code) {
             case "ERR_INTERNAL_SERVER_ERROR":
               errorMessage = "Ocorreu um erro no servidor";
+              break;
+            case "ERR_PIPELINE_ALREADY_APPLIED":
+              errorMessage = "Pipeline já foi aplicada a esta câmera";
+              break;
+            case "ERR_CAMERA_PIPELINE_ALREADY_EXISTS":
+              errorMessage = "Já existe uma câmera com esse pipeline";
               break;
             default:
               errorMessage = "Erro ao buscar as cameras";
@@ -159,7 +168,9 @@ function EditComponent(props) {
         generateContent(item.id);
       }
     });
+  }
 
+  function nextStep() {
     setActiveStep((currentStep) => currentStep + 1);
   }
 
