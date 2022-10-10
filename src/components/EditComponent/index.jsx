@@ -164,12 +164,32 @@ function EditComponent(props) {
 
   async function downloadImage() {
     if (props.type == "imagem") {
-      console.log(returnedImage);
-      const imageByte = await ImageService.getImage(returnedImage);
+      fetch(generatedImageUrl, {
+        method: "GET",
+        headers: {}
+      })
+        .then(response => {
+          response.arrayBuffer().then(function(buffer) {
+            const url = window.URL.createObjectURL(new Blob([buffer]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "image."+returnedImage.format.split("/")[1]); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
-      var blob = new Blob(imageByte, { type: "image/png;base64" });
-      saveAs(blob, "image.png");
-      console.log(blob);
+      // const imageByte = await ImageService.getImage(returnedImage);
+
+      // var blob = new Blob(
+      //   [
+      //     "https://cdn.eso.org/images/publicationjpg/eso1907a.jpg"
+      //   ], { type: "image/*" });
+      // saveAs(blob, "image.png");
+      // console.log(blob);
     } else {
     }
   }
