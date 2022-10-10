@@ -131,15 +131,6 @@ function EditComponent(props) {
   const [generatedCameraUrl, setgeneratedCameraUrl] = useState();
   const [showCamera, setShowCamera] = useState(false);
 
-  /* useEffect(() => {
-    getPDIs();
-  }, []);
-
-  async function getPDIs() {
-    const pdiList = await PDIService.getAll();
-    setPipelineList(pdiList.content);
-  } */
-
   function nextStep() {
     if (
       imageUrl != null ||
@@ -171,12 +162,17 @@ function EditComponent(props) {
     }
   }
 
-  const downloadImage = () => {
+  async function downloadImage() {
     if (props.type == "imagem") {
-      saveAs(generatedImageUrl, "image.jpg");
+      console.log(returnedImage);
+      const imageByte = await ImageService.getImage(returnedImage);
+
+      var blob = new Blob(imageByte, { type: "image/png;base64" });
+      saveAs(blob, "image.png");
+      console.log(blob);
     } else {
     }
-  };
+  }
 
   async function generateImage(pipelineId) {
     if (props.type == "imagem") {
@@ -185,6 +181,7 @@ function EditComponent(props) {
       data.append("pipeline", pipelineId);
       const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
+      setReturnedImage(returnedImage);
     } else if (props.type == "video") {
       const data = new FormData();
       data.append("video", video);
@@ -355,6 +352,7 @@ function EditComponent(props) {
                 <div>
                   {props.type == "imagem" && (
                     <img
+                      id="ItemPreview"
                       className={Styles.image}
                       src={generatedImageUrl}
                       alt=""

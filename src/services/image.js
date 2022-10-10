@@ -20,6 +20,15 @@ const ImageService = {
       });
     return data;
   },
+  getImage: async (params) => {
+    var data = null;
+    await Api()
+      .get(`/api/image/storage/${params.id}`, params)
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
 };
 
 export default ImageService;
