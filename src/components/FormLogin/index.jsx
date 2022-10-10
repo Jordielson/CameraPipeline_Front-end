@@ -88,7 +88,7 @@ function FormLogin() {
                 onClick={(e) => {
                   handleSignUp();
                 }}
-                // type="submit"
+                type="button"
               >
                 Entrar
               </button>

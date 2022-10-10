@@ -138,6 +138,12 @@ function EditComponent(props) {
             case "ERR_INTERNAL_SERVER_ERROR":
               errorMessage = "Ocorreu um erro no servidor"
               break;
+            case "ERR_PIPELINE_ALREADY_APPLIED":
+              errorMessage = "Pipeline já foi aplicada a esta câmera"
+              break;
+            case "ERR_CAMERA_PIPELINE_ALREADY_EXISTS":
+              errorMessage = "Já existe uma câmera com esse pipeline"
+              break;
             default:
               errorMessage = "Erro ao buscar as cameras"
               break;
