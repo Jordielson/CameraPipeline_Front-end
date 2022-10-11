@@ -11,13 +11,14 @@ function FormPDI(props) {
   const [parameters, setParameters] = useState([]);
   const [show, setShow] = useState(false);
   const [duplicatedParam, setDuplicatedParam] = useState();
-  const [description, setDescription] = useState([]);
+  const [description, setDescription] = useState();
 
   useEffect(() => {
     if (props.obj) {
       setUrl(props.obj.url);
       setPDIName(props.obj.name);
       setParameters(props.obj.parameters);
+      setDescription(props.obj.description);
       console.log(parameters, "UE", props.obj);
     }
   }, [props]);
@@ -127,6 +128,8 @@ function FormPDI(props) {
       setParameters([]);
       setUrl("");
       setPDIName("");
+      setDescription("");
+      console.log(description);
     } catch (e) {
       setShow(false);
       setDuplicatedParam("*Há parâmetros com nome Repetido: " + e);
@@ -278,7 +281,7 @@ function FormPDI(props) {
               Decrição da PDI
             </Form.Label>
             <Form.Control
-              tValue={props.obj.description} //
+              value={description} //
               onChange={(e) => {
                 setDescription(e.target.value);
               }}

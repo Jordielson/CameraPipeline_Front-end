@@ -29,6 +29,15 @@ const ImageService = {
       });
     return data;
   },
+  delete: async (params) => {
+    var data = null;
+    await Api()
+      .delete(`/api/image/${params}`)
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
 };
 
 export default ImageService;

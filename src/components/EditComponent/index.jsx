@@ -20,6 +20,7 @@ function EditComponent(props) {
   const [pipelineList, setPipelineList] = useState([]);
   const [pipeline, setPipeline] = useState();
   const [returnedImage, setReturnedImage] = useState();
+  const [returnedVideo, setReturnedVideo] = useState();
   const [video, setVideo] = useState();
   const [videoUrl, setVideoUrl] = useState();
   const [cameraId, setCameraId] = useState();
@@ -36,11 +37,11 @@ function EditComponent(props) {
 
   function nextStep() {
     if (
-      imageUrl != null ||
+      // imageUrl != null ||
       image != null ||
-      videoUrl != null ||
-      video ||
-      cameraId !== undefined
+      // videoUrl != null ||
+      video != null ||
+      cameraId != null
     ) {
       if (activeStep < 2) {
         setActiveStep((currentStep) => currentStep + 1);
@@ -64,7 +65,22 @@ function EditComponent(props) {
   function previousStep() {
     setShowCamera(false);
     if (activeStep > 0) {
+      if (activeStep == 2) {
+        if (props.type == "imagem") {
+          ImageService.delete(returnedImage.id);
+        }
+        if (props.type == "video") {
+          VideoService.delete(returnedVideo.id);
+        }
+      }
       setActiveStep((currentStep) => currentStep - 1);
+    }
+    if (activeStep == 1) {
+      setCameraId(null);
+      setImage(null);
+      setVideo(null);
+      // setImageUrl(null);
+      // setVideoUrl(null);
     }
   }
 
@@ -125,6 +141,7 @@ function EditComponent(props) {
       data.append("video", video);
       data.append("pipeline", pipelineId);
       const response = await VideoService.generateVideo(data);
+      setReturnedVideo(response);
       setgeneratedVideoUrl(response.url);
       nextStep();
     } else {
@@ -170,9 +187,9 @@ function EditComponent(props) {
     });
   }
 
-  function nextStep() {
-    setActiveStep((currentStep) => currentStep + 1);
-  }
+  // function nextStep() {
+  //   setActiveStep((currentStep) => currentStep + 1);
+  // }
 
   async function getPipeline() {
     PipelineService.getAll()
@@ -221,6 +238,14 @@ function EditComponent(props) {
   }
 
   function handleEnd() {
+    if (activeStep == 2) {
+      if (props.type == "imagem") {
+        ImageService.delete(returnedImage.id);
+      }
+      if (props.type == "video") {
+        VideoService.delete(returnedVideo.id);
+      }
+    }
     setImage(null);
     setImageUrl(null);
     setVideo(null);
