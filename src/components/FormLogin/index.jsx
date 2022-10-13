@@ -22,7 +22,11 @@ function FormLogin() {
       setRedirectToPipeline(true);
       navigate("../pipeline", { replace: true });
     } catch (error) {
-      toast.error(<text id="toastMsg">Email ou senha inválida</text>);
+      if (error.message === "Network Error") {
+        toast.error(<text id="toastMsg">Conexão recusada</text>);
+      } else {
+        toast.error(<text id="toastMsg">Email ou senha inválida</text>);
+      }
     }
     // if (redirectToRegister) {
     //   navigate("../register", { replace: true });
