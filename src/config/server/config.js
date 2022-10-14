@@ -1,25 +1,26 @@
 import axios from "axios";
 
+const BASE_API_URL = process.env.REACT_APP_API_BASE_API_URL;
+const BASE_VIDEO_STREAM_URL = process.env.REACT_APP_API_BASE_VIDEO_STREAM_URL;
+const LOCAL_APP_URL = process.env.REACT_APP_API_BASE_APP_URL;
+
 const Api = (token = localStorage.getItem("token")) => {
-  const baseURL = "http://localhost:8080/";
   if (token) {
     return axios.create({
-      baseURL: baseURL,
+      baseURL: BASE_API_URL,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
   } else {
     return axios.create({
-      baseURL: baseURL,
+      baseURL: BASE_API_URL,
     });
   }
 };
 const ApiVideoStream = axios.create({
-  baseURL: "http://localhost:3333/camera-pipeline",
+  baseURL: BASE_VIDEO_STREAM_URL,
 });
 
-const localURL = "http://localhost:3000/";
-
 export default Api;
-export { ApiVideoStream, localURL };
+export { ApiVideoStream, LOCAL_APP_URL };

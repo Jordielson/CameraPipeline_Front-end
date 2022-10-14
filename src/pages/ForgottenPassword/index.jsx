@@ -5,7 +5,7 @@ import UserService from "../../services/user";
 import { toast } from "react-toastify";
 import LogoTitle from "../../components/fragment/LogoTitle";
 import { useNavigate } from "react-router-dom";
-import { localURL } from "../../config/server/config";
+import { LOCAL_APP_URL } from "../../config/server/config";
 
 function ForgottenPassword() {
   const [email, setEmail] = useState(""); 
@@ -35,7 +35,7 @@ function ForgottenPassword() {
         await toast.promise(
           UserService.forgotPassword({
             email: email,
-            redirect: `${localURL}password-reset`
+            redirect: `${LOCAL_APP_URL}/password-reset`
           }),
           {
             pending: {
