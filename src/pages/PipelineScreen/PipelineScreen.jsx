@@ -3,7 +3,6 @@ import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
 import { BsClock } from "react-icons/bs";
 import "./styles.css";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { TiFlowMerge } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 
@@ -176,6 +175,7 @@ const modelPDIList = [
 
 function PipelineScreen() {
   const navigate = useNavigate();
+  const [pipelineList, setPipelineList] = useState([]);
   const [pipeline, setPipeline] = useState(pipelineJson);
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [update, setUpdate] = useState(false);
@@ -192,54 +192,18 @@ function PipelineScreen() {
     );
   }
 
-  function sortPipeline() {
-    console.log(pipeline, "antes");
-    var count = 1;
-    pipeline.pdilist.map((pipe) => {
-      if (selectedPipelineId == pipe.id) {
-        setSelectePipelineId(count);
-      }
-      pipe.id = count++;
-    });
-    console.log(pipeline, "depois");
-  }
+  // function sortPipeline() {
+  //   console.log(pipeline, "antes");
+  //   var count = 1;
+  //   pipeline.pdilist.map((pipe) => {
+  //     if (selectedPipelineId == pipe.id) {
+  //       setSelectePipelineId(count);
+  //     }
+  //     pipe.id = count++;
+  //   });
+  //   console.log(pipeline, "depois");
+  // }
 
-  function pipelineUp(e) {
-    pipeline.pdilist.map((pipe) => {
-      if (pipe.id == e.target.id) {
-        if (pipe.id == 1) {
-          return 1;
-        }
-        var indice = pipeline.pdilist.findIndex(function (obj) {
-          return obj.id == e.target.id;
-        });
-        var element = pipeline.pdilist[indice];
-        pipeline.pdilist.splice(indice, 1);
-        pipeline.pdilist.splice(indice - 1, 0, element);
-        const novoEstado = Object.assign({}, pipeline);
-        setPipeline(novoEstado);
-        sortPipeline();
-      }
-    });
-  }
-  function pipelineDown(e) {
-    var count = 0;
-    pipeline.pdilist.map((pipe) => {
-      if (pipe.id == e.target.id && count == 0) {
-        var indice = pipeline.pdilist.findIndex(function (obj) {
-          return obj.id == e.target.id;
-        });
-        var element = pipeline.pdilist[indice];
-        pipeline.pdilist.splice(indice, 1);
-        pipeline.pdilist.splice(indice + 1, 0, element);
-        const novoEstado = Object.assign({}, pipeline);
-        setPipeline(novoEstado);
-        console.log(indice);
-        count += 1;
-        sortPipeline();
-      }
-    });
-  }
   function removePipeline(e) {
     var count = 0;
     pipeline.pdilist.map((pipe) => {
@@ -254,7 +218,6 @@ function PipelineScreen() {
         setPipeline(novoEstado);
         console.log(indice);
         count += 1;
-        sortPipeline();
       }
     });
   }
@@ -294,6 +257,15 @@ function PipelineScreen() {
   }
 
   useEffect(() => {
+    if (pipelineList[0] != undefined) {
+      setPipeline(pipelineList[0]);
+    }
+    if (pipeline.id == "") {
+      setPipeline(pipelineJson);
+    }
+  }, [pipelineList]);
+
+  useEffect(() => {
     if (pipeline.id === "") {
       setPipeline(pipelineJson);
     }
@@ -302,6 +274,7 @@ function PipelineScreen() {
   useEffect(() => {
     getPDIs();
     getCameras();
+    getPipelines();
   }, []);
 
   const getPDIs = async () => {
@@ -321,6 +294,16 @@ function PipelineScreen() {
     }
   };
 
+  const getPipelines = async () => {
+    try {
+      const response = await PipelineService.getAll();
+
+      setPipelineList(response.content);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+
   const refresh = () => {
     setUpdate(!update);
   };
@@ -334,13 +317,12 @@ function PipelineScreen() {
     if (document.getElementsByClassName("card-item")[0]) {
       pipeline.pdilist.map((pipe) => {
         if (pipe.id == selectedPipelineId) {
-          document.getElementsByClassName("card-item")[
-            selectedPipelineId - 1
-          ].style.backgroundColor = "#f4f4f4";
+          document.getElementsByClassName(
+            selectedPipelineId
+          )[0].style.backgroundColor = "#f4f4f4";
         } else {
-          document.getElementsByClassName("card-item")[
-            pipe.id - 1
-          ].style.backgroundColor = "#fdfdfd";
+          document.getElementsByClassName(pipe.id)[0].style.backgroundColor =
+            "#fdfdfd";
         }
       });
     }
@@ -363,16 +345,6 @@ function PipelineScreen() {
     });
   }
 
-  function handleOnDragEnd(result) {
-    console.log(result);
-    if (!result.destination) return;
-    const [reorderedItem] = pipeline.pdilist.splice(result.source.index - 1, 1);
-    pipeline.pdilist.splice(result.destination.index - 1, 0, reorderedItem);
-    const novoEstado = Object.assign({}, pipeline);
-    setPipeline(novoEstado);
-    sortPipeline();
-  }
-
   const save = async () => {
     try {
       const response = await toast.promise(PipelineService.register(pipeline), {
@@ -390,6 +362,22 @@ function PipelineScreen() {
     }
   };
 
+  function handleNameChange(e) {
+    var newPipeline = pipeline;
+    newPipeline.name = e.target.value;
+    setPipeline(newPipeline);
+  }
+
+  function handlePipeline(id) {
+    pipelineList.map((pipe) => {
+      if (pipe.id == id) {
+        setPipeline(pipe);
+        refresh();
+        console.log(pipeline.name);
+      }
+    });
+  }
+
   return (
     <>
       <div className="content">
@@ -399,18 +387,30 @@ function PipelineScreen() {
         <div className="content-body">
           <div className="sticky-top contentbar">
             <nav className="navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 ">
-              <a className="navbar-brand pipeline-name" href="#home">
-                {pipeline.name}
-              </a>
+              <input
+                key={pipeline.id}
+                type="text"
+                onChange={(e) => handleNameChange(e)}
+                defaultValue={pipeline.name}
+                className="form-control-plaintext navbar-brand pipeline-name"
+                style={{ color: "white" }}
+              />
+
               <div className="grupo d-flex flex-row">
                 <select
                   class="form-select-sm mx-1"
                   aria-label="Default select example"
+                  onChange={(e) => {
+                    handlePipeline(e.target.value);
+                  }}
                 >
-                  <option selected>Pipelines</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  {pipelineList.map((pipeline) => {
+                    return (
+                      <option key={pipeline.id} value={pipeline.id}>
+                        {pipeline.name}
+                      </option>
+                    );
+                  })}
                 </select>
                 <div class="input-group-sm d-flex mx-1">
                   <input
@@ -450,6 +450,9 @@ function PipelineScreen() {
             <div className="row row-body">
               <div className="col-4 b1 py-2">
                 <div className="input-group a">
+                  <span className="warning d-flex justify-content-center">
+                    O video abaixo é uma pré-visualização da pipeline
+                  </span>
                   <select
                     onClick={(e) => setUrl(e.target.value)}
                     className="custom-select input inputvideo"
@@ -460,12 +463,14 @@ function PipelineScreen() {
                       return <option value={video.url}>{video.name}</option>;
                     })}
                   </select>
-                  <span className="warning d-flex justify-content-center">
-                    O video abaixo é uma pré-visualização da pipeline
-                  </span>
                 </div>
                 <div className="background-video mb-2 d-flex justify-content-center">
-                  <VideoStream show={true} url={url} width="94%" />
+                  <VideoStream
+                    key={pipeline.id}
+                    show={true}
+                    url={url}
+                    width="94%"
+                  />
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
@@ -483,7 +488,9 @@ function PipelineScreen() {
                               id={pipe.id}
                               key={pipe.id}
                               onClick={(e) => addPDI(e)}
-                              title="Clique para adicionar"
+                              title={
+                                pipe.description + " [CLIQUE PARA ADICIONAR]"
+                              }
                             >
                               {pipe.name}
                               <Adicionar id={pipe.id} text={show} />
@@ -501,7 +508,7 @@ function PipelineScreen() {
               </div>
 
               <div className="col-4 b2">
-                <div class="card my-2">
+                <div class="card my-2" key={pipeline.id}>
                   <div className="card-header pipeline-header2 ">
                     Pipeline
                     <menu>
@@ -517,82 +524,43 @@ function PipelineScreen() {
                   </div>
                   <div class="card-body pipeline-card">
                     <div className="container p-2">
-                      <DragDropContext onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId="dnd">
-                          {(provided) => (
+                      <div className="dnd">
+                        {pipeline.pdilist.map((pipe) => {
+                          return (
                             <div
-                              className="dnd"
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
+                              onClick={(e) => setSelectePipelineId(pipe.id)}
+                              tabIndex="-1"
+                              key={pipe.id}
+                              id={pipe.id}
+                              className={
+                                pipe.id +
+                                " card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center "
+                              }
+                              title={pipe.name}
                             >
-                              {pipeline.pdilist.map((pipe) => {
-                                return (
-                                  <Draggable
-                                    key={pipe.id}
-                                    draggableId={pipe.id.toString()}
-                                    index={pipe.id}
-                                  >
-                                    {(provided) => (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        onClick={(e) =>
-                                          setSelectePipelineId(pipe.id)
-                                        }
-                                        tabIndex="-1"
-                                        key={pipe.id}
-                                        id={pipe.id}
-                                        className="card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center"
-                                        title="Arraste e solte para ordenar..."
-                                      >
-                                        <div className="col-7">
-                                          {pipe.modelPdi.name}
-                                        </div>
-                                        <div className="">{pipe.id}</div>
+                              <div className="col-7">{pipe.modelPdi.name}</div>
+                              <div className="">{"ID: " + pipe.id}</div>
 
-                                        <div className="card-button">
-                                          <i
-                                            title="Subir a posição da PDI"
-                                            id={pipe.id}
-                                            onClick={(e) => {
-                                              pipelineUp(e);
-                                            }}
-                                            className="fa-solid fa-circle-chevron-up"
-                                          ></i>
-                                          <i
-                                            title="Descer a posição da PDI"
-                                            id={pipe.id}
-                                            onClick={(e) => {
-                                              pipelineDown(e);
-                                            }}
-                                            className=" 
-                                            fa-solid fa-circle-chevron-down mx-1"
-                                          ></i>
-                                          <i
-                                            title="Remover PDI da pipeline"
-                                            id={pipe.id}
-                                            onClick={(e) => {
-                                              removePipeline(e);
-                                            }}
-                                            className="card-trash fa-solid fa-circle-minus"
-                                          ></i>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                );
-                              })}
+                              <div className="card-button">
+                                <i
+                                  title="Remover PDI da pipeline"
+                                  id={pipe.id}
+                                  onClick={(e) => {
+                                    removePipeline(e);
+                                  }}
+                                  className="card-trash fa-solid fa-circle-minus"
+                                ></i>
+                              </div>
                             </div>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-4 b3">
-                <div class="card my-2">
+                <div class="card my-2" key={pipeline.id}>
                   <div className="card-header pipeline-header">
                     Parametro da PDI
                   </div>
@@ -601,7 +569,10 @@ function PipelineScreen() {
                       if (pipe.id === selectedPipelineId) {
                         return pipe.valueParameters.map((param) => {
                           return (
-                            <div class="mb-3">
+                            <div
+                              class="mb-3"
+                              title={param.parameter.description}
+                            >
                               <label
                                 for="exampleFormControlInput1"
                                 class="form-label m-1"

@@ -78,7 +78,7 @@
   font-size: 0.9rem;
 }
 .card-pipe {
-  border-left: double 3px gray;
+  /* border-left: double 3px gray; */
 }
 .card-button {
   font-size: medium;
