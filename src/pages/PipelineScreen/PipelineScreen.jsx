@@ -4,7 +4,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { BsClock } from "react-icons/bs";
 import "./styles.css";
 import { TiFlowMerge } from "react-icons/ti";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
@@ -12,6 +12,7 @@ import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
 
 import { toast } from "react-toastify";
+import { Form } from "react-bootstrap";
 
 const pipelineJson = {
   id: 3,
@@ -192,18 +193,6 @@ function PipelineScreen() {
     );
   }
 
-  // function sortPipeline() {
-  //   console.log(pipeline, "antes");
-  //   var count = 1;
-  //   pipeline.pdilist.map((pipe) => {
-  //     if (selectedPipelineId == pipe.id) {
-  //       setSelectePipelineId(count);
-  //     }
-  //     pipe.id = count++;
-  //   });
-  //   console.log(pipeline, "depois");
-  // }
-
   function removePipeline(e) {
     var count = 0;
     pipeline.pdilist.map((pipe) => {
@@ -236,7 +225,7 @@ function PipelineScreen() {
           id: pipeline.pdilist.length + 1,
           modelPdi: pdi,
           valueParameters: valueParameter,
-          pipelineId: 1,
+          pipelineId: pipeline.id,
         };
 
         pipeline.pdilist.push(newPdi);
@@ -271,10 +260,16 @@ function PipelineScreen() {
     }
   }, [update]);
 
+  // const data = useLocation();
   useEffect(() => {
     getPDIs();
     getCameras();
     getPipelines();
+
+    // if (data) {
+    //   setPipeline(data);
+    //   data = undefined;
+    // }
   }, []);
 
   const getPDIs = async () => {
@@ -312,6 +307,10 @@ function PipelineScreen() {
     navigate("../flow", { replace: true });
   }
 
+  function history() {
+    navigate("../historico", { replace: true, state: pipeline });
+  }
+
   useEffect(() => {
     console.log(selectedPipelineId);
     if (document.getElementsByClassName("card-item")[0]) {
@@ -338,9 +337,20 @@ function PipelineScreen() {
           return obj.parameter.name == name;
         });
 
-        novoEstado.pdilist[count - 1].valueParameters[indice].value =
-          event.target.value;
+        if (
+          novoEstado.pdilist[count - 1].valueParameters[indice].parameter
+            .type == "BOOLEAN"
+        ) {
+          novoEstado.pdilist[count - 1].valueParameters[indice].value =
+            event.target.checked;
+        } else {
+          novoEstado.pdilist[count - 1].valueParameters[indice].value =
+            event.target.value;
+        }
+
+        // console.log(event.target.vq5  lue);
         setPipeline(novoEstado);
+        console.log(novoEstado);
       }
     });
   }
@@ -474,13 +484,13 @@ function PipelineScreen() {
                 </div>
                 <Accordion
                   defaultActiveKey={["0"]}
-                  alwaysOpen
+                  flush
                   className="accordeon-pdi"
                 >
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>PDI</Accordion.Header>
                     <Accordion.Body className="ab">
-                      <ul className="list-group">
+                      <ul className="list-group list-group-pipeline">
                         {modelPDI.map((pipe) => {
                           return (
                             <button
@@ -502,7 +512,26 @@ function PipelineScreen() {
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
                     <Accordion.Header>Pipeline</Accordion.Header>
-                    <Accordion.Body></Accordion.Body>
+                    <Accordion.Body className="ab">
+                      <ul className="list-group list-group-pipeline">
+                        {pipelineList.map((pipe) => {
+                          return (
+                            <button
+                              className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                              id={pipe.id}
+                              key={pipe.id}
+                              // onClick={(e) => addPDI(e)}
+                              // title={
+                              //   pipe.description + " [CLIQUE PARA ADICIONAR]"
+                              // }
+                            >
+                              {pipe.name}
+                              <Adicionar id={pipe.id} text={show} />
+                            </button>
+                          );
+                        })}
+                      </ul>
+                    </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
               </div>
@@ -568,6 +597,24 @@ function PipelineScreen() {
                     {pipeline.pdilist.map((pipe) => {
                       if (pipe.id === selectedPipelineId) {
                         return pipe.valueParameters.map((param) => {
+                          if (param.parameter.type == "BOOLEAN") {
+                            console.log(param.value);
+                            return (
+                              <Form>
+                                <Form.Group className="mb-3">
+                                  <Form.Check
+                                    id={pipe.id}
+                                    type="checkbox"
+                                    label="boolean"
+                                    defaultChecked={param.value ? true : false}
+                                    onChange={(e) =>
+                                      handleChange(e, param.parameter.name)
+                                    }
+                                  />
+                                </Form.Group>
+                              </Form>
+                            );
+                          }
                           return (
                             <div
                               class="mb-3"

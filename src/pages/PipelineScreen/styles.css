@@ -113,6 +113,13 @@
 list-button {
   font-size: 1.4rem;
 }
+.list-group-pipeline {
+  max-height: 38vh;
+  overflow-y: auto;
+}
+.list-group button:focus {
+  border: none;
+}
 i {
   color: #fff;
   background: rgb(0, 0, 0);
