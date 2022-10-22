@@ -15,6 +15,7 @@ import EditImageScreen from "../pages/EditImageScreen";
 import EditVideoScreen from "../pages/EditVideoScreen";
 import EditCameraScreen from "../pages/EditCameraScreen";
 import FlowScreen from "../pages/FlowScreen";
+import PipelineHistoryScreen from "../pages/PipelineHistoryScreen";
 
 function MyRoutes() {
   return (
@@ -45,6 +46,9 @@ function MyRoutes() {
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/flow" element={<FlowScreen />}></Route>
+        </Route>
+        <Route element={<PrivateRouter />}>
+          <Route path="/pipeline-history" element={<PipelineHistoryScreen />}></Route>
         </Route>
 
         <Route element={<PrivateRouter />}>

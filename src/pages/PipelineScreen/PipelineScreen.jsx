@@ -34,7 +34,7 @@ const pipelineJson = {
   pdilist: [
     {
       id: 1,
-      modelPdi: {
+      digitalProcess: {
         id: 3,
         name: "Redimensionar imagem ",
         parameters: [
@@ -538,7 +538,7 @@ function PipelineScreen() {
                               }
                               title={pipe.name}
                             >
-                              <div className="col-7">{pipe.modelPdi.name}</div>
+                              <div className="col-7">{pipe.digitalProcess.name}</div>
                               <div className="">{"ID: " + pipe.id}</div>
 
                               <div className="card-button">

@@ -1,0 +1,32 @@
+.camera-form-error {
+  font-size: 0.8rem;
+  color: red;
+}
+
+.listCamera {
+  max-height: 60vh;
+  width: 80%;
+  overflow-y: auto;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.listGroupItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.iconListView {
+  margin-right: 0.4rem;
+  color: #000;
+  border: none;
+  font-size: small;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+#flexRadioDefault1 {
+  cursor: pointer;
+}
