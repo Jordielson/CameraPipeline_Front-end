@@ -30,7 +30,6 @@ function FormPDI(props) {
       name: PDIName,
       description: description,
       parameters: parameters,
-      category: "PDI",
       url: url,
     };
     try {
