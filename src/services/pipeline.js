@@ -41,8 +41,8 @@ const PipelineService = {
   switchActive: async (params) => {
     var data = null;
     await Api()
-      .patch(`/api/pipeline/` + params.id,  null, {
-        params: params.active
+      .patch(`/api/pipeline/` + params.id + `/state`,  null, {
+        params: params
       })
       .then((response) => {
         data = response.data;

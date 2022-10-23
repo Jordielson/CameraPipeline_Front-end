@@ -283,13 +283,13 @@ function PipelineScreen() {
 
   useEffect(() => {
     if (pipelineList[0] != undefined) {
-      setPipeline(pipelineList[0]);
-    } 
+      //setPipeline(pipelineList[0]);
+    }
     /* if (pipeline.id == "") {
       setPipeline(pipelineJson);
     } */
   }, [pipelineList]);
-  
+
   useEffect(() => {
     /* if (pipeline.id === "") {
       setPipeline(pipelineJson);
@@ -309,6 +309,7 @@ function PipelineScreen() {
 
   useEffect(() => {
     getPipelines();
+    
   }, [updatePipelineList]);
 
   const refreshPipelineList = () => {
@@ -336,6 +337,12 @@ function PipelineScreen() {
     try {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
+      response.content.forEach(element => {
+        if(element.id === pipeline.id){
+          console.log(element)
+          setPipeline(element);
+        }
+      });
     } catch (error) {
       console.log("Error");
     }
@@ -480,14 +487,11 @@ function PipelineScreen() {
         PipelineService.switchActive({
           id: pipeline.id,
           active: !pipeline.active,
-        }),
-        {
-          success: "Status de ativação alterado com sucesso! 👌",
-          error: "Erro ao tentar alterar o status de ativação da pipeline",
-        }
+        })
       );
       refreshPipelineList();
     } catch (error) {
+      refreshPipelineList();
       console.log(error);
     }
   };
@@ -552,7 +556,7 @@ function PipelineScreen() {
                   </button>
                 </div>
               </div>
-              <div style={{display: 'flex', marginLeft: 10}}>
+              <div style={{ display: "flex", marginLeft: 10 }}>
                 <button
                   type="button"
                   class="btn btn-light btn-sm"
@@ -560,16 +564,29 @@ function PipelineScreen() {
                 >
                   Excluir
                 </button>
-                <Form.Check
-                  style={{marginLeft: 6, marginTop: 4}}
-                  role="button"
-                  type="switch"
-                  checked={pipeline.active}
-                  id={pipeline.id}
-                  onChange={(e) => {
-                    checkHandler(e.target.id);
-                  }}
-                />
+                {pipeline.active ? (
+                  <Form.Check
+                    style={{ marginLeft: 6, marginTop: 4 }}
+                    role="button"
+                    type="switch"
+                    checked
+                    id={pipeline.id}
+                    onChange={(e) => {
+                      checkHandler(e.target.id);
+                    }}
+                  />
+                ) : (
+                  <Form.Check
+                    style={{ marginLeft: 6, marginTop: 4 }}
+                    role="button"
+                    type="switch"
+                    checked={false} 
+                    id={pipeline.id}
+                    onChange={(e) => {
+                      checkHandler(e.target.id);
+                    }}
+                  />
+                )}
               </div>
               <div className="pipeline-save d-flex justify-content-end">
                 <a href="#s" className="align-self-center px-2 history">
