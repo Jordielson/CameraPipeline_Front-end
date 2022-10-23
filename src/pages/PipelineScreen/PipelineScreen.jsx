@@ -14,7 +14,7 @@ import PipelineService from "../../services/pipeline";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
-const pipelineJson = {
+/* const pipelineJson = {
   id: 3,
   name: "Aumentar imagem",
   description:
@@ -64,7 +64,7 @@ const pipelineJson = {
       pipelineId: 1,
     },
   ],
-};
+}; */
 
 const videoUrlJson = [
   {
@@ -83,7 +83,7 @@ const videoUrlJson = [
   },
 ];
 
-const modelPDIList = [
+/*const modelPDIList = [
   {
     id: 1,
     modelPdi: {
@@ -172,18 +172,54 @@ const modelPDIList = [
     category: "EDICAO",
     url: "http://localhost:5000/reduzir-image",
   },
-];
+]; */
 
 function PipelineScreen() {
   const navigate = useNavigate();
   const [pipelineList, setPipelineList] = useState([]);
-  const [pipeline, setPipeline] = useState(pipelineJson);
-  const [modelPDI, setPdiList] = useState(modelPDIList);
+
+  const [pipelineName, setPipelineName] = useState("");
+  const [pipeline, setPipeline] = useState({
+    name: "",
+    description: "",
+    category: "",
+    active: false,
+    pdilist: [
+      {
+        id: 0,
+        digitalProcess: {
+          id: 16,
+          name: "",
+          description: "",
+          category: "",
+        },
+        valueParameters: [
+          {
+            id: 0,
+            value: "",
+            parameter: {
+              id: 0,
+              name: "",
+              description: "",
+              type: "",
+              required: false,
+              index: 0,
+            },
+          },
+        ],
+        pipelineId: 0,
+      },
+    ],
+  });
+
+  const [modelPDI, setPdiList] = useState([{}]);
+
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
   const [videoUrl, setVideoUrl] = useState(videoUrlJson);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
+  const [updatePipelineList, setUpdatePipelineList] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -248,29 +284,36 @@ function PipelineScreen() {
   useEffect(() => {
     if (pipelineList[0] != undefined) {
       setPipeline(pipelineList[0]);
-    }
-    if (pipeline.id == "") {
+    } 
+    /* if (pipeline.id == "") {
       setPipeline(pipelineJson);
-    }
+    } */
   }, [pipelineList]);
-
+  
   useEffect(() => {
-    if (pipeline.id === "") {
+    /* if (pipeline.id === "") {
       setPipeline(pipelineJson);
-    }
+    } */
   }, [update]);
 
   // const data = useLocation();
   useEffect(() => {
     getPDIs();
     getCameras();
-    getPipelines();
 
     // if (data) {
     //   setPipeline(data);
     //   data = undefined;
     // }
   }, []);
+
+  useEffect(() => {
+    getPipelines();
+  }, [updatePipelineList]);
+
+  const refreshPipelineList = () => {
+    setUpdatePipelineList(!updatePipelineList);
+  };
 
   const getPDIs = async () => {
     try {
@@ -292,7 +335,6 @@ function PipelineScreen() {
   const getPipelines = async () => {
     try {
       const response = await PipelineService.getAll();
-
       setPipelineList(response.content);
     } catch (error) {
       console.log("Error");
@@ -355,27 +397,44 @@ function PipelineScreen() {
     });
   }
 
+  const create = () => {
+    var selectPipelines = document.getElementById("pipelines-select");
+    selectPipelines.options.selectedIndex = 0;
+
+    setPipeline((prevState) => {
+      return {
+        ...prevState,
+        name: pipelineName,
+        description: "Descrição genérica",
+        category: "PIPELINE",
+        active: true,
+        pdilist: [],
+      };
+    });
+  };
+
   const save = async () => {
     try {
       const response = await toast.promise(PipelineService.register(pipeline), {
         pending: "Salvando",
         success: "Salvo com sucesso! 👌",
-        error: "Promise rejected 🤯",
+        error: "Erro ao tentar salvar a pipeline",
       });
       //const response = await PipelineService.register(pipeline);
-
+      refreshPipelineList();
       const preview = await PipelineService.preview(response.id);
       console.log(preview);
-      setUrl(preview);
+      //Preview comentada temporariamente pra o desenvolvimento
+      //setUrl(preview);
     } catch (error) {
       console.log(error);
     }
   };
 
   function handleNameChange(e) {
-    var newPipeline = pipeline;
-    newPipeline.name = e.target.value;
-    setPipeline(newPipeline);
+    setPipeline((prevState) => {
+      return { ...prevState, name: e };
+    });
   }
 
   function handlePipeline(id) {
@@ -386,7 +445,52 @@ function PipelineScreen() {
         console.log(pipeline.name);
       }
     });
+    setPipelineName("");
   }
+
+  const deletePipeline = async () => {
+    try {
+      toast.promise(PipelineService.deletePipeline(pipeline.id), {
+        pending: "Deletando",
+        success: "Deletado com sucesso! 👌",
+        error: "Erro ao tentar deletar o pipeline",
+      });
+      refreshPipelineList();
+      var selectPipelines = document.getElementById("pipelines-select");
+      selectPipelines.options.selectedIndex = 0;
+
+      setPipeline((prevState) => {
+        return {
+          ...prevState,
+          name: "",
+          description: "",
+          category: "",
+          active: false,
+          pdilist: [],
+        };
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkHandler = () => {
+    try {
+      toast.promise(
+        PipelineService.switchActive({
+          id: pipeline.id,
+          active: !pipeline.active,
+        }),
+        {
+          success: "Status de ativação alterado com sucesso! 👌",
+          error: "Erro ao tentar alterar o status de ativação da pipeline",
+        }
+      );
+      refreshPipelineList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -400,20 +504,25 @@ function PipelineScreen() {
               <input
                 key={pipeline.id}
                 type="text"
-                onChange={(e) => handleNameChange(e)}
-                defaultValue={pipeline.name}
+                onChange={(e) => handleNameChange(e.target.value)}
+                value={pipeline.name}
                 className="form-control-plaintext navbar-brand pipeline-name"
                 style={{ color: "white" }}
               />
 
               <div className="grupo d-flex flex-row">
                 <select
+                  id="pipelines-select"
+                  role="button"
                   class="form-select-sm mx-1"
                   aria-label="Default select example"
                   onChange={(e) => {
                     handlePipeline(e.target.value);
                   }}
                 >
+                  <option selected={true} disabled={true}>
+                    Escolher uma existente
+                  </option>
                   {pipelineList.map((pipeline) => {
                     return (
                       <option key={pipeline.id} value={pipeline.id}>
@@ -428,18 +537,39 @@ function PipelineScreen() {
                     className="form-control input-create"
                     placeholder="Criar nova pipeline"
                     aria-describedby="button-addon2"
+                    value={pipelineName}
+                    onChange={(e) => setPipelineName(e.target.value)}
                   ></input>
                   <button
                     className="btn save-btn"
                     type="button"
                     id="button-addon2"
                     onClick={(e) => {
-                      setTimeout(1000);
+                      create();
                     }}
                   >
                     Criar
                   </button>
                 </div>
+              </div>
+              <div style={{display: 'flex', marginLeft: 10}}>
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  onClick={deletePipeline}
+                >
+                  Excluir
+                </button>
+                <Form.Check
+                  style={{marginLeft: 6, marginTop: 4}}
+                  role="button"
+                  type="switch"
+                  checked={pipeline.active}
+                  id={pipeline.id}
+                  onChange={(e) => {
+                    checkHandler(e.target.id);
+                  }}
+                />
               </div>
               <div className="pipeline-save d-flex justify-content-end">
                 <a href="#s" className="align-self-center px-2 history">
@@ -464,6 +594,7 @@ function PipelineScreen() {
                     O video abaixo é uma pré-visualização da pipeline
                   </span>
                   <select
+                    role="button"
                     onClick={(e) => setUrl(e.target.value)}
                     className="custom-select input inputvideo"
                     id="inputGroupSelect04"
@@ -567,7 +698,9 @@ function PipelineScreen() {
                               }
                               title={pipe.name}
                             >
-                              <div className="col-7">{pipe.digitalProcess.name}</div>
+                              <div className="col-7">
+                                {pipe.digitalProcess.name}
+                              </div>
                               <div className="">{"ID: " + pipe.id}</div>
 
                               <div className="card-button">

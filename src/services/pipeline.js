@@ -29,6 +29,26 @@ const PipelineService = {
       });
     return data;
   },
+  deletePipeline: async (id) => {
+    var data = null;
+    await Api()
+      .delete("/api/pipeline/" + id)
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
+  switchActive: async (params) => {
+    var data = null;
+    await Api()
+      .patch(`/api/pipeline/` + params.id,  null, {
+        params: params.active
+      })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
 };
 
 export default PipelineService;
