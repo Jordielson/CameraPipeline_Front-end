@@ -14,9 +14,6 @@ function SidebarMenu(props) {
     await UserService.logout();
     setRedirectToHome(true);
   };
-  if (props) {
-    console.log(document.getElementsByClassName(props.page)[0]);
-  }
   useEffect(() => {
     if (document.getElementsByClassName(props.page)[0]) {
       document.getElementsByClassName(props.page)[0].style.background = "#fff";

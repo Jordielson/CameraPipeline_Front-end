@@ -5,11 +5,11 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import PipelineHistoryService from "../../services/pipeline_history";
 import SidebarMenu from "../../components/SideBarMenu";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function PipelineHistoryScreen() {
   const navigate = useNavigate();
-  const [pipelineID, setPipelineID] = useState(3);
+  const location = useLocation();
   const [versionList, setVersionList] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function PipelineHistoryScreen() {
   }, []);
 
   function fetchVersionList() {
-    PipelineHistoryService.getHistoric(pipelineID)
+    PipelineHistoryService.getHistoric(location.state.pipeline.id)
       .then((response) => {
         setVersionList(response.content);
       }).catch ((error) => {
@@ -38,7 +38,7 @@ function PipelineHistoryScreen() {
   function restoreVersion(version) {
     PipelineHistoryService.restoreVersion(version)
       .then((response) => {
-        navigate("../pipeline", { replace: true });
+        navigate("../pipeline", { replace: true, state: response});
       }).catch ((error) => {
         let errorMessage = "";
         switch (error.response.status) {

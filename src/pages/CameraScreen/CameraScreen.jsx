@@ -9,75 +9,12 @@ import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
-const listCamera = [
-  {
-    id: 1,
-    name: "Camera 01",
-    isPrivate: true,
-    fpsLimiter: 120,
-    coordinate: {
-      latitude: 60.5621,
-      longitude: 125.4561,
-    },
-    url: "rtsp://rtsp.stream/pattern",
-    isActive: false,
-  },
-  {
-    id: 2,
-    name: "Camera 02",
-    isPrivate: false,
-    fpsLimiter: 90,
-    coordinate: {
-      latitude: 60.5621,
-      longitude: 125.4561,
-    },
-    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Camera 03",
-    isPrivate: false,
-    fpsLimiter: 90,
-    coordinate: {
-      latitude: 60.5621,
-      longitude: 125.4561,
-    },
-    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Camera 04",
-    isPrivate: false,
-    fpsLimiter: 90,
-    coordinate: {
-      latitude: 60.5621,
-      longitude: 125.4561,
-    },
-    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Camera 05",
-    isPrivate: false,
-    fpsLimiter: 90,
-    coordinate: {
-      latitude: 60.5621,
-      longitude: 125.4561,
-    },
-    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-    isActive: false,
-  },
-];
-
 function CameraScreen() {
   const [query, setQuery] = useState("");
   const [show, setShow] = useState(false);
   const [typeModal, setTypeModal] = useState();
   const [camera, setCamera] = useStateCallback({});
-  const [cameraList, setCameraList] = useState(listCamera);
+  const [cameraList, setCameraList] = useState([]);
   const [showResults, setShowResults] = useState(true);
 
   useEffect(() => {

@@ -14,212 +14,53 @@ import PipelineService from "../../services/pipeline";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
-/* const pipelineJson = {
-  id: 3,
-  name: "Aumentar imagem",
-  description:
-    "Servico que aumentar o tamanho da imagem para um tamanho especifico determinado pelo usuario",
-  creationDate: "2022-06-26T14:30:30",
-  modificationTime: "2022-06-26T14:30:30",
-  isActive: false,
-  groupPipelineId: 1,
-  cameraList: [
-    {
-      id: 1,
-      name: "Camera 01",
-      isPrivate: true,
-      fpsLimiter: 60,
-      url: "http://localhost:5000/api",
-    },
-  ],
+const pipelineEmpty = {
+  name: "",
+  description: "",
+  category: "",
+  active: false,
   pdilist: [
     {
-      id: 1,
+      id: 0,
       digitalProcess: {
-        id: 3,
-        name: "Redimensionar imagem ",
-        parameters: [
-          {
-            id: 3,
-            name: "Tamanho da imagem",
-            type: "STRING",
-            required: false,
-            index: 0,
-          },
-        ],
-        category: "PDI",
-        url: "http://localhost:5000/reduzir-ima",
+        id: 16,
+        name: "",
+        description: "",
+        category: "",
       },
       valueParameters: [
         {
-          id: 1,
-          value: "25x30",
+          id: 0,
+          value: "",
           parameter: {
-            id: 1,
-            name: "Tamanho da imagem",
-            type: "STRING",
+            id: 0,
+            name: "",
+            description: "",
+            type: "",
+            required: false,
+            index: 0,
           },
         },
       ],
-      pipelineId: 1,
+      pipelineId: 0,
     },
   ],
-}; */
-
-const videoUrlJson = [
-  {
-    id: 1,
-    name: "Camera 01",
-    isPrivate: false,
-    fpsLimiter: 120,
-    url: "rtsp://rtsp.stream/pattern",
-  },
-  {
-    id: 2,
-    name: "Camera 02",
-    isPrivate: false,
-    fpsLimiter: 90,
-    url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-  },
-];
-
-/*const modelPDIList = [
-  {
-    id: 1,
-    modelPdi: {
-      id: 3,
-      name: "Redimensionar imagem ",
-      parameters: [
-        {
-          id: 3,
-          name: "Tamanho da imagem",
-          type: "STRING",
-          required: false,
-          index: 0,
-        },
-      ],
-      category: "PDI",
-      url: "http://localhost:5000/reduzir-ima",
-    },
-    parameters: [
-      {
-        id: 1,
-        name: "Tamanho da imagem",
-        type: "STRING",
-      },
-    ],
-    category: "PROCESSAMENTO",
-    url: "http://localhost:5000/api",
-  },
-  {
-    id: 13,
-    name: "CROP da imagem",
-    parameters: [
-      {
-        id: 55,
-        name: "Imagem",
-        type: "STRING",
-      },
-      {
-        id: 56,
-        name: "Dimensão da imagem",
-        type: "STRING",
-      },
-      {
-        id: 57,
-        name: "Xmin",
-        type: "NUMBER",
-      },
-      {
-        id: 58,
-        name: "Xmax",
-        type: "NUMBER",
-      },
-      {
-        id: 59,
-        name: "Ymin",
-        type: "NUMBER",
-      },
-      {
-        id: 60,
-        name: "Ymax",
-        type: "NUMBER",
-      },
-    ],
-    category: "EDICAO",
-    url: "http://localhost:5000/crop-image",
-  },
-  {
-    id: 14,
-    name: "Reduzir tamalho da imagem",
-    parameters: [
-      {
-        id: 61,
-        name: "Imagem",
-        type: "STRING",
-      },
-      {
-        id: 62,
-        name: "Tamanho da imagem",
-        type: "STRING",
-      },
-      {
-        id: 63,
-        name: "Novo tamanho da imagem",
-        type: "STRING",
-      },
-    ],
-    category: "EDICAO",
-    url: "http://localhost:5000/reduzir-image",
-  },
-]; */
+}
 
 function PipelineScreen() {
   const navigate = useNavigate();
   const [pipelineList, setPipelineList] = useState([]);
 
   const [pipelineName, setPipelineName] = useState("");
-  const [pipeline, setPipeline] = useState({
-    name: "",
-    description: "",
-    category: "",
-    active: false,
-    pdilist: [
-      {
-        id: 0,
-        digitalProcess: {
-          id: 16,
-          name: "",
-          description: "",
-          category: "",
-        },
-        valueParameters: [
-          {
-            id: 0,
-            value: "",
-            parameter: {
-              id: 0,
-              name: "",
-              description: "",
-              type: "",
-              required: false,
-              index: 0,
-            },
-          },
-        ],
-        pipelineId: 0,
-      },
-    ],
-  });
+  const [pipeline, setPipeline] = useState(pipelineEmpty);
 
   const [modelPDI, setPdiList] = useState([{}]);
 
   const [update, setUpdate] = useState(false);
   const [selectedPipelineId, setSelectePipelineId] = useState(1);
-  const [videoUrl, setVideoUrl] = useState(videoUrlJson);
+  const [videoUrl, setVideoUrl] = useState([]);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
-  const [updatePipelineList, setUpdatePipelineList] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -282,39 +123,22 @@ function PipelineScreen() {
   }
 
   useEffect(() => {
-    if (pipelineList[0] != undefined) {
-      //setPipeline(pipelineList[0]);
+    if (pipeline.id) {
+      pipelineList.forEach((element) => {
+        if (element.id === pipeline.id) {
+          setPipeline(element);
+        } 
+      });
+    } else if(pipelineList[0]){
+      setPipeline(pipelineList[0]);
     }
-    /* if (pipeline.id == "") {
-      setPipeline(pipelineJson);
-    } */
   }, [pipelineList]);
 
   useEffect(() => {
-    /* if (pipeline.id === "") {
-      setPipeline(pipelineJson);
-    } */
-  }, [update]);
-
-  // const data = useLocation();
-  useEffect(() => {
     getPDIs();
     getCameras();
-
-    // if (data) {
-    //   setPipeline(data);
-    //   data = undefined;
-    // }
-  }, []);
-
-  useEffect(() => {
     getPipelines();
-    
-  }, [updatePipelineList]);
-
-  const refreshPipelineList = () => {
-    setUpdatePipelineList(!updatePipelineList);
-  };
+  }, []);
 
   const getPDIs = async () => {
     try {
@@ -337,12 +161,6 @@ function PipelineScreen() {
     try {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
-      response.content.forEach(element => {
-        if(element.id === pipeline.id){
-          console.log(element)
-          setPipeline(element);
-        }
-      });
     } catch (error) {
       console.log("Error");
     }
@@ -356,12 +174,11 @@ function PipelineScreen() {
     navigate("../flow", { replace: true });
   }
 
-  function history() {
-    navigate("../historico", { replace: true, state: pipeline });
+  function history(pipeline) {
+    navigate("../pipeline-history", { replace: true, state: { pipeline } });
   }
 
   useEffect(() => {
-    console.log(selectedPipelineId);
     if (document.getElementsByClassName("card-item")[0]) {
       pipeline.pdilist.map((pipe) => {
         if (pipe.id == selectedPipelineId) {
@@ -404,33 +221,32 @@ function PipelineScreen() {
     });
   }
 
-  const create = () => {
-    var selectPipelines = document.getElementById("pipelines-select");
-    selectPipelines.options.selectedIndex = 0;
-
-    setPipeline((prevState) => {
-      return {
-        ...prevState,
+  const create = async () => {
+    const request = {
         name: pipelineName,
         description: "Descrição genérica",
         category: "PIPELINE",
         active: true,
         pdilist: [],
-      };
+    };
+    const response = await toast.promise(PipelineService.register(request), {
+      pending: "Salvando",
+      success: "Salvo com sucesso! 👌",
+      error: "Erro ao tentar criar a pipeline",
     });
-  };
+    setPipeline(response);
+    getPipelines();
+  }
 
   const save = async () => {
     try {
-      const response = await toast.promise(PipelineService.register(pipeline), {
+      const response = await toast.promise(PipelineService.update(pipeline), {
         pending: "Salvando",
         success: "Salvo com sucesso! 👌",
         error: "Erro ao tentar salvar a pipeline",
       });
-      //const response = await PipelineService.register(pipeline);
-      refreshPipelineList();
+      getPipelines();
       const preview = await PipelineService.preview(response.id);
-      console.log(preview);
       //Preview comentada temporariamente pra o desenvolvimento
       //setUrl(preview);
     } catch (error) {
@@ -449,7 +265,6 @@ function PipelineScreen() {
       if (pipe.id == id) {
         setPipeline(pipe);
         refresh();
-        console.log(pipeline.name);
       }
     });
     setPipelineName("");
@@ -457,42 +272,29 @@ function PipelineScreen() {
 
   const deletePipeline = async () => {
     try {
-      toast.promise(PipelineService.deletePipeline(pipeline.id), {
+      await toast.promise(PipelineService.deletePipeline(pipeline.id), {
         pending: "Deletando",
         success: "Deletado com sucesso! 👌",
         error: "Erro ao tentar deletar o pipeline",
       });
-      refreshPipelineList();
-      var selectPipelines = document.getElementById("pipelines-select");
-      selectPipelines.options.selectedIndex = 0;
-
-      setPipeline((prevState) => {
-        return {
-          ...prevState,
-          name: "",
-          description: "",
-          category: "",
-          active: false,
-          pdilist: [],
-        };
-      });
+      setPipeline(pipelineEmpty);
+      getPipelines();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const checkHandler = () => {
+  const checkHandler = async (pipeline) => {
     try {
-      toast.promise(
-        PipelineService.switchActive({
+        await PipelineService.switchActive({
           id: pipeline.id,
           active: !pipeline.active,
-        })
-      );
-      refreshPipelineList();
+        });
+        getPipelines();
     } catch (error) {
-      refreshPipelineList();
-      console.log(error);
+      toast.error(
+        <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
+      );
     }
   };
 
@@ -518,15 +320,11 @@ function PipelineScreen() {
                 <select
                   id="pipelines-select"
                   role="button"
+                  value={pipeline.id}
                   class="form-select-sm mx-1"
                   aria-label="Default select example"
-                  onChange={(e) => {
-                    handlePipeline(e.target.value);
-                  }}
+                  onChange={(e) => handlePipeline(e.target.value)}
                 >
-                  <option selected={true} disabled={true}>
-                    Escolher uma existente
-                  </option>
                   {pipelineList.map((pipeline) => {
                     return (
                       <option key={pipeline.id} value={pipeline.id}>
@@ -564,32 +362,23 @@ function PipelineScreen() {
                 >
                   Excluir
                 </button>
-                {pipeline.active ? (
-                  <Form.Check
-                    style={{ marginLeft: 6, marginTop: 4 }}
-                    role="button"
-                    type="switch"
-                    checked
-                    id={pipeline.id}
-                    onChange={(e) => {
-                      checkHandler(e.target.id);
-                    }}
-                  />
-                ) : (
-                  <Form.Check
-                    style={{ marginLeft: 6, marginTop: 4 }}
-                    role="button"
-                    type="switch"
-                    checked={false} 
-                    id={pipeline.id}
-                    onChange={(e) => {
-                      checkHandler(e.target.id);
-                    }}
-                  />
-                )}
+                <Form.Check
+                  style={{ marginLeft: 6, marginTop: 4 }}
+                  role="button"
+                  type="switch"
+                  checked={pipeline.active}
+                  id={pipeline.id}
+                  onChange={(e) => {
+                    checkHandler(pipeline);
+                  }}
+                />
               </div>
               <div className="pipeline-save d-flex justify-content-end">
-                <a href="#s" className="align-self-center px-2 history">
+                <a
+                  role={"button"}
+                  onClick={() => history(pipeline)}
+                  className="align-self-center px-2 history"
+                >
                   <BsClock /> <text className="p-1">Histórico</text>
                 </a>
                 <button

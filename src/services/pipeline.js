@@ -11,6 +11,16 @@ const PipelineService = {
 
     return data;
   },
+  update: async (params) => {
+    var data = null;
+    await Api()
+      .put(`/api/pipeline/${params.id}`, params)
+      .then((response) => {
+        data = response.data;
+      });
+
+    return data;
+  },
   preview: async (params) => {
     var data = null;
     await Api()
