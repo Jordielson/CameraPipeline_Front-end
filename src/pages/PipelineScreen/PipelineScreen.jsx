@@ -88,9 +88,9 @@ function PipelineScreen() {
     });
   }
 
-  function addPDI(e) {
+  function addPDI(pdiID) {
     modelPDI.forEach((pdi) => {
-      if (pdi.id == e.target.id) {
+      if (pdi.id == pdiID) {
         var valueParameter = [];
         pdi.parameters.map((element) => {
           valueParameter.push({
@@ -99,16 +99,38 @@ function PipelineScreen() {
           });
         });
         const newPdi = {
-          id: pipeline.pdilist.length + 1,
-          modelPdi: pdi,
-          valueParameters: valueParameter,
-          pipelineId: pipeline.id,
+          digitalProcess: pdi,
+          valueParameters: valueParameter
         };
 
         pipeline.pdilist.push(newPdi);
         refresh();
 
         toast.success(`${pdi.name} adicionado com sucesso!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    });
+  }
+
+  function addPipeline(pipelineID) {
+    pipelineList.forEach((pipe) => {
+      if (pipe.id == pipelineID) {
+        const newPipeline = {
+          digitalProcess: pipe
+        };
+
+        pipeline.pdilist.push(newPipeline);
+        refresh();
+
+        toast.success(`${pipe.name} adicionado com sucesso!`, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -238,7 +260,8 @@ function PipelineScreen() {
     getPipelines();
   }
 
-  const save = async () => {
+  const updatePipeline = async () => {
+    console.log(pipeline);
     try {
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: "Salvando",
@@ -384,7 +407,7 @@ function PipelineScreen() {
                 <button
                   type="button"
                   class="btn save-btn btn-sm "
-                  onClick={save}
+                  onClick={updatePipeline}
                 >
                   Salvar
                 </button>
@@ -434,7 +457,7 @@ function PipelineScreen() {
                               className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
                               id={pipe.id}
                               key={pipe.id}
-                              onClick={(e) => addPDI(e)}
+                              onClick={(e) => addPDI(e.target.id)}
                               title={
                                 pipe.description + " [CLIQUE PARA ADICIONAR]"
                               }
@@ -453,20 +476,22 @@ function PipelineScreen() {
                       <ul className="list-group list-group-pipeline">
                         {pipelineList.map((pipe) => {
                           return (
+                          <>
+                          {(pipe.id !== pipeline.id) ? (
                             <button
                               className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
                               id={pipe.id}
                               key={pipe.id}
-                              // onClick={(e) => addPDI(e)}
-                              // title={
-                              //   pipe.description + " [CLIQUE PARA ADICIONAR]"
-                              // }
+                              onClick={(e) => addPipeline(e.target.id)}
                             >
                               {pipe.name}
                               <Adicionar id={pipe.id} text={show} />
                             </button>
-                          );
-                        })}
+                            ): null}
+                          </>
+                        )
+                        })
+                      }
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
