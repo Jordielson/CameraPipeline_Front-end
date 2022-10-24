@@ -156,6 +156,7 @@ i:hover {
   align-items: center;
   color: rgb(255, 255, 255);
   font-size: small;
+  cursor: pointer;
 }
 
 .b1 {
@@ -294,4 +295,8 @@ menu button:hover span:first-of-type {
 }
 menu button:hover span:last-of-type {
   transform: translate(-50%, -50%);
+}
+
+input-create {
+  border-radius: 0 !important;
 }
