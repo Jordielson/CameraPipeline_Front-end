@@ -45,7 +45,7 @@ const pipelineEmpty = {
       pipelineId: 0,
     },
   ],
-}
+};
 
 function PipelineScreen() {
   const navigate = useNavigate();
@@ -100,7 +100,7 @@ function PipelineScreen() {
         });
         const newPdi = {
           digitalProcess: pdi,
-          valueParameters: valueParameter
+          valueParameters: valueParameter,
         };
 
         pipeline.pdilist.push(newPdi);
@@ -124,7 +124,7 @@ function PipelineScreen() {
     pipelineList.forEach((pipe) => {
       if (pipe.id == pipelineID) {
         const newPipeline = {
-          digitalProcess: pipe
+          digitalProcess: pipe,
         };
 
         pipeline.pdilist.push(newPipeline);
@@ -149,9 +149,9 @@ function PipelineScreen() {
       pipelineList.forEach((element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
-        } 
+        }
       });
-    } else if(pipelineList[0]){
+    } else if (pipelineList[0]) {
       setPipeline(pipelineList[0]);
     }
   }, [pipelineList]);
@@ -245,11 +245,11 @@ function PipelineScreen() {
 
   const create = async () => {
     const request = {
-        name: pipelineName,
-        description: "Descrição genérica",
-        category: "PIPELINE",
-        active: true,
-        pdilist: [],
+      name: pipelineName,
+      description: "Descrição genérica",
+      category: "PIPELINE",
+      active: true,
+      pdilist: [],
     };
     const response = await toast.promise(PipelineService.register(request), {
       pending: "Salvando",
@@ -258,7 +258,7 @@ function PipelineScreen() {
     });
     setPipeline(response);
     getPipelines();
-  }
+  };
 
   const updatePipeline = async () => {
     console.log(pipeline);
@@ -309,11 +309,11 @@ function PipelineScreen() {
 
   const checkHandler = async (pipeline) => {
     try {
-        await PipelineService.switchActive({
-          id: pipeline.id,
-          active: !pipeline.active,
-        });
-        getPipelines();
+      await PipelineService.switchActive({
+        id: pipeline.id,
+        active: !pipeline.active,
+      });
+      getPipelines();
     } catch (error) {
       toast.error(
         <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
@@ -335,6 +335,7 @@ function PipelineScreen() {
                 type="text"
                 onChange={(e) => handleNameChange(e.target.value)}
                 value={pipeline.name}
+                placeholder="Insira o nome da pipeline..."
                 className="form-control-plaintext navbar-brand pipeline-name"
                 style={{ color: "white" }}
               />
@@ -366,7 +367,7 @@ function PipelineScreen() {
                     onChange={(e) => setPipelineName(e.target.value)}
                   ></input>
                   <button
-                    className="btn save-btn"
+                    className="btn save-btn mx-2"
                     type="button"
                     id="button-addon2"
                     onClick={(e) => {
@@ -377,26 +378,24 @@ function PipelineScreen() {
                   </button>
                 </div>
               </div>
-              <div style={{ display: "flex", marginLeft: 10 }}>
-                <button
-                  type="button"
-                  class="btn btn-light btn-sm"
-                  onClick={deletePipeline}
-                >
-                  Excluir
-                </button>
-                <Form.Check
-                  style={{ marginLeft: 6, marginTop: 4 }}
-                  role="button"
-                  type="switch"
-                  checked={pipeline.active}
-                  id={pipeline.id}
-                  onChange={(e) => {
-                    checkHandler(pipeline);
-                  }}
-                />
-              </div>
+
               <div className="pipeline-save d-flex justify-content-end">
+                <div style={{ display: "flex", marginRight: 10 }}>
+                  <Form.Check
+                    style={{ marginLeft: 6, marginTop: 4 }}
+                    role="button"
+                    type="switch"
+                    title="ativar/desativar pipeline"
+                    checked={pipeline.active}
+                    id={pipeline.id}
+                    onChange={(e) => {
+                      checkHandler(pipeline);
+                    }}
+                  />
+                </div>
+                <a class="history" onClick={deletePipeline}>
+                  Excluir
+                </a>
                 <a
                   role={"button"}
                   onClick={() => history(pipeline)}
@@ -419,9 +418,6 @@ function PipelineScreen() {
             <div className="row row-body">
               <div className="col-4 b1 py-2">
                 <div className="input-group a">
-                  <span className="warning d-flex justify-content-center">
-                    O video abaixo é uma pré-visualização da pipeline
-                  </span>
                   <select
                     role="button"
                     onClick={(e) => setUrl(e.target.value)}
@@ -434,7 +430,7 @@ function PipelineScreen() {
                     })}
                   </select>
                 </div>
-                <div className="background-video mb-2 d-flex justify-content-center">
+                <div className="background-video mb-0 d-flex justify-content-center">
                   <VideoStream
                     key={pipeline.id}
                     show={true}
@@ -442,6 +438,9 @@ function PipelineScreen() {
                     width="94%"
                   />
                 </div>
+                <span className="warning d-flex justify-content-center mb-2">
+                  O video acima é uma pré-visualização da pipeline
+                </span>
                 <Accordion
                   defaultActiveKey={["0"]}
                   flush
@@ -476,22 +475,21 @@ function PipelineScreen() {
                       <ul className="list-group list-group-pipeline">
                         {pipelineList.map((pipe) => {
                           return (
-                          <>
-                          {(pipe.id !== pipeline.id) ? (
-                            <button
-                              className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
-                              id={pipe.id}
-                              key={pipe.id}
-                              onClick={(e) => addPipeline(e.target.id)}
-                            >
-                              {pipe.name}
-                              <Adicionar id={pipe.id} text={show} />
-                            </button>
-                            ): null}
-                          </>
-                        )
-                        })
-                      }
+                            <>
+                              {pipe.id !== pipeline.id ? (
+                                <button
+                                  className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                                  id={pipe.id}
+                                  key={pipe.id}
+                                  onClick={(e) => addPipeline(e.target.id)}
+                                >
+                                  {pipe.name}
+                                  <Adicionar id={pipe.id} text={show} />
+                                </button>
+                              ) : null}
+                            </>
+                          );
+                        })}
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
