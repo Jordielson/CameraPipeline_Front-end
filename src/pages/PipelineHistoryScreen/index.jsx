@@ -35,10 +35,14 @@ function PipelineHistoryScreen() {
       });
   }
 
+  function viewVersion(version) {
+    navigate("../pipeline", { replace: true, state: {pipeline: version} });
+  }
+
   function restoreVersion(version) {
     PipelineHistoryService.restoreVersion(version)
       .then((response) => {
-        navigate("../pipeline", { replace: true, state: response});
+        navigate("../pipeline", { replace: true, state: {pipeline: response} });
       }).catch ((error) => {
         let errorMessage = "";
         switch (error.response.status) {
@@ -54,6 +58,10 @@ function PipelineHistoryScreen() {
       });
   }
 
+  function goBack() {
+    navigate("../pipeline", { replace: true, state: { pipeline: location.state.pipeline} });
+  }
+
   return (
     <>
       <div className="content">
@@ -63,7 +71,7 @@ function PipelineHistoryScreen() {
             <div className="container-fluid">
               <a className="navbar-brand navbar-dark">Histórico da Pipeline</a>
               <div className="d-flex flex-row align-items-center justify-content-end">
-                <a href="/pipeline" className={Styles.back}>
+                <a role={"button"} onClick={(e) => goBack()} className={Styles.back}>
                   Voltar
                 </a>
               </div>
@@ -75,12 +83,12 @@ function PipelineHistoryScreen() {
                 <ListGroup.Item key={version.revision} variant="light">
                   {new Date(version.dateTime).toLocaleString()}
                   <div className={"buttons " + Styles.listGroupItem}>
-                    <button
+                    {/* <button
                       className={"fa-solid fa-eye icon-actions " + Styles.iconListView}
                       title="Visualizar"
                       id={version.revision}
-                      onClick={() => {}}
-                    ></button>
+                      onClick={() => viewVersion(version)}
+                    ></button> */}
                     <button
                       className={"fa-solid fa-history " + Styles.iconListView}
                       title="Restaurar versão"

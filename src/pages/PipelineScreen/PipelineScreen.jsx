@@ -22,6 +22,7 @@ const pipelineEmpty = {
   pdilist: [
     {
       id: 0,
+      index: 1,
       digitalProcess: {
         id: 16,
         name: "",
@@ -49,6 +50,8 @@ const pipelineEmpty = {
 
 function PipelineScreen() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [pipelineList, setPipelineList] = useState([]);
 
   const [pipelineName, setPipelineName] = useState("");
@@ -73,9 +76,9 @@ function PipelineScreen() {
   function removePipeline(e) {
     var count = 0;
     pipeline.pdilist.map((pipe) => {
-      if (pipe.id == e.target.id && count == 0) {
+      if (pipe.index == e.target.id && count == 0) {
         var indice = pipeline.pdilist.findIndex(function (obj) {
-          return obj.id == e.target.id;
+          return obj.index == e.target.id;
         });
         var element = pipeline.pdilist[indice];
         pipeline.pdilist.splice(indice, 1);
@@ -99,6 +102,7 @@ function PipelineScreen() {
           });
         });
         const newPdi = {
+          index: pipeline.pdilist.length + 1,
           digitalProcess: pdi,
           valueParameters: valueParameter
         };
@@ -124,6 +128,7 @@ function PipelineScreen() {
     pipelineList.forEach((pipe) => {
       if (pipe.id == pipelineID) {
         const newPipeline = {
+          index: pipeline.pdilist.length + 1,
           digitalProcess: pipe
         };
 
@@ -160,6 +165,10 @@ function PipelineScreen() {
     getPDIs();
     getCameras();
     getPipelines();
+
+    if(location.state) {
+      setPipeline(location.state.pipeline);
+    }
   }, []);
 
   const getPDIs = async () => {
@@ -203,12 +212,12 @@ function PipelineScreen() {
   useEffect(() => {
     if (document.getElementsByClassName("card-item")[0]) {
       pipeline.pdilist.map((pipe) => {
-        if (pipe.id == selectedPipelineId) {
+        if (pipe.index == selectedPipelineId) {
           document.getElementsByClassName(
             selectedPipelineId
           )[0].style.backgroundColor = "#f4f4f4";
         } else {
-          document.getElementsByClassName(pipe.id)[0].style.backgroundColor =
+          document.getElementsByClassName(pipe.index)[0].style.backgroundColor =
             "#fdfdfd";
         }
       });
@@ -219,7 +228,7 @@ function PipelineScreen() {
     var count = 0;
     pipeline.pdilist.map((pipe) => {
       count = count + 1;
-      if (pipe.id == event.target.id) {
+      if (pipe.index == event.target.id) {
         const novoEstado = Object.assign({}, pipeline);
         var indice = pipe.valueParameters.findIndex(function (obj) {
           return obj.parameter.name == name;
@@ -519,12 +528,12 @@ function PipelineScreen() {
                         {pipeline.pdilist.map((pipe) => {
                           return (
                             <div
-                              onClick={(e) => setSelectePipelineId(pipe.id)}
+                              onClick={(e) => setSelectePipelineId(pipe.index)}
                               tabIndex="-1"
-                              key={pipe.id}
-                              id={pipe.id}
+                              key={pipe.index}
+                              id={pipe.index}
                               className={
-                                pipe.id +
+                                pipe.index +
                                 " card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center "
                               }
                               title={pipe.name}
@@ -532,12 +541,12 @@ function PipelineScreen() {
                               <div className="col-7">
                                 {pipe.digitalProcess.name}
                               </div>
-                              <div className="">{"ID: " + pipe.id}</div>
+                              <div className="">{"ID: " + pipe.index}</div>
 
                               <div className="card-button">
                                 <i
                                   title="Remover PDI da pipeline"
-                                  id={pipe.id}
+                                  id={pipe.index}
                                   onClick={(e) => {
                                     removePipeline(e);
                                   }}
@@ -559,7 +568,7 @@ function PipelineScreen() {
                   </div>
                   <div class="card-body pipeline-card">
                     {pipeline.pdilist.map((pipe) => {
-                      if (pipe.id === selectedPipelineId) {
+                      if (pipe.index === selectedPipelineId && pipe.digitalProcess.category !== "PIPELINE") {
                         return pipe.valueParameters.map((param) => {
                           if (param.parameter.type == "BOOLEAN") {
                             console.log(param.value);
@@ -567,7 +576,7 @@ function PipelineScreen() {
                               <Form>
                                 <Form.Group className="mb-3">
                                   <Form.Check
-                                    id={pipe.id}
+                                    id={pipe.index}
                                     type="checkbox"
                                     label="boolean"
                                     defaultChecked={param.value ? true : false}
@@ -593,7 +602,7 @@ function PipelineScreen() {
                               <input
                                 type={param.parameter.type}
                                 class="form-control"
-                                id={pipe.id}
+                                id={pipe.index}
                                 onChange={(e) =>
                                   handleChange(e, param.parameter.name)
                                 }
