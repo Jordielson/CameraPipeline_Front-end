@@ -270,8 +270,20 @@ function PipelineScreen() {
   };
 
   const updatePipeline = async () => {
-    console.log(pipeline);
     try {
+      console.log(pipeline.pdilist);
+      pipeline.pdilist.map((pdi) => {
+        pdi.valueParameters.map((param) => {
+          if (
+            param.parameter.required &&
+            param.parameter.type != "BOOLEAN" &&
+            param.value == ""
+          ) {
+            throw "requiredException";
+          }
+        });
+      });
+
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: "Salvando",
         success: "Salvo com sucesso! 👌",
@@ -282,7 +294,11 @@ function PipelineScreen() {
       //Preview comentada temporariamente pra o desenvolvimento
       //setUrl(preview);
     } catch (error) {
-      console.log(error);
+      if (error == "requiredException") {
+        toast.error(
+          <text id="toastMsg">parametros obrigatórios não preenchidos</text>
+        );
+      }
     }
   };
 
@@ -612,8 +628,17 @@ function PipelineScreen() {
                                 <label
                                   for="exampleFormControlInput1"
                                   class="form-label m-1"
+                                  title={param.parameter.description}
                                 >
                                   {param.parameter.name}
+                                  {param.parameter.required && (
+                                    <span
+                                      className="required"
+                                      title="Campo obrigatório"
+                                    >
+                                      *
+                                    </span>
+                                  )}
                                 </label>
                                 <input
                                   type={param.parameter.type}

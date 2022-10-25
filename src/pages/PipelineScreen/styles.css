@@ -330,3 +330,6 @@ menu button:hover span:last-of-type {
   align-items: center;
   color: #9b9b9b;
 }
+.required {
+  color: red;
+}
