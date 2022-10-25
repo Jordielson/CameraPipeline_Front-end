@@ -569,7 +569,6 @@ function PipelineScreen() {
                       if (pipe.index === selectedPipelineId && pipe.digitalProcess.category !== "PIPELINE") {
                         return pipe.valueParameters.map((param) => {
                           if (param.parameter.type == "BOOLEAN") {
-                            console.log(param.value);
                             return (
                               <Form>
                                 <Form.Group className="mb-3">
@@ -577,7 +576,7 @@ function PipelineScreen() {
                                     id={pipe.index}
                                     type="checkbox"
                                     label="boolean"
-                                    defaultChecked={param.value ? true : false}
+                                    defaultChecked={param.value == 'true' ? true : false}
                                     onChange={(e) =>
                                       handleChange(e, param.parameter.name)
                                     }
