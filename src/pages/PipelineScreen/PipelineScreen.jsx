@@ -129,7 +129,7 @@ function PipelineScreen() {
       if (pipe.id == pipelineID) {
         const newPipeline = {
           index: pipeline.pdilist.length + 1,
-          digitalProcess: pipe
+          digitalProcess: pipe,
         };
 
         pipeline.pdilist.push(newPipeline);
@@ -166,7 +166,7 @@ function PipelineScreen() {
     getCameras();
     getPipelines();
 
-    if(location.state) {
+    if (location.state) {
       setPipeline(location.state.pipeline);
     }
   }, []);
@@ -338,34 +338,45 @@ function PipelineScreen() {
         </div>
         <div className="content-body">
           <div className="sticky-top contentbar">
-            <nav className="navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 ">
-              <input
-                key={pipeline.id}
-                type="text"
-                onChange={(e) => handleNameChange(e.target.value)}
-                value={pipeline.name}
-                placeholder="Insira o nome da pipeline..."
-                className="form-control-plaintext navbar-brand pipeline-name"
-                style={{ color: "white" }}
-              />
+            <nav
+              className={
+                pipelineList.length > 0
+                  ? "navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 "
+                  : "navbar sticky-top navbar-light d-flex flex-row justify-content-center px-3 "
+              }
+            >
+              {pipelineList.length > 0 && (
+                <input
+                  key={pipeline.id}
+                  type="text"
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  value={pipeline.name}
+                  placeholder="Insira o nome da pipeline..."
+                  className="form-control-plaintext navbar-brand pipeline-name"
+                  style={{ color: "white" }}
+                />
+              )}
 
               <div className="grupo d-flex flex-row">
-                <select
-                  id="pipelines-select"
-                  role="button"
-                  value={pipeline.id}
-                  class="form-select-sm mx-1"
-                  aria-label="Default select example"
-                  onChange={(e) => handlePipeline(e.target.value)}
-                >
-                  {pipelineList.map((pipeline) => {
-                    return (
-                      <option key={pipeline.id} value={pipeline.id}>
-                        {pipeline.name}
-                      </option>
-                    );
-                  })}
-                </select>
+                {pipelineList.length > 0 && (
+                  <select
+                    id="pipelines-select"
+                    role="button"
+                    value={pipeline.id}
+                    class="form-select-sm mx-1"
+                    aria-label="Default select example"
+                    onChange={(e) => handlePipeline(e.target.value)}
+                  >
+                    {pipelineList.map((pipeline) => {
+                      return (
+                        <option key={pipeline.id} value={pipeline.id}>
+                          {pipeline.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                )}
+
                 <div class="input-group-sm d-flex mx-1">
                   <input
                     type="text"
@@ -376,7 +387,7 @@ function PipelineScreen() {
                     onChange={(e) => setPipelineName(e.target.value)}
                   ></input>
                   <button
-                    className="btn save-btn mx-2"
+                    className="btn save-btn  btn-create"
                     type="button"
                     id="button-addon2"
                     onClick={(e) => {
@@ -387,235 +398,248 @@ function PipelineScreen() {
                   </button>
                 </div>
               </div>
-
-              <div className="pipeline-save d-flex justify-content-end">
-                <div style={{ display: "flex", marginRight: 10 }}>
-                  <Form.Check
-                    style={{ marginLeft: 6, marginTop: 4 }}
-                    role="button"
-                    type="switch"
-                    title="ativar/desativar pipeline"
-                    checked={pipeline.active}
-                    id={pipeline.id}
-                    onChange={(e) => {
-                      checkHandler(pipeline);
-                    }}
-                  />
+              {pipelineList.length > 0 && (
+                <div className="pipeline-save d-flex justify-content-end">
+                  <div style={{ display: "flex", marginRight: 10 }}>
+                    <Form.Check
+                      style={{ marginLeft: 6, marginTop: 4 }}
+                      role="button"
+                      type="switch"
+                      title="ativar/desativar pipeline"
+                      checked={pipeline.active}
+                      id={pipeline.id}
+                      onChange={(e) => {
+                        checkHandler(pipeline);
+                      }}
+                    />
+                  </div>
+                  <a class="p-delete" onClick={deletePipeline}>
+                    Excluir
+                  </a>
+                  <a
+                    role={"button"}
+                    onClick={() => history(pipeline)}
+                    className="align-self-center px-2 history"
+                  >
+                    <BsClock /> <text className="p-1">Histórico</text>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn save-btn btn-sm "
+                    onClick={updatePipeline}
+                  >
+                    Salvar
+                  </button>
                 </div>
-                <a class="history" onClick={deletePipeline}>
-                  Excluir
-                </a>
-                <a
-                  role={"button"}
-                  onClick={() => history(pipeline)}
-                  className="align-self-center px-2 history"
-                >
-                  <BsClock /> <text className="p-1">Histórico</text>
-                </a>
-                <button
-                  type="button"
-                  class="btn save-btn btn-sm "
-                  onClick={updatePipeline}
-                >
-                  Salvar
-                </button>
-              </div>
+              )}
             </nav>
           </div>
-
-          <div className="container-fluid container-body">
-            <div className="row row-body">
-              <div className="col-4 b1 py-2">
-                <div className="input-group a">
-                  <select
-                    role="button"
-                    onClick={(e) => setUrl(e.target.value)}
-                    className="custom-select input inputvideo"
-                    id="inputGroupSelect04"
-                    aria-label="Example select with button addon"
-                  >
-                    {videoUrl.map((video) => {
-                      return <option value={video.url}>{video.name}</option>;
-                    })}
-                  </select>
-                </div>
-                <div className="background-video mb-0 d-flex justify-content-center">
-                  <VideoStream
-                    key={pipeline.id}
-                    show={true}
-                    url={url}
-                    width="94%"
-                  />
-                </div>
-                <span className="warning d-flex justify-content-center mb-2">
-                  O video acima é uma pré-visualização da pipeline
-                </span>
-                <Accordion
-                  defaultActiveKey={["0"]}
-                  flush
-                  className="accordeon-pdi"
-                >
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>PDI</Accordion.Header>
-                    <Accordion.Body className="ab">
-                      <ul className="list-group list-group-pipeline">
-                        {modelPDI.map((pipe) => {
-                          return (
-                            <button
-                              className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
-                              id={pipe.id}
-                              key={pipe.id}
-                              onClick={(e) => addPDI(e.target.id)}
-                              title={
-                                pipe.description + " [CLIQUE PARA ADICIONAR]"
-                              }
-                            >
-                              {pipe.name}
-                              <Adicionar id={pipe.id} text={show} />
-                            </button>
-                          );
-                        })}
-                      </ul>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                  <Accordion.Item eventKey="1">
-                    <Accordion.Header>Pipeline</Accordion.Header>
-                    <Accordion.Body className="ab">
-                      <ul className="list-group list-group-pipeline">
-                        {pipelineList.map((pipe) => {
-                          return (
-                            <>
-                              {pipe.id !== pipeline.id ? (
-                                <button
-                                  className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
-                                  id={pipe.id}
-                                  key={pipe.id}
-                                  onClick={(e) => addPipeline(e.target.id)}
-                                >
-                                  {pipe.name}
-                                  <Adicionar id={pipe.id} text={show} />
-                                </button>
-                              ) : null}
-                            </>
-                          );
-                        })}
-                      </ul>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              </div>
-
-              <div className="col-4 b2">
-                <div class="card my-2" key={pipeline.id}>
-                  <div className="card-header pipeline-header2 ">
-                    Pipeline
-                    <menu>
-                      <div className="li">
-                        <button onClick={flow}>
-                          <span>
-                            <TiFlowMerge />
-                          </span>
-                          <span>Editar Fluxo</span>
-                        </button>
-                      </div>
-                    </menu>
+          {pipelineList.length > 0 ? (
+            <div className="container-fluid container-body">
+              <div className="row row-body">
+                <div className="col-4 b1 py-2">
+                  <div className="input-group a">
+                    <select
+                      role="button"
+                      onClick={(e) => setUrl(e.target.value)}
+                      className="custom-select input inputvideo"
+                      id="inputGroupSelect04"
+                      aria-label="Example select with button addon"
+                    >
+                      {videoUrl.map((video) => {
+                        return <option value={video.url}>{video.name}</option>;
+                      })}
+                    </select>
                   </div>
-                  <div class="card-body pipeline-card">
-                    <div className="container p-2">
-                      <div className="dnd">
-                        {pipeline.pdilist.map((pipe) => {
-                          return (
-                            <div
-                              onClick={(e) => setSelectePipelineId(pipe.index)}
-                              tabIndex="-1"
-                              key={pipe.index}
-                              id={pipe.index}
-                              className={
-                                pipe.index +
-                                " card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center "
-                              }
-                              title={pipe.name}
-                            >
-                              <div className="col-7">
-                                {pipe.digitalProcess.name}
-                              </div>
-                              <div className="">{"ID: " + pipe.index}</div>
+                  <div className="background-video mb-0 d-flex justify-content-center">
+                    <VideoStream
+                      key={pipeline.id}
+                      show={true}
+                      url={url}
+                      width="94%"
+                    />
+                  </div>
+                  <span className="warning d-flex justify-content-center mb-2">
+                    O video acima é uma pré-visualização da pipeline
+                  </span>
+                  <Accordion
+                    defaultActiveKey={["0"]}
+                    flush
+                    className="accordeon-pdi"
+                  >
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>PDI</Accordion.Header>
+                      <Accordion.Body className="ab">
+                        <ul className="list-group list-group-pipeline">
+                          {modelPDI.map((pipe) => {
+                            return (
+                              <button
+                                className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                                id={pipe.id}
+                                key={pipe.id}
+                                onClick={(e) => addPDI(e.target.id)}
+                                title={
+                                  pipe.description + " [CLIQUE PARA ADICIONAR]"
+                                }
+                              >
+                                {pipe.name}
+                                <Adicionar id={pipe.id} text={show} />
+                              </button>
+                            );
+                          })}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>Pipeline</Accordion.Header>
+                      <Accordion.Body className="ab">
+                        <ul className="list-group list-group-pipeline">
+                          {pipelineList.map((pipe) => {
+                            return (
+                              <>
+                                {pipe.id !== pipeline.id ? (
+                                  <button
+                                    className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                                    id={pipe.id}
+                                    key={pipe.id}
+                                    onClick={(e) => addPipeline(e.target.id)}
+                                  >
+                                    {pipe.name}
+                                    <Adicionar id={pipe.id} text={show} />
+                                  </button>
+                                ) : null}
+                              </>
+                            );
+                          })}
+                        </ul>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
 
-                              <div className="card-button">
-                                <i
-                                  title="Remover PDI da pipeline"
-                                  id={pipe.index}
-                                  onClick={(e) => {
-                                    removePipeline(e);
-                                  }}
-                                  className="card-trash fa-solid fa-circle-minus"
-                                ></i>
+                <div className="col-4 b2">
+                  <div class="card my-2" key={pipeline.id}>
+                    <div className="card-header pipeline-header2 ">
+                      Pipeline
+                      <menu>
+                        <div className="li">
+                          <button onClick={flow}>
+                            <span>
+                              <TiFlowMerge />
+                            </span>
+                            <span>Editar Fluxo</span>
+                          </button>
+                        </div>
+                      </menu>
+                    </div>
+                    <div class="card-body pipeline-card">
+                      <div className="container p-2">
+                        <div className="dnd">
+                          {pipeline.pdilist.map((pipe) => {
+                            return (
+                              <div
+                                onClick={(e) =>
+                                  setSelectePipelineId(pipe.index)
+                                }
+                                tabIndex="-1"
+                                key={pipe.index}
+                                id={pipe.index}
+                                className={
+                                  pipe.index +
+                                  " card card-pipe d-flex flex-row justify-content-between card-item p-2 align-items-center "
+                                }
+                                title={pipe.name}
+                              >
+                                <div className="col-7">
+                                  {pipe.digitalProcess.name}
+                                </div>
+                                <div className="">{"ID: " + pipe.index}</div>
+
+                                <div className="card-button">
+                                  <i
+                                    title="Remover PDI da pipeline"
+                                    id={pipe.index}
+                                    onClick={(e) => {
+                                      removePipeline(e);
+                                    }}
+                                    className="card-trash fa-solid fa-circle-minus"
+                                  ></i>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-4 b3">
-                <div class="card my-2" key={pipeline.id}>
-                  <div className="card-header pipeline-header">
-                    Parametro da PDI
-                  </div>
-                  <div class="card-body pipeline-card">
-                    {pipeline.pdilist.map((pipe) => {
-                      if (pipe.index === selectedPipelineId && pipe.digitalProcess.category !== "PIPELINE") {
-                        return pipe.valueParameters.map((param) => {
-                          if (param.parameter.type == "BOOLEAN") {
+                <div className="col-4 b3">
+                  <div class="card my-2" key={pipeline.id}>
+                    <div className="card-header pipeline-header">
+                      Parametro da PDI
+                    </div>
+                    <div class="card-body pipeline-card">
+                      {pipeline.pdilist.map((pipe) => {
+                        if (
+                          pipe.index === selectedPipelineId &&
+                          pipe.digitalProcess.category !== "PIPELINE"
+                        ) {
+                          return pipe.valueParameters.map((param) => {
+                            if (param.parameter.type == "BOOLEAN") {
+                              return (
+                                <Form>
+                                  <Form.Group className="mb-3 mx-1">
+                                    <Form.Check
+                                      id={pipe.index}
+                                      type="checkbox"
+                                      label={param.parameter.name}
+                                      defaultChecked={
+                                        param.value == "true" ? true : false
+                                      }
+                                      onChange={(e) =>
+                                        handleChange(e, param.parameter.name)
+                                      }
+                                    />
+                                  </Form.Group>
+                                </Form>
+                              );
+                            }
                             return (
-                              <Form>
-                                <Form.Group className="mb-3">
-                                  <Form.Check
-                                    id={pipe.index}
-                                    type="checkbox"
-                                    label="boolean"
-                                    defaultChecked={param.value == 'true' ? true : false}
-                                    onChange={(e) =>
-                                      handleChange(e, param.parameter.name)
-                                    }
-                                  />
-                                </Form.Group>
-                              </Form>
-                            );
-                          }
-                          return (
-                            <div
-                              class="mb-3"
-                              title={param.parameter.description}
-                            >
-                              <label
-                                for="exampleFormControlInput1"
-                                class="form-label m-1"
+                              <div
+                                class="mb-3"
+                                title={param.parameter.description}
                               >
-                                {param.parameter.name}
-                              </label>
-                              <input
-                                type={param.parameter.type}
-                                class="form-control"
-                                id={pipe.index}
-                                onChange={(e) =>
-                                  handleChange(e, param.parameter.name)
-                                }
-                                placeholder={`insira um ${param.parameter.type}`}
-                                value={param.value}
-                              ></input>
-                            </div>
-                          );
-                        });
-                      }
-                    })}
+                                <label
+                                  for="exampleFormControlInput1"
+                                  class="form-label m-1"
+                                >
+                                  {param.parameter.name}
+                                </label>
+                                <input
+                                  type={param.parameter.type}
+                                  class="form-control"
+                                  id={pipe.index}
+                                  onChange={(e) =>
+                                    handleChange(e, param.parameter.name)
+                                  }
+                                  placeholder={`insira um ${param.parameter.type}`}
+                                  value={param.value}
+                                ></input>
+                              </div>
+                            );
+                          });
+                        }
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="empty-pipeline">
+              <h2> Não há nenhuma pipeline criada </h2>
+            </div>
+          )}
         </div>
       </div>
     </>

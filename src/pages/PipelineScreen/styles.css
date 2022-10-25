@@ -149,14 +149,33 @@ i:hover {
   background-color: #ff0072;
 }
 .save-btn:hover {
-  background-color: #e20166 !important;
+  background-color: #ff0073b9 !important;
 }
 .history {
+  margin-right: 1rem;
+
   display: flex;
   align-items: center;
   color: rgb(255, 255, 255);
   font-size: small;
   cursor: pointer;
+}
+
+.history:hover {
+  color: rgb(147, 194, 255);
+}
+
+.p-delete {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  font-size: small;
+  cursor: pointer;
+}
+
+.p-delete:hover {
+  color: rgb(255, 0, 0);
 }
 
 .b1 {
@@ -297,6 +316,17 @@ menu button:hover span:last-of-type {
   transform: translate(-50%, -50%);
 }
 
-input-create {
-  border-radius: 0 !important;
+.input-create {
+  border-radius: 4px 0 0 4px !important;
+}
+
+.btn-create {
+  border-radius: 0 4px 4px 0 !important;
+}
+.empty-pipeline {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #9b9b9b;
 }
