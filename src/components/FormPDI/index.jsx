@@ -304,7 +304,7 @@ function FormPDI(props) {
                   <Form.Select
                     key={param.index}
                     id={param.index}
-                    value={param.type}
+                    defaultValue={param.type}
                     className="mx-2"
                     onChange={(e) => {
                       selectHandler(e);
