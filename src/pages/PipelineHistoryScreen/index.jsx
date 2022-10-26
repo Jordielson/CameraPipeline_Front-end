@@ -62,6 +62,33 @@ function PipelineHistoryScreen() {
     navigate("../pipeline", { replace: true, state: { pipeline: location.state.pipeline} });
   }
 
+  function handleNameChange(revision, newName) {
+    let arr = structuredClone(versionList);
+    arr.map((version) => {
+      if(version.revision === revision) {
+        version.versionName = newName;
+      }
+    })
+    setVersionList(arr);
+  }
+
+  function handleNameSave(revision, newName) {
+    PipelineHistoryService.renameVersion(revision, newName)
+      .catch ((error) => {
+        let errorMessage = "";
+        switch (error.response.status) {
+          case 500:
+            errorMessage = "Não foi possível renomear essa versão devido "+
+              "a um erro interno, tente novamente mais tarde";
+            break;
+          default:
+            errorMessage = "Não foi possível renomear essa versão da pipeline";
+            break;
+        }
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
+      });
+  }
+
   return (
     <>
       <div className="content">
@@ -81,7 +108,15 @@ function PipelineHistoryScreen() {
             {versionList.map((version) => {
               return (
                 <ListGroup.Item key={version.revision} variant="light">
-                  {new Date(version.dateTime).toLocaleString()}
+                  <input
+                    key={version.revision}
+                    type="text"
+                    onBlur={(e) => handleNameSave(version.revision, e.target.value)}
+                    onChange={(e) => handleNameChange(version.revision, e.target.value)}
+                    value={version.versionName}
+                    placeholder={new Date(version.dateTime).toLocaleString()}
+                    className="form-control-plaintext"
+                  />
                   <div className={"buttons " + Styles.listGroupItem}>
                     {/* <button
                       className={"fa-solid fa-eye icon-actions " + Styles.iconListView}

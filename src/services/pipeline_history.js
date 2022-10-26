@@ -2,9 +2,12 @@ import Api from "../config/server/config";
 
 const PipelineHistoryService = {
   getHistoric: async (id) => {
+    const params = {
+      sort: "dateTime,DESC"
+    }
     var data = null;
     await Api()
-      .get(`/api/pipeline-data-history/pipeline/${id}`)
+      .get(`/api/pipeline-data-history/pipeline/${id}`, {params})
       .then((response) => {
         data = response.data;
       });
@@ -23,6 +26,18 @@ const PipelineHistoryService = {
     var data = null;
     await Api()
       .post(`/api/pipeline-data-history/restore/${version}`)
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
+  renameVersion: async (version, name) => {
+    const params = {
+      name: name
+    }
+    var data = null;
+    await Api()
+      .post(`/api/pipeline-data-history/rename-version/${version}`, null, {params})
       .then((response) => {
         data = response.data;
       });
