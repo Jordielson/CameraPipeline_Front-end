@@ -10,6 +10,16 @@ const UserService = {
     return data;
   },
 
+  isAuthenticated: async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await Api().post("/api/isValidToken", {token});
+      return response.data.valid;
+    } catch (error) {
+      return false;
+    }
+  },
+
   register: async (params) => {
     const response = await Api().post(`/api/user/register`, params);
     return response.data;
