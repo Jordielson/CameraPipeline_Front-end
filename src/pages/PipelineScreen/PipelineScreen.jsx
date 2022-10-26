@@ -130,6 +130,7 @@ function PipelineScreen() {
         const newPipeline = {
           index: pipeline.pdilist.length + 1,
           digitalProcess: pipe,
+          valueParameters: []
         };
 
         pipeline.pdilist.push(newPipeline);
@@ -271,7 +272,6 @@ function PipelineScreen() {
 
   const updatePipeline = async () => {
     try {
-      console.log(pipeline.pdilist);
       pipeline.pdilist.map((pdi) => {
         pdi.valueParameters.map((param) => {
           if (
@@ -320,15 +320,35 @@ function PipelineScreen() {
 
   const deletePipeline = async () => {
     try {
-      await toast.promise(PipelineService.deletePipeline(pipeline.id), {
-        pending: "Deletando",
-        success: "Deletado com sucesso! 👌",
-        error: "Erro ao tentar deletar o pipeline",
-      });
+      await toast.promise(PipelineService.deletePipeline(pipeline.id),
+        {
+          pending: {
+            render({ data }) {
+              return <text id="toastMsg">Deletando</text>;
+            },
+          },
+          success: {
+            render({ data }) {
+              return <text id="toastMsg">Deletado com sucesso! 👌</text>;
+            },
+          },
+        }
+      );
       setPipeline(pipelineEmpty);
       getPipelines();
     } catch (error) {
-      console.log(error);
+      let errorMessage = "";
+      switch (error.response.data.code) {
+        case "PIPELINE_USED":
+          errorMessage = "Pipeline está sendo utilizada"
+          break;
+        default:
+          errorMessage = "Erro ao tentar deletar o pipeline";
+          break;
+      }
+      toast.error(
+        <text id="toastMsg">{errorMessage}</text>
+      );
     }
   };
 
