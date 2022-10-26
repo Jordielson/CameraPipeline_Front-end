@@ -623,21 +623,24 @@ function PipelineScreen() {
                           return pipe.valueParameters.map((param) => {
                             if (param.parameter.type == "BOOLEAN") {
                               return (
-                                <Form>
-                                  <Form.Group className="mb-3 mx-1">
-                                    <Form.Check
-                                      id={pipe.index}
-                                      type="checkbox"
-                                      label={param.parameter.name}
-                                      defaultChecked={
-                                        param.value == "true" ? true : false
-                                      }
-                                      onChange={(e) =>
-                                        handleChange(e, param.parameter.name)
-                                      }
-                                    />
-                                  </Form.Group>
-                                </Form>
+                                <div class="form-check">
+                                  <input
+                                    id={pipe.index}
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    defaultChecked={
+                                      param.value == "true" ? true : false
+                                    }
+                                    onChange={(e) =>
+                                      handleChange(e, param.parameter.name)
+                                    }
+                                  />
+                                  <label
+                                    class="form-check-label"
+                                  >
+                                    {param.parameter.name}
+                                  </label>
+                                </div>
                               );
                             }
                             return (
