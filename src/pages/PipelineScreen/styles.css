@@ -333,3 +333,7 @@ menu button:hover span:last-of-type {
 .required {
   color: red;
 }
+
+.select-pipeline {
+  width: 120px;
+}

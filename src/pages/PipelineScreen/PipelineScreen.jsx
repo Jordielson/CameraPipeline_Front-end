@@ -430,7 +430,7 @@ function PipelineScreen() {
                     id="pipelines-select"
                     role="button"
                     value={pipeline.id}
-                    class="form-select-sm mx-1"
+                    class="form-select-sm mx-1 select-pipeline"
                     aria-label="Default select example"
                     onChange={(e) => handlePipeline(e.target.value)}
                   >
