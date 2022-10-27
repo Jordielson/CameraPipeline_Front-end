@@ -91,6 +91,13 @@ function PipelineScreen() {
     });
   }
 
+  function getIndex() {
+    if(pipeline.pdilist.length > 0) {
+      return pipeline.pdilist[pipeline.pdilist.length -1].index + 1;
+    }
+    return 1;
+  }
+
   function addPDI(pdiID) {
     modelPDI.forEach((pdi) => {
       if (pdi.id == pdiID) {
@@ -102,7 +109,7 @@ function PipelineScreen() {
           });
         });
         const newPdi = {
-          index: pipeline.pdilist.length + 1,
+          index: getIndex(),
           digitalProcess: pdi,
           valueParameters: valueParameter,
         };
@@ -110,7 +117,7 @@ function PipelineScreen() {
         pipeline.pdilist.push(newPdi);
         refresh();
 
-        toast.success(`${pdi.name} adicionado com sucesso!`, {
+        toast.success(<text id="toastMsg">{pdi.name} adicionado com sucesso!</text>, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -128,7 +135,7 @@ function PipelineScreen() {
     pipelineList.forEach((pipe) => {
       if (pipe.id == pipelineID) {
         const newPipeline = {
-          index: pipeline.pdilist.length + 1,
+          index: getIndex(),
           digitalProcess: pipe,
           valueParameters: []
         };
@@ -136,7 +143,7 @@ function PipelineScreen() {
         pipeline.pdilist.push(newPipeline);
         refresh();
 
-        toast.success(`${pipe.name} adicionado com sucesso!`, {
+        toast.success(<text id="toastMsg">{pipe.name} adicionado com sucesso!</text>, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -262,9 +269,21 @@ function PipelineScreen() {
       pdilist: [],
     };
     const response = await toast.promise(PipelineService.register(request), {
-      pending: "Salvando",
-      success: "Salvo com sucesso! 👌",
-      error: "Erro ao tentar criar a pipeline",
+      pending: {
+        render({data}) {
+          return <text id="toastMsg">Salvando</text>
+        }
+      },
+      success: {
+        render({data}) {
+          return <text id="toastMsg">Salvo com sucesso!</text>
+        }
+      },
+      error: {
+        render({data}) {
+          return <text id="toastMsg">Erro ao tentar criar a pipeline</text>
+        }
+      },
     });
     setPipeline(response);
     getPipelines();
@@ -285,9 +304,21 @@ function PipelineScreen() {
       });
 
       const response = await toast.promise(PipelineService.update(pipeline), {
-        pending: "Salvando",
-        success: "Salvo com sucesso! 👌",
-        error: "Erro ao tentar salvar a pipeline",
+        pending: {
+          render({data}) {
+            return <text id="toastMsg">Salvando</text>
+          }
+        },
+        success: {
+          render({data}) {
+            return <text id="toastMsg">Salvo com sucesso!</text>
+          }
+        },
+        error: {
+          render({data}) {
+            return <text id="toastMsg">Erro ao tentar criar a pipeline</text>
+          }
+        },
       });
       getPipelines();
       const preview = await PipelineService.preview(response.id);
@@ -629,7 +660,7 @@ function PipelineScreen() {
                                     class="form-check-input"
                                     type="checkbox"
                                     defaultChecked={
-                                      param.value == "true" ? true : false
+                                      param.value == "true" || param.value ? true : false
                                     }
                                     onChange={(e) =>
                                       handleChange(e, param.parameter.name)
