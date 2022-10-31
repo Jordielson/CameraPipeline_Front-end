@@ -23,6 +23,8 @@ const pipelineEmpty = {
     {
       id: 0,
       index: 1,
+      children: [2, 3],
+      position: undefined,
       digitalProcess: {
         id: 16,
         name: "",
@@ -92,8 +94,8 @@ function PipelineScreen() {
   }
 
   function getIndex() {
-    if(pipeline.pdilist.length > 0) {
-      return pipeline.pdilist[pipeline.pdilist.length -1].index + 1;
+    if (pipeline.pdilist.length > 0) {
+      return pipeline.pdilist[pipeline.pdilist.length - 1].index + 1;
     }
     return 1;
   }
@@ -117,16 +119,19 @@ function PipelineScreen() {
         pipeline.pdilist.push(newPdi);
         refresh();
 
-        toast.success(<text id="toastMsg">{pdi.name} adicionado com sucesso!</text>, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success(
+          <text id="toastMsg">{pdi.name} adicionado com sucesso!</text>,
+          {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
       }
     });
   }
@@ -137,22 +142,25 @@ function PipelineScreen() {
         const newPipeline = {
           index: getIndex(),
           digitalProcess: pipe,
-          valueParameters: []
+          valueParameters: [],
         };
 
         pipeline.pdilist.push(newPipeline);
         refresh();
 
-        toast.success(<text id="toastMsg">{pipe.name} adicionado com sucesso!</text>, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success(
+          <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
+          {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
       }
     });
   }
@@ -210,7 +218,17 @@ function PipelineScreen() {
   };
 
   function flow() {
-    navigate("../flow", { replace: true });
+    try {
+      validateParam();
+      navigate("../flow", { replace: true, state: { pipeline } });
+    } catch (error) {
+      if (error == "requiredException") {
+        toast.error(
+          <text id="toastMsg">parametros obrigatórios não preenchidos</text>
+        );
+      } else {
+      }
+    }
   }
 
   function history(pipeline) {
@@ -270,54 +288,58 @@ function PipelineScreen() {
     };
     const response = await toast.promise(PipelineService.register(request), {
       pending: {
-        render({data}) {
-          return <text id="toastMsg">Salvando</text>
-        }
+        render({ data }) {
+          return <text id="toastMsg">Salvando</text>;
+        },
       },
       success: {
-        render({data}) {
-          return <text id="toastMsg">Salvo com sucesso!</text>
-        }
+        render({ data }) {
+          return <text id="toastMsg">Salvo com sucesso!</text>;
+        },
       },
       error: {
-        render({data}) {
-          return <text id="toastMsg">Erro ao tentar criar a pipeline</text>
-        }
+        render({ data }) {
+          return <text id="toastMsg">Erro ao tentar criar a pipeline</text>;
+        },
       },
     });
     setPipeline(response);
     getPipelines();
   };
 
+  function validateParam() {
+    pipeline.pdilist.map((pdi) => {
+      pdi.valueParameters.map((param) => {
+        if (
+          param.parameter.required &&
+          param.parameter.type != "BOOLEAN" &&
+          param.value == ""
+        ) {
+          throw "requiredException";
+        }
+      });
+    });
+  }
+
   const updatePipeline = async () => {
     try {
-      pipeline.pdilist.map((pdi) => {
-        pdi.valueParameters.map((param) => {
-          if (
-            param.parameter.required &&
-            param.parameter.type != "BOOLEAN" &&
-            param.value == ""
-          ) {
-            throw "requiredException";
-          }
-        });
-      });
+      validateParam();
 
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: {
-          render({data}) {
-            return <text id="toastMsg">Salvando</text>
-          }
+          render({ data }) {
+            return <text id="toastMsg">Salvando</text>;
+          },
         },
         success: {
-          render({data}) {
-            return <text id="toastMsg">Salvo com sucesso!</text>
-          }
+          render({ data }) {
+            return <text id="toastMsg">Salvo com sucesso!</text>;
+          },
         },
         error: {
-          render({data}) {
-            return <text id="toastMsg">Erro ao tentar criar a pipeline</text>
-          }
+          render({ data }) {
+            return <text id="toastMsg">Erro ao tentar criar a pipeline</text>;
+          },
         },
       });
       getPipelines();
@@ -351,35 +373,31 @@ function PipelineScreen() {
 
   const deletePipeline = async () => {
     try {
-      await toast.promise(PipelineService.deletePipeline(pipeline.id),
-        {
-          pending: {
-            render({ data }) {
-              return <text id="toastMsg">Deletando</text>;
-            },
+      await toast.promise(PipelineService.deletePipeline(pipeline.id), {
+        pending: {
+          render({ data }) {
+            return <text id="toastMsg">Deletando</text>;
           },
-          success: {
-            render({ data }) {
-              return <text id="toastMsg">Deletado com sucesso! 👌</text>;
-            },
+        },
+        success: {
+          render({ data }) {
+            return <text id="toastMsg">Deletado com sucesso! 👌</text>;
           },
-        }
-      );
+        },
+      });
       setPipeline(pipelineEmpty);
       getPipelines();
     } catch (error) {
       let errorMessage = "";
       switch (error.response.data.code) {
         case "PIPELINE_USED":
-          errorMessage = "Pipeline está sendo utilizada"
+          errorMessage = "Pipeline está sendo utilizada";
           break;
         default:
           errorMessage = "Erro ao tentar deletar o pipeline";
           break;
       }
-      toast.error(
-        <text id="toastMsg">{errorMessage}</text>
-      );
+      toast.error(<text id="toastMsg">{errorMessage}</text>);
     }
   };
 
@@ -660,15 +678,15 @@ function PipelineScreen() {
                                     class="form-check-input"
                                     type="checkbox"
                                     defaultChecked={
-                                      param.value == "true" || param.value ? true : false
+                                      param.value == "true" || param.value
+                                        ? true
+                                        : false
                                     }
                                     onChange={(e) =>
                                       handleChange(e, param.parameter.name)
                                     }
                                   />
-                                  <label
-                                    class="form-check-label"
-                                  >
+                                  <label class="form-check-label">
                                     {param.parameter.name}
                                   </label>
                                 </div>

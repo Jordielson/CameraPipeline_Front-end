@@ -193,6 +193,7 @@ i:hover {
 }
 
 .accordion-button {
+  border-radius: 4px !important;
   font-size: 1rem;
   background-color: #2a233c !important;
   color: #fff;

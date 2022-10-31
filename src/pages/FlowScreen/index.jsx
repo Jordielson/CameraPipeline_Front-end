@@ -11,8 +11,47 @@ import ReactFlow, {
   applyNodeChanges,
   applyEdgeChanges,
 } from "reactflow";
+import { getBezierPath } from "reactflow";
+
 import "reactflow/dist/style.css";
 import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import PipelineService from "../../services/pipeline";
+
+const pipelineEmpty = {
+  name: "",
+  description: "",
+  category: "",
+  active: false,
+  pdilist: [
+    {
+      id: 0,
+      index: 1,
+      digitalProcess: {
+        id: 16,
+        name: "",
+        description: "",
+        category: "",
+      },
+      valueParameters: [
+        {
+          id: 0,
+          value: "",
+          parameter: {
+            id: 0,
+            name: "",
+            description: "",
+            type: "",
+            required: false,
+            index: 0,
+          },
+        },
+      ],
+      pipelineId: 0,
+    },
+  ],
+};
 
 const initialNodes = [
   {
@@ -49,9 +88,9 @@ const initialNodes = [
     },
     position: { x: 400, y: 100 },
     style: {
-      background: "#D6D5E6",
+      background: "#fff",
       color: "#333",
-      border: "1px solid #222138",
+      border: "1px solid #233821",
       width: 180,
     },
   },
@@ -90,27 +129,26 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-  { id: "e1-2", source: "1", target: "2", label: "this is an edge label" },
-  { id: "e1-3", source: "1", target: "3" },
+  { id: "e1-2", source: "1", target: "2", animated: true },
+  { id: "e1-3", source: "1", target: "3", animated: true },
   {
     id: "e3-4",
     source: "3",
     target: "4",
     animated: true,
-    label: "animated edge",
   },
   {
     id: "e4-5",
     source: "4",
     target: "5",
-    label: "edge with arrow head",
+    animated: true,
   },
   {
     id: "e5-6",
     source: "5",
     target: "6",
     type: "smoothstep",
-    label: "smooth step edge",
+    animated: true,
   },
   {
     id: "e5-7",
@@ -118,8 +156,8 @@ const initialEdges = [
     target: "7",
     type: "step",
     style: { stroke: "#f6ab6c" },
-    label: "a step edge",
     animated: true,
+
     labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
   },
 ];
@@ -128,11 +166,78 @@ const onInit = (reactFlowInstance) =>
   console.log("flow loaded:", reactFlowInstance);
 
 function FlowScreen() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [pipeline, setPipeline] = useState();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const foreignObjectSize = 40;
+
+  const onEdgeClick = (evt, id) => {
+    evt.stopPropagation();
+    const newArray = [];
+    edges.map((edge) => {
+      if (edge.id != id) {
+        newArray.push(edge);
+      }
+    });
+    setEdges(newArray);
+  };
+
+  function CustomEdge({
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    style = {},
+    markerEnd,
+  }) {
+    const [edgePath, labelX, labelY] = getBezierPath({
+      sourceX,
+      sourceY,
+      sourcePosition,
+      targetX,
+      targetY,
+      targetPosition,
+    });
+
+    return (
+      <>
+        <path
+          id={id}
+          style={style}
+          className="react-flow__edge-path"
+          d={edgePath}
+          markerEnd={markerEnd}
+        />
+        <foreignObject
+          width={foreignObjectSize}
+          height={foreignObjectSize}
+          x={labelX - foreignObjectSize / 2}
+          y={labelY - foreignObjectSize / 2}
+          className="edgebutton-foreignobject"
+          requiredExtensions="http://www.w3.org/1999/xhtml"
+        >
+          <body className={Styles.body}>
+            <button
+              className={Styles.edgebutton}
+              onClick={(event) => onEdgeClick(event, id)}
+            >
+              ×
+            </button>
+          </body>
+        </foreignObject>
+      </>
+    );
+  }
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) =>
+      setEdges((eds) => addEdge({ ...params, type: "buttonedge" }, eds)),
     [setEdges]
   );
   const reactFlowStyle = {
@@ -144,8 +249,73 @@ function FlowScreen() {
   };
 
   useEffect(() => {
-    console.log(edges);
-  }, [edges]);
+    if (location.state) {
+      setPipeline(location.state.pipeline);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pipeline) {
+      setEdges([]);
+      pipeline.pdilist.map((pdi) => {
+        const newNode = {
+          id: `${pdi.index}`,
+          data: {
+            label: <>{pdi.digitalProcess.name}</>,
+          },
+          position: pdi.position ? pdi.position : { x: 100, y: 100 },
+          style: {
+            background: "#fff",
+            color: "#333",
+            border: "1px solid #233821",
+            width: 180,
+          },
+        };
+        if (pdi.children) {
+          pdi.children.map((child) => {
+            const newEdge = {
+              id: `e${pdi.index}-${child}`,
+              source: `${pdi.index}`,
+              target: `${child}`,
+              type: "buttonedge",
+              animated: true,
+            };
+            setEdges((oldedges) => [...oldedges, newEdge]);
+          });
+        }
+
+        setNodes((oldnodes) => [...oldnodes, newNode]);
+      });
+    }
+  }, [pipeline]);
+
+  async function handleSave() {
+    pipeline.pdilist.map((pdi) => {
+      nodes.map((node) => {
+        if (node.id == pdi.index) {
+          pdi.position = node.position;
+        }
+      });
+
+      pdi.children = [];
+      edges.map((edge) => {
+        if (edge.source == pdi.index) {
+          console.log(edge.source, pdi.index);
+          pdi.children.push(edge.target);
+          console.log(pdi.children);
+        }
+      });
+    });
+    const novoEstado = Object.assign({}, pipeline);
+    setPipeline(novoEstado);
+    await PipelineService.update(pipeline);
+    navigate("../pipeline", { replace: true, state: { pipeline } });
+  }
+
+  const edgeTypes = {
+    buttonedge: CustomEdge,
+  };
+
   return (
     <div className="content">
       <SidebarMenu page={"pipeline"} />
@@ -158,6 +328,7 @@ function FlowScreen() {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onInit={onInit}
+          edgeTypes={edgeTypes}
           fitView
           attributionPosition="top-right"
         >
@@ -181,10 +352,20 @@ function FlowScreen() {
           <Background color="#aaa" gap={16} />
         </ReactFlow>
         <div className={Styles.position}>
-          <button className={"btn btn-color " + Styles.btn}>
+          <button
+            className={"btn btn-color " + Styles.btn}
+            onClick={(e) => handleSave()}
+          >
             Salvar e voltar
           </button>
-          <a href="/pipeline" className={Styles.back}>
+
+          <a
+            href="#"
+            onClick={(e) =>
+              navigate("../pipeline", { replace: true, state: { pipeline } })
+            }
+            className={Styles.back}
+          >
             voltar
           </a>
         </div>
