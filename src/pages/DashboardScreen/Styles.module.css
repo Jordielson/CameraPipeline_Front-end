@@ -1,0 +1,93 @@
+.containergrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px 10px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "area1 area5 area6 area3"
+    "area2 area7 area7 area3"
+    "area2 area8 area8 area4";
+}
+
+.area2 {
+  grid-area: area2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area1 {
+  grid-area: area1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area3 {
+  grid-area: area3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area4 {
+  grid-area: area4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area5 {
+  grid-area: area5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area6 {
+  grid-area: area6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area7 {
+  grid-area: area7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.area8 {
+  grid-area: area8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containergrid {
+  margin: 20px;
+  height: 90%;
+  max-height: 90%;
+}
+
+/* For presentation only, no need to copy the code below */
+
+.containergrid * {
+  border-radius: 5px;
+  /* background-color: #fff; */
+  background-color: #f7f7f7;
+}
+
+/* .container *:after {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+} */
