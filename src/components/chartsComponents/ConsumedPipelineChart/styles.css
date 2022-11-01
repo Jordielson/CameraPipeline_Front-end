@@ -7,14 +7,14 @@
 }
 .demTable th {
   border: 0px solid #b3adad;
-  padding: 5px;
+  padding: 0px;
   background: #ffffff;
   color: #ff0072;
 }
 .demTable td {
   border: 0px solid #b3adad;
   text-align: left;
-  padding: 5px;
+  padding: 0px;
   color: #313030;
   font-weight: 600;
   color: rgb(119, 119, 119);

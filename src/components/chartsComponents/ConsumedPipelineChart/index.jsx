@@ -7,12 +7,12 @@ export function ConsumedPipelineChart() {
       <table class="demTable mx-3 mt-2">
         <thead>
           <tr>
-            <th>Consumo de PIpelines</th>
+            <th>Consumo de PIpelines </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>pipeline Exemple</td>
+            <td>pipeline Exemple </td>
             <td>26mb</td>
           </tr>
           <tr>

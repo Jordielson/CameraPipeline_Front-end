@@ -101,6 +101,10 @@ function PipelineScreen() {
   }
 
   function addPDI(pdiID) {
+    let novoEstado = Object.assign({}, pipeline);
+    novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+    console.log(novoEstado.pdilist);
+    setPipeline(novoEstado);
     modelPDI.forEach((pdi) => {
       if (pdi.id == pdiID) {
         var valueParameter = [];
@@ -177,16 +181,24 @@ function PipelineScreen() {
     }
   }, [pipelineList]);
 
+  // useEffect(() => {
+  //   let novoEstado = Object.assign({}, pipeline);
+  //   novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+  //   console.log(novoEstado.pdilist);
+  //   setPipeline(novoEstado);
+  // }, [location]);
+
   useEffect(() => {
     getPDIs();
     getCameras();
     getPipelines();
 
     if (location.state) {
-      let novoEstado = Object.assign({}, location.state.pipeline);
-      novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
-      console.log(novoEstado.pdilist);
-      setPipeline(novoEstado);
+      setPipeline(location.state.pipeline);
+      // let novoEstado = Object.assign({}, location.state.pipeline);
+      // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+      // console.log(novoEstado.pdilist);
+      // setPipeline(novoEstado);
     }
   }, []);
 

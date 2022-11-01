@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 10px 10px;
-  grid-auto-flow: row;
+  grid-auto-flow: column;
   grid-template-areas:
     "area1 area5 area6 area3"
     "area2 area7 area7 area3"
@@ -11,6 +11,9 @@
 }
 
 .area2 {
+  /* position: absolute;
+  height: 60vh; */
+  max-height: 66vh;
   grid-area: area2;
   display: flex;
   justify-content: center;
