@@ -183,7 +183,10 @@ function PipelineScreen() {
     getPipelines();
 
     if (location.state) {
-      setPipeline(location.state.pipeline);
+      let novoEstado = Object.assign({}, location.state.pipeline);
+      novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+      console.log(novoEstado.pdilist);
+      setPipeline(novoEstado);
     }
   }, []);
 
@@ -663,7 +666,7 @@ function PipelineScreen() {
                     <div className="card-header pipeline-header">
                       Parametro da PDI
                     </div>
-                    <div class="card-body pipeline-card">
+                    <div class="card-body pipeline-card-parameter">
                       {pipeline.pdilist.map((pipe) => {
                         if (
                           pipe.index === selectedPipelineId &&
@@ -734,7 +737,7 @@ function PipelineScreen() {
             </div>
           ) : (
             <div className="empty-pipeline">
-              <h2> Não há nenhuma pipeline criada </h2>
+              <h1> Não há nenhuma pipeline criada </h1>
             </div>
           )}
         </div>

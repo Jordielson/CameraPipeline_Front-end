@@ -306,7 +306,9 @@ function FlowScreen() {
         }
       });
     });
-    const novoEstado = Object.assign({}, pipeline);
+    let novoEstado = Object.assign({}, pipeline);
+    novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+    console.log(novoEstado.pdilist);
     setPipeline(novoEstado);
     await PipelineService.update(pipeline);
     navigate("../pipeline", { replace: true, state: { pipeline } });

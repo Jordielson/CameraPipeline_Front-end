@@ -54,7 +54,9 @@ function SidebarMenu(props) {
             </div>
             <ul className="list-unstyled components">
               <li>
-                <a href="#home">Home</a>
+                <a className="dashboard" href="/dashboard">
+                  Dashboard
+                </a>
               </li>
               <li>
                 <a
