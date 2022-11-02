@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
 const pipelineEmpty = {
-  id: 1,
+  id: 0,
   name: "",
   description: "",
   category: "",
@@ -193,7 +193,7 @@ function PipelineScreen() {
   }
 
   useEffect(() => {
-    if (pipeline.id) {
+    if (pipeline.id !== 0) {
       pipelineList.forEach((element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
