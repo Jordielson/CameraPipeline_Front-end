@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
 const pipelineEmpty = {
+  id: 1,
   name: "",
   description: "",
   category: "",
@@ -87,24 +88,29 @@ function PipelineScreen() {
 
         const novoEstado = Object.assign({}, pipeline);
         setPipeline(novoEstado);
-        console.log(indice);
         count += 1;
       }
     });
   }
 
   function getIndex() {
-    if (pipeline.pdilist.length > 0) {
-      return pipeline.pdilist[pipeline.pdilist.length - 1].index + 1;
-    }
-    return 1;
+    let max = 0;
+    pipeline.pdilist.forEach(element => {
+      if(element.index > max) {
+        max = element.index;
+      }
+    });
+    // if (pipeline.pdilist.length > 0) {
+    //   return pipeline.pdilist[pipeline.pdilist.length - 1].index + 1;
+    // }
+    return max + 1;
   }
 
   function addPDI(pdiID) {
-    let novoEstado = Object.assign({}, pipeline);
-    novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
-    console.log(novoEstado.pdilist);
-    setPipeline(novoEstado);
+    // let novoEstado = Object.assign({}, pipeline);
+    // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
+    // console.log(novoEstado.pdilist);
+    // setPipeline(novoEstado);
     modelPDI.forEach((pdi) => {
       if (pdi.id == pdiID) {
         var valueParameter = [];
@@ -140,33 +146,50 @@ function PipelineScreen() {
     });
   }
 
-  function addPipeline(pipelineID) {
-    pipelineList.forEach((pipe) => {
-      if (pipe.id == pipelineID) {
-        const newPipeline = {
-          index: getIndex(),
-          digitalProcess: pipe,
-          valueParameters: [],
-        };
+  async function addPipeline(pipelineID) {
+    const params = {
+      parentPipelineID: pipeline.id,
+      childPipelineID: pipelineID
+    }
+    try {
+      const response = await PipelineService.verifyLoop(params);
+      if(response.valid) {
+        pipelineList.forEach((pipe) => {
+          if (pipe.id == pipelineID) {
+            const newPipeline = {
+              index: getIndex(),
+              digitalProcess: pipe,
+            valueParameters: [],
+          };
 
-        pipeline.pdilist.push(newPipeline);
-        refresh();
+          pipeline.pdilist.push(newPipeline);
+          refresh();
 
-        toast.success(
-          <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
-          {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
+          toast.success(
+            <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
+            {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            }
+            );
           }
-        );
-      }
-    });
+        });
+        } else {
+          toast.error(
+            <text id="toastMsg">Erro de Loop - A pipeline {pipeline.name} já está sendo utilizada por essa pipeline</text>
+          );
+        }
+    } catch (error) {
+      toast.error(
+        <text id="toastMsg">Erro interno</text>
+      );
+    }
   }
 
   useEffect(() => {
@@ -207,7 +230,7 @@ function PipelineScreen() {
       const response = await PDIService.getAll();
       setPdiList(response.content);
     } catch (error) {
-      console.log("Error");
+      alert("Error");
     }
   };
   const getCameras = async () => {
@@ -215,7 +238,7 @@ function PipelineScreen() {
       const response = await CameraService.getAll();
       setVideoUrl(response.content);
     } catch (error) {
-      console.log("Error");
+      alert("Error");
     }
   };
 
@@ -224,7 +247,7 @@ function PipelineScreen() {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
     } catch (error) {
-      console.log("Error");
+      alert("Error");
     }
   };
 
@@ -288,7 +311,6 @@ function PipelineScreen() {
 
         // console.log(event.target.vq5  lue);
         setPipeline(novoEstado);
-        console.log(novoEstado);
       }
     });
   }
@@ -749,7 +771,7 @@ function PipelineScreen() {
             </div>
           ) : (
             <div className="empty-pipeline">
-              <h1> Não há nenhuma pipeline criada </h1>
+              <h1> Carregando pipeline... </h1>
             </div>
           )}
         </div>
