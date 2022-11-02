@@ -39,6 +39,15 @@ const PipelineService = {
       });
     return data;
   },
+  verifyLoop: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/pipeline/verify-addition", {params})
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
   deletePipeline: async (id) => {
     var data = null;
     await Api()

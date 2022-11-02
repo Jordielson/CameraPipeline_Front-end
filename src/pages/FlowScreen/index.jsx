@@ -261,7 +261,7 @@ function FlowScreen() {
         const newNode = {
           id: `${pdi.index}`,
           data: {
-            label: <>{pdi.digitalProcess.name}</>,
+            label: <>{`${pdi.digitalProcess.name} - id: ${pdi.index}`}</>,
           },
           position: pdi.position ? pdi.position : { x: 100, y: 100 },
           style: {
