@@ -7,6 +7,7 @@ import FormPDI from "./../../components/FormPDI/index";
 import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../components/PaginationComponent";
 
 const modelPDIList = [
   {
@@ -113,6 +114,11 @@ function PDIScreen() {
   const [modelPDI, setPdiList] = useState(modelPDIList);
   const [pdi, setPdi] = useState();
   const [showResults, setShowResults] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // useEffect(() => {
+  //   console.log("salvo");
+  // }, [modelPDI]);
 
   const handleClose = () => {
     setShow(false);
@@ -318,6 +324,12 @@ function PDIScreen() {
             <Pagination.Next />
             <Pagination.Last />
           </Pagination> */}
+          <PaginationComponent
+            totalPages={10}
+            currentPage={currentPage}
+            setPage={(e) => setCurrentPage(e)}
+          />
+
           <div className="d-flex justify-content-center">
             {!showResults && (
               <span className="all-results" onClick={getPDIs}>
