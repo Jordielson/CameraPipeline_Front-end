@@ -115,6 +115,7 @@ function PDIScreen() {
   const [pdi, setPdi] = useState();
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // useEffect(() => {
   //   console.log("salvo");
@@ -200,13 +201,21 @@ function PDIScreen() {
     }
   }
 
-  useEffect(() => {
-    console.log("salvo");
-  }, [modelPDI]);
+  // useEffect(() => {
+  //   console.log("salvo");
+  // }, [modelPDI]);
 
-  async function getPDIs() {
-    const pdiList = await PDIService.getAll();
-    setPdiList(pdiList.content);
+  useEffect(() => {
+    const params = {
+      page: currentPage - 1
+    }
+    getPDIs(params)
+  }, [currentPage]);
+
+  async function getPDIs(params) {
+    const response = await PDIService.getAll(params);
+    setTotalPages(response.totalPages);
+    setPdiList(response.content);
     setShowResults(true);
   }
 
@@ -325,7 +334,7 @@ function PDIScreen() {
             <Pagination.Last />
           </Pagination> */}
           <PaginationComponent
-            totalPages={10}
+            totalPages={totalPages}
             currentPage={currentPage}
             setPage={(e) => setCurrentPage(e)}
           />

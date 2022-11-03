@@ -29,10 +29,10 @@ const PDIService = {
       });
     return data;
   },
-  getAll: async () => {
+  getAll: async (params) => {
     var data = null;
     await Api()
-      .get("/api/model-pdi/all")
+      .get("/api/model-pdi/all", {params})
       .then((response) => {
         data = response.data;
       });

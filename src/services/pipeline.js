@@ -30,10 +30,10 @@ const PipelineService = {
       });
     return data;
   },
-  getAll: async () => {
+  getAll: async (params) => {
     var data = null;
     await Api()
-      .get("/api/pipeline/all")
+      .get("/api/pipeline/all", {params})
       .then((response) => {
         data = response.data;
       });

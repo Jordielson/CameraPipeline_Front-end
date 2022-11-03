@@ -23,19 +23,33 @@ function PaginationComponent(props) {
   const paginationItems = [];
 
   if (totalPages > 10) {
-    // Add the first item (page 1)
-    paginationItems.push(createPaginationItem(1));
-    // Add an ellipsis
-    paginationItems.push(<Pagination.Ellipsis />);
-    const midpoint = Math.ceil(totalPages / 2);
-    // Create page numbers in the middle
-    for (let i = midpoint; i <= midpoint + 4; i++) {
-      paginationItems.push(createPaginationItem(i));
+    if(currentPage > totalPages - 5) {
+      paginationItems.push(createPaginationItem(1));
+      paginationItems.push(<Pagination.Ellipsis />);
+      for (let i = totalPages-6; i <= totalPages; i++) {
+        paginationItems.push(createPaginationItem(i));
+      }
+    } else if(currentPage < 6) {
+      for (let i = 1; i <= 7; i++) {
+        paginationItems.push(createPaginationItem(i));
+      }
+      paginationItems.push(<Pagination.Ellipsis />);
+      paginationItems.push(createPaginationItem(totalPages));
+    } else {
+      // Add the first item (page 1)
+      paginationItems.push(createPaginationItem(1));
+      // Add an ellipsis
+      paginationItems.push(<Pagination.Ellipsis />);
+      const midpoint = currentPage;
+      // Create page numbers in the middle
+      for (let i = midpoint - 2; i <= midpoint + 2; i++) {
+        paginationItems.push(createPaginationItem(i));
+      }
+      // Add an ellipsis
+      paginationItems.push(<Pagination.Ellipsis />);
+      // Add the last item (page N)
+      paginationItems.push(createPaginationItem(totalPages));
     }
-    // Add an ellipsis
-    paginationItems.push(<Pagination.Ellipsis />);
-    // Add the last item (page N)
-    paginationItems.push(createPaginationItem(totalPages));
   } else if (totalPages > 1) {
     for (let i = 1; i <= totalPages; i++) {
       paginationItems.push(createPaginationItem(i));

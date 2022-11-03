@@ -11,6 +11,7 @@ import CameraService from "../../services/camera";
 import CameraList from "../CameraList";
 import VideoComponent from "../VideoComponent";
 import PipelineService from "../../services/pipeline";
+import PaginationComponent from "../PaginationComponent";
 
 function EditComponent(props) {
   const [activeStep, setActiveStep] = useState(0);
@@ -28,12 +29,21 @@ function EditComponent(props) {
   const [generatedVideoUrl, setgeneratedVideoUrl] = useState();
   const [generatedCameraUrl, setgeneratedCameraUrl] = useState();
   const [showCamera, setShowCamera] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (activeStep === 1) {
       getPipeline();
     }
   }, [activeStep]);
+
+  useEffect(() => {
+    const params = {
+      page: currentPage - 1
+    }
+    getPipeline(params);
+  }, [currentPage]);
 
   function nextStep() {
     if (
@@ -191,10 +201,11 @@ function EditComponent(props) {
   //   setActiveStep((currentStep) => currentStep + 1);
   // }
 
-  async function getPipeline() {
-    PipelineService.getAll()
+  async function getPipeline(params) {
+    PipelineService.getAll(params)
       .then((response) => {
         setPipelineList(response.content);
+        setTotalPages(response.totalPages);
       })
       .catch((error) => {
         var errorMessage = "";
@@ -370,6 +381,11 @@ function EditComponent(props) {
                     );
                   })}
                 </ListGroup>
+                <PaginationComponent
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  setPage={(e) => setCurrentPage(e)}
+                />
               </div>
             )) ||
             (activeStep == 2 && (

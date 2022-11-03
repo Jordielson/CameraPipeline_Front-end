@@ -3,6 +3,7 @@
 }
 .active > .page-link,
 .page-link.active {
+  border: none;
   /* background-color: #ff0072; */
   background-color: #2a233c;
 }

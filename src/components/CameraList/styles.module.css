@@ -4,7 +4,7 @@
 }
 
 .listCamera {
-  max-height: 60vh;
+  max-height: 40vh;
   width: 80%;
   overflow-y: auto;
 }

@@ -8,6 +8,7 @@ import CameraService from "../../services/camera";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import PaginationComponent from "../../components/PaginationComponent";
 
 function CameraScreen() {
   const [query, setQuery] = useState("");
@@ -16,14 +17,24 @@ function CameraScreen() {
   const [camera, setCamera] = useStateCallback({});
   const [cameraList, setCameraList] = useState([]);
   const [showResults, setShowResults] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchCameraList();
   }, []);
 
-  async function fetchCameraList() {
+  useEffect(() => {
+    const params = {
+      page: currentPage - 1
+    }
+    fetchCameraList(params)
+  }, [currentPage]);
+
+  async function fetchCameraList(params) {
     try {
-      const response = await CameraService.getAll();
+      const response = await CameraService.getAll(params);
+      setTotalPages(response.totalPages);
       setCameraList(response.content);
       setShowResults(true);
     } catch (error) {
@@ -37,6 +48,7 @@ function CameraScreen() {
       };
       try {
         const response = await CameraService.search(cam);
+        setTotalPages(response.totalPages);
         setQuery("");
         setCameraList(response.content);
         setShowResults(false);
@@ -207,6 +219,11 @@ function CameraScreen() {
               );
             })}
           </ListGroup>
+          <PaginationComponent
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setPage={(e) => setCurrentPage(e)}
+          />
           <div className="d-flex justify-content-center">
             {!showResults && (
               <span className="all-results" onClick={fetchCameraList}>

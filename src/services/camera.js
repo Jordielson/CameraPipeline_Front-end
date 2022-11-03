@@ -1,10 +1,10 @@
 import Api from "../config/server/config";
 
 const CameraService = {
-  getAll: async () => {
+  getAll: async (params) => {
     var data = null;
     await Api()
-      .get("/api/camera/all")
+      .get("/api/camera/all", {params})
       .then((response) => {
         data = response.data;
       });
