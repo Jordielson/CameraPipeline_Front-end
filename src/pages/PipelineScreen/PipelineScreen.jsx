@@ -95,8 +95,8 @@ function PipelineScreen() {
 
   function getIndex() {
     let max = 0;
-    pipeline.pdilist.forEach(element => {
-      if(element.index > max) {
+    pipeline.pdilist.forEach((element) => {
+      if (element.index > max) {
         max = element.index;
       }
     });
@@ -149,46 +149,47 @@ function PipelineScreen() {
   async function addPipeline(pipelineID) {
     const params = {
       parentPipelineID: pipeline.id,
-      childPipelineID: pipelineID
-    }
+      childPipelineID: pipelineID,
+    };
     try {
       const response = await PipelineService.verifyLoop(params);
-      if(response.valid) {
+      if (response.valid) {
         pipelineList.forEach((pipe) => {
           if (pipe.id == pipelineID) {
             const newPipeline = {
               index: getIndex(),
               digitalProcess: pipe,
-            valueParameters: [],
-          };
+              valueParameters: [],
+            };
 
-          pipeline.pdilist.push(newPipeline);
-          refresh();
+            pipeline.pdilist.push(newPipeline);
+            refresh();
 
-          toast.success(
-            <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
-            {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-            }
+            toast.success(
+              <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
+              {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              }
             );
           }
         });
-        } else {
-          toast.error(
-            <text id="toastMsg">Erro de Loop - A pipeline {pipeline.name} já está sendo utilizada por essa pipeline</text>
-          );
-        }
+      } else {
+        toast.error(
+          <text id="toastMsg">
+            Erro de Loop - A pipeline {pipeline.name} já está sendo utilizada
+            por essa pipeline
+          </text>
+        );
+      }
     } catch (error) {
-      toast.error(
-        <text id="toastMsg">Erro interno</text>
-      );
+      toast.error(<text id="toastMsg">Erro interno</text>);
     }
   }
 
@@ -304,12 +305,29 @@ function PipelineScreen() {
         ) {
           novoEstado.pdilist[count - 1].valueParameters[indice].value =
             event.target.checked;
+        } else if (
+          novoEstado.pdilist[count - 1].valueParameters[indice].parameter
+            .type == "FILE"
+        ) {
+          let file = event.target.files[0];
+          // const formData = new FormData();
+          // formData.append("file", file);
+          console.log(novoEstado.pdilist[count - 1]);
+          console.log(novoEstado.pdilist[count - 1].valueParameters[indice]);
+          console.log(
+            novoEstado.pdilist[count - 1].valueParameters[indice].value
+          );
+
+          novoEstado.pdilist[count - 1].valueParameters[indice].value = file;
+          // console.log(
+          //   novoEstado.pdilist[count - 1].valueParameters[indice].value
+          // );
+          console.log(file);
         } else {
           novoEstado.pdilist[count - 1].valueParameters[indice].value =
             event.target.value;
         }
 
-        // console.log(event.target.vq5  lue);
         setPipeline(novoEstado);
       }
     });
@@ -749,6 +767,7 @@ function PipelineScreen() {
                                     </span>
                                   )}
                                 </label>
+
                                 <input
                                   type={param.parameter.type}
                                   class="form-control"
@@ -757,7 +776,12 @@ function PipelineScreen() {
                                     handleChange(e, param.parameter.name)
                                   }
                                   placeholder={`insira um ${param.parameter.type}`}
-                                  value={param.value}
+                                  value={
+                                    param.parameter.type == "FILE"
+                                      ? ""
+                                      : param.value
+                                  }
+                                  // value={param.type == "FILE" && ""}
                                 ></input>
                               </div>
                             );
