@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
+import NewPipelineModal from "./NewPipelineModal";
 
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
@@ -57,7 +58,6 @@ function PipelineScreen() {
 
   const [pipelineList, setPipelineList] = useState([]);
 
-  const [pipelineName, setPipelineName] = useState("");
   const [pipeline, setPipeline] = useState(pipelineEmpty);
 
   const [modelPDI, setPdiList] = useState([{}]);
@@ -67,6 +67,8 @@ function PipelineScreen() {
   const [videoUrl, setVideoUrl] = useState([]);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
+  const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
+  const [response, setResponse] = useState({});
 
   function Adicionar(props) {
     return (
@@ -333,33 +335,24 @@ function PipelineScreen() {
     });
   }
 
-  const create = async () => {
-    const request = {
-      name: pipelineName,
-      description: "Descrição genérica",
-      category: "PIPELINE",
-      active: true,
-      pdilist: [],
-    };
-    const response = await toast.promise(PipelineService.register(request), {
-      pending: {
-        render({ data }) {
-          return <text id="toastMsg">Salvando</text>;
-        },
-      },
-      success: {
-        render({ data }) {
-          return <text id="toastMsg">Salvo com sucesso!</text>;
-        },
-      },
-      error: {
-        render({ data }) {
-          return <text id="toastMsg">Erro ao tentar criar a pipeline</text>;
-        },
-      },
-    });
-    setPipeline(response);
+  useEffect(() => {
+    /* if (response !== {}) {
+      setPipeline((prevState) => {
+        return {
+          ...prevState,
+          active: response.active,
+          category: response.category,
+          description: response.description,
+          id: response.id,
+          name: response.name,
+        };
+      });
+    } */
     getPipelines();
+  }, [response]);
+
+  const create = async () => {
+    setShowNewPipelineModal(true);
   };
 
   function validateParam() {
@@ -423,7 +416,6 @@ function PipelineScreen() {
         refresh();
       }
     });
-    setPipelineName("");
   }
 
   const deletePipeline = async () => {
@@ -468,6 +460,12 @@ function PipelineScreen() {
         <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
       );
     }
+  };
+
+  const clickMethod = (name) => {
+    ////if(confirm("Are you sure to delete "+name)) {
+    console.log("Implement delete functionality here");
+    // }
   };
 
   return (
@@ -518,19 +516,11 @@ function PipelineScreen() {
                 )}
 
                 <div class="input-group-sm d-flex mx-1">
-                  <input
-                    type="text"
-                    className="form-control input-create"
-                    placeholder="Criar nova pipeline"
-                    aria-describedby="button-addon2"
-                    value={pipelineName}
-                    onChange={(e) => setPipelineName(e.target.value)}
-                  ></input>
                   <button
-                    className="btn save-btn  btn-create"
+                    className="btn save-btn"
                     type="button"
                     id="button-addon2"
-                    onClick={(e) => {
+                    onClick={() => {
                       create();
                     }}
                   >
@@ -553,7 +543,11 @@ function PipelineScreen() {
                       }}
                     />
                   </div>
-                  <a class="p-delete" onClick={deletePipeline}>
+                  <a
+                    type="button"
+                    class="btn btn-light btn-sm"
+                    onClick={deletePipeline}
+                  >
                     Excluir
                   </a>
                   <a
@@ -799,6 +793,12 @@ function PipelineScreen() {
             </div>
           )}
         </div>
+        <NewPipelineModal
+          show={showNewPipelineModal}
+          onShowChange={setShowNewPipelineModal}
+          updateData={getPipelines}
+          response={setResponse}
+        />
       </div>
     </>
   );

@@ -20,7 +20,7 @@ function FormLogin() {
         password: password,
       });
       setRedirectToPipeline(true);
-      navigate("../pipeline", { replace: true });
+      navigate("../dashboard", { replace: true });
     } catch (error) {
       if (error.message === "Network Error") {
         toast.error(<text id="toastMsg">Conexão recusada</text>);
@@ -32,7 +32,7 @@ function FormLogin() {
     //   navigate("../register", { replace: true });
     // }
     if (redirectToPipeline) {
-      navigate("../pipeline", { replace: true });
+      navigate("../dashboard", { replace: true });
     }
   };
 
