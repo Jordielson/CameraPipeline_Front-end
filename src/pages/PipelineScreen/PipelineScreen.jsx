@@ -363,7 +363,7 @@ function PipelineScreen() {
       validateParam();
       await Promise.all(pipeline.pdilist.map(async (element) => {
         await Promise.all(element.valueParameters.map(async (value) => {
-          if(value.parameter.type == "FILE" && value.value) {
+          if(value.parameter.type == "FILE" && (typeof value.value == 'object')) {
             const formData = new FormData();
             formData.append("file", value.value);
             const response = await ValueParameterService.upload(formData);
