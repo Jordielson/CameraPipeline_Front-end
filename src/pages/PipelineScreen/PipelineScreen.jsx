@@ -14,6 +14,7 @@ import NewPipelineModal from "./NewPipelineModal";
 
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
+import ValueParameterService from "../../services/value_parameter";
 
 const pipelineEmpty = {
   id: 0,
@@ -312,19 +313,7 @@ function PipelineScreen() {
             .type == "FILE"
         ) {
           let file = event.target.files[0];
-          // const formData = new FormData();
-          // formData.append("file", file);
-          console.log(novoEstado.pdilist[count - 1]);
-          console.log(novoEstado.pdilist[count - 1].valueParameters[indice]);
-          console.log(
-            novoEstado.pdilist[count - 1].valueParameters[indice].value
-          );
-
           novoEstado.pdilist[count - 1].valueParameters[indice].value = file;
-          // console.log(
-          //   novoEstado.pdilist[count - 1].valueParameters[indice].value
-          // );
-          console.log(file);
         } else {
           novoEstado.pdilist[count - 1].valueParameters[indice].value =
             event.target.value;
@@ -372,7 +361,17 @@ function PipelineScreen() {
   const updatePipeline = async () => {
     try {
       validateParam();
-
+      await Promise.all(pipeline.pdilist.map(async (element) => {
+        await Promise.all(element.valueParameters.map(async (value) => {
+          if(value.parameter.type == "FILE" && value.value) {
+            const formData = new FormData();
+            formData.append("file", value.value);
+            const response = await ValueParameterService.upload(formData);
+            value.value = response.id;
+          }
+        }))
+      }));
+      
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: {
           render({ data }) {
