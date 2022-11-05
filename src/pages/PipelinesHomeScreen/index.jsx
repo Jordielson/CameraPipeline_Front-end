@@ -91,7 +91,7 @@ export default function PipelinesHomeScreen() {
   return (
     <>
       <div className="content">
-        <SidebarMenu page="pipeline-home" />
+        <SidebarMenu page="pipelines" />
         <div className="content-body">
           <nav className="navbar">
             <div className="container-fluid">
@@ -114,7 +114,12 @@ export default function PipelinesHomeScreen() {
           <ListGroup className={"mx-4 mt-4 mb-1 " + Styles.listPipeline}>
             {pipelineList.map((pipeline) => {
               return (
-                <ListGroup.Item key={pipeline.id} variant="light">
+                <ListGroup.Item
+                  className={Styles.list}
+                  key={pipeline.id}
+                  onClick={(e) => enterPipeline(pipeline)}
+                  variant="light"
+                >
                   <div>{pipeline.name}</div>
                   <div className={Styles.edit}>
                     <Form>

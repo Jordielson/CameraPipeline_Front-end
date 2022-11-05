@@ -57,7 +57,6 @@ function SidebarMenu(props) {
                 <a
                   className="dashboard"
                   onClick={(e) => navigate("../dashboard", { replace: true })}
-                  href="#"
                 >
                   Dashboard
                 </a>
@@ -76,7 +75,6 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-imagem", { replace: true })
                     }
-                    href="#"
                     className="submenu-list"
                   >
                     Imagem
@@ -85,7 +83,6 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-video", { replace: true })
                     }
-                    href="#"
                     className="submenu-list"
                   >
                     Video
@@ -94,7 +91,6 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-camera", { replace: true })
                     }
-                    href="#"
                     className="submenu-list"
                   >
                     Camera
@@ -106,24 +102,17 @@ function SidebarMenu(props) {
                   onClick={(e) =>
                     navigate("../pipeline-home", { replace: true })
                   }
-                  href="#"
                 >
                   Pipelines
                 </a>
               </li>
               <li className="camera">
-                <a
-                  onClick={(e) => navigate("../camera", { replace: true })}
-                  href="#"
-                >
+                <a onClick={(e) => navigate("../camera", { replace: true })}>
                   Câmeras
                 </a>
               </li>
               <li className="pdi">
-                <a
-                  onClick={(e) => navigate("../pdi", { replace: true })}
-                  href="#"
-                >
+                <a onClick={(e) => navigate("../pdi", { replace: true })}>
                   PDIs
                 </a>
               </li>
@@ -132,7 +121,6 @@ function SidebarMenu(props) {
                   onClick={(e) =>
                     navigate("../alterar-senha", { replace: true })
                   }
-                  href="#"
                 >
                   Alterar senha
                 </a>
@@ -140,7 +128,6 @@ function SidebarMenu(props) {
               <li className="guia">
                 <a
                   onClick={(e) => navigate("../user-guide", { replace: true })}
-                  href="#"
                 >
                   Guia
                 </a>
@@ -153,7 +140,7 @@ function SidebarMenu(props) {
               <span>{localStorage.getItem("login")}</span>
             </div> */}
             <div>
-              <a href="#" class="logout" onClick={(e) => logOut()}>
+              <a class="logout" onClick={(e) => logOut()}>
                 <IoIosLogOut />
                 sair
               </a>
