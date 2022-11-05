@@ -111,7 +111,7 @@ export default function PipelinesHomeScreen() {
               </div>
             </div>
           </nav>
-          <ListGroup className="mx-4 mt-4 mb-1 listPipeline">
+          <ListGroup className={"mx-4 mt-4 mb-1 " + Styles.listPipeline}>
             {pipelineList.map((pipeline) => {
               return (
                 <ListGroup.Item key={pipeline.id} variant="light">

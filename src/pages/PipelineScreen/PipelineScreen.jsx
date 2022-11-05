@@ -69,7 +69,7 @@ function PipelineScreen() {
   const [videoUrl, setVideoUrl] = useState([]);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
-  const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
+  // const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
   const [response, setResponse] = useState({});
 
   function Adicionar(props) {
@@ -197,17 +197,17 @@ function PipelineScreen() {
     }
   }
 
-  useEffect(() => {
-    if (pipeline.id !== 0) {
-      pipelineList.forEach((element) => {
-        if (element.id === pipeline.id) {
-          setPipeline(element);
-        }
-      });
-    } else if (pipelineList[0]) {
-      setPipeline(pipelineList[0]);
-    }
-  }, [pipelineList]);
+  // useEffect(() => {
+  //   if (pipeline.id !== 0) {
+  //     pipelineList.forEach((element) => {
+  //       if (element.id === pipeline.id) {
+  //         setPipeline(element);
+  //       }
+  //     });
+  //   } else if (pipelineList[0]) {
+  //     setPipeline(pipelineList[0]);
+  //   }
+  // }, [pipelineList]);
 
   // useEffect(() => {
   //   let novoEstado = Object.assign({}, pipeline);
@@ -337,9 +337,9 @@ function PipelineScreen() {
     }
   }, [response]);
 
-  const create = async () => {
-    setShowNewPipelineModal(true);
-  };
+  // const create = async () => {
+  //   setShowNewPipelineModal(true);
+  // };
 
   function validateParam() {
     pipeline.pdilist.map((pdi) => {
@@ -393,7 +393,7 @@ function PipelineScreen() {
           },
         },
       });
-      getPipelines();
+      // getPipelines();
       const preview = await PipelineService.preview(response.id);
       //Preview comentada temporariamente pra o desenvolvimento
       //setUrl(preview);
@@ -412,14 +412,14 @@ function PipelineScreen() {
     });
   }
 
-  function handlePipeline(id) {
-    pipelineList.map((pipe) => {
-      if (pipe.id == id) {
-        setPipeline(pipe);
-        refresh();
-      }
-    });
-  }
+  // function handlePipeline(id) {
+  //   pipelineList.map((pipe) => {
+  //     if (pipe.id == id) {
+  //       setPipeline(pipe);
+  //       refresh();
+  //     }
+  //   });
+  // }
 
   const deletePipeline = async () => {
     try {
@@ -436,7 +436,7 @@ function PipelineScreen() {
         },
       });
       setPipeline(pipelineEmpty);
-      getPipelines();
+      // getPipelines();
     } catch (error) {
       let errorMessage = "";
       switch (error.response.data.code) {
@@ -457,7 +457,7 @@ function PipelineScreen() {
         id: pipeline.id,
         active: !pipeline.active,
       });
-      getPipelines();
+      // getPipelines();
     } catch (error) {
       toast.error(
         <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
@@ -508,7 +508,7 @@ function PipelineScreen() {
                 )}
               </div>
 
-              <div className="grupo d-flex flex-row">
+              {/* <div className="grupo d-flex flex-row">
                 {pipelineList.length > 0 && (
                   <select
                     id="pipelines-select"
@@ -540,7 +540,7 @@ function PipelineScreen() {
                     Criar
                   </button>
                 </div>
-              </div>
+              </div> */}
               {pipelineList.length > 0 && (
                 <div className="pipeline-save d-flex justify-content-end">
                   <div
@@ -810,12 +810,12 @@ function PipelineScreen() {
             </div>
           )}
         </div>
-        <NewPipelineModal
+        {/* <NewPipelineModal
           show={showNewPipelineModal}
           onShowChange={setShowNewPipelineModal}
           updateData={getPipelines}
           response={setResponse}
-        />
+        /> */}
       </div>
     </>
   );
