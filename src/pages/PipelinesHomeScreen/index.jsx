@@ -117,7 +117,7 @@ export default function PipelinesHomeScreen() {
                 <ListGroup.Item
                   className={Styles.list}
                   key={pipeline.id}
-                  onClick={(e) => enterPipeline(pipeline)}
+                  // onClick={(e) => enterPipeline(pipeline)}
                   variant="light"
                 >
                   <div>{pipeline.name}</div>
@@ -126,7 +126,7 @@ export default function PipelinesHomeScreen() {
                       <Form.Check
                         reverse
                         role="button"
-                        label="Ativar/Desativar"
+                        // label="Ativar/Desativar"
                         type="switch"
                         className="switch-actions mx-2"
                         id="custom-switch"
