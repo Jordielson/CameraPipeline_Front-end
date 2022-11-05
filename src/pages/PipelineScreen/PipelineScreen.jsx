@@ -2,6 +2,7 @@ import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoComponent";
 import Accordion from "react-bootstrap/Accordion";
 import { BsClock } from "react-icons/bs";
+import { AiOutlineLeft } from "react-icons/ai";
 import "./styles.css";
 import { TiFlowMerge } from "react-icons/ti";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -361,17 +362,24 @@ function PipelineScreen() {
   const updatePipeline = async () => {
     try {
       validateParam();
-      await Promise.all(pipeline.pdilist.map(async (element) => {
-        await Promise.all(element.valueParameters.map(async (value) => {
-          if(value.parameter.type == "FILE" && (typeof value.value == 'object')) {
-            const formData = new FormData();
-            formData.append("file", value.value);
-            const response = await ValueParameterService.upload(formData);
-            value.value = response.id;
-          }
-        }))
-      }));
-      
+      await Promise.all(
+        pipeline.pdilist.map(async (element) => {
+          await Promise.all(
+            element.valueParameters.map(async (value) => {
+              if (
+                value.parameter.type == "FILE" &&
+                typeof value.value == "object"
+              ) {
+                const formData = new FormData();
+                formData.append("file", value.value);
+                const response = await ValueParameterService.upload(formData);
+                value.value = response.id;
+              }
+            })
+          );
+        })
+      );
+
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: {
           render({ data }) {
@@ -482,17 +490,27 @@ function PipelineScreen() {
                   : "navbar sticky-top navbar-light d-flex flex-row justify-content-center px-3 "
               }
             >
-              {pipelineList.length > 0 && (
-                <input
-                  key={pipeline.id}
-                  type="text"
-                  onChange={(e) => handleNameChange(e.target.value)}
-                  value={pipeline.name}
-                  placeholder="Insira o nome da pipeline..."
-                  className="form-control-plaintext navbar-brand pipeline-name"
-                  style={{ color: "white" }}
-                />
-              )}
+              <div className="pipeline-name d-flex">
+                <h6
+                  className="backbutton"
+                  onClick={(e) => {
+                    navigate("../pipeline-home", { replace: true });
+                  }}
+                >
+                  <AiOutlineLeft style={{ color: "white" }} title="voltar" />
+                </h6>
+                {pipelineList.length > 0 && (
+                  <input
+                    key={pipeline.id}
+                    type="text"
+                    onChange={(e) => handleNameChange(e.target.value)}
+                    value={pipeline.name}
+                    placeholder="Insira o nome da pipeline..."
+                    className="form-control-plaintext navbar-brand "
+                    style={{ color: "white" }}
+                  />
+                )}
+              </div>
 
               <div className="grupo d-flex flex-row">
                 {pipelineList.length > 0 && (
@@ -529,9 +547,13 @@ function PipelineScreen() {
               </div>
               {pipelineList.length > 0 && (
                 <div className="pipeline-save d-flex justify-content-end">
-                  <div style={{ display: "flex", marginRight: 10 }}>
+                  <div
+                    className="switch"
+                    style={{ display: "flex", marginRight: 15 }}
+                  >
                     <Form.Check
                       style={{ marginLeft: 6, marginTop: 4 }}
+                      label="Ativar/Desativar"
                       role="button"
                       type="switch"
                       title="ativar/desativar pipeline"
@@ -543,18 +565,18 @@ function PipelineScreen() {
                     />
                   </div>
                   <a
-                    type="button"
-                    class="btn btn-light btn-sm"
-                    onClick={deletePipeline}
-                  >
-                    Excluir
-                  </a>
-                  <a
                     role={"button"}
                     onClick={() => history(pipeline)}
                     className="align-self-center px-2 history"
                   >
                     <BsClock /> <text className="p-1">Histórico</text>
+                  </a>
+                  <a
+                    type="button"
+                    class="btn btn-light btn-sm btn-excluir"
+                    onClick={deletePipeline}
+                  >
+                    Excluir
                   </a>
                   <button
                     type="button"

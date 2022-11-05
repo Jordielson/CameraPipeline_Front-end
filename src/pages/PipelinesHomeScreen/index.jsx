@@ -53,7 +53,7 @@ export default function PipelinesHomeScreen() {
 
   const enterPipeline = (pipeline) => {
     navigate("../pipeline", { replace: true, state: { pipeline } });
-  }
+  };
 
   return (
     <>
@@ -69,10 +69,15 @@ export default function PipelinesHomeScreen() {
             {pipelineList.map((pipeline) => {
               return (
                 <ListGroup.Item key={pipeline.id} variant="light" role="button">
-                  <div onClick={() => enterPipeline(pipeline)}> {pipeline.name}</div>
+                  <div onClick={() => enterPipeline(pipeline)}>
+                    {" "}
+                    {pipeline.name}
+                  </div>
                   <Form>
                     <Form.Check
+                      reverse
                       role="button"
+                      label="Ativar/Desativar"
                       type="switch"
                       className="switch-actions"
                       id="custom-switch"

@@ -343,3 +343,33 @@ menu button:hover span:last-of-type {
 .select-pipeline {
   width: 120px;
 }
+
+.btn-excluir {
+  margin-right: 0.5rem;
+}
+.backbutton {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  justify-content: center;
+  border-right: 1px solid rgb(192, 192, 192);
+}
+.backbutton:hover {
+  cursor: pointer;
+
+  background: rgb(60, 50, 87);
+  color: rgb(219, 219, 219);
+  /* background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16850490196078427) 100%,
+    rgba(255, 255, 255, 0.16850490196078427) 100%,
+    rgba(255, 255, 255, 0.16850490196078427) 100%
+  ); */
+}
+
+.switch {
+  font-size: small;
+}

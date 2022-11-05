@@ -54,7 +54,11 @@ function SidebarMenu(props) {
             </div>
             <ul className="list-unstyled components">
               <li>
-                <a className="dashboard" href="/dashboard">
+                <a
+                  className="dashboard"
+                  onClick={(e) => navigate("../dashboard", { replace: true })}
+                  href="#"
+                >
                   Dashboard
                 </a>
               </li>
@@ -68,31 +72,78 @@ function SidebarMenu(props) {
                   Edição
                 </a>
                 <li className="submenu" id="submenu">
-                  <a href="/editar-imagem" className="submenu-list">
+                  <a
+                    onClick={(e) =>
+                      navigate("../editar-imagem", { replace: true })
+                    }
+                    href="#"
+                    className="submenu-list"
+                  >
                     Imagem
                   </a>
-                  <a href="/editar-video" className="submenu-list">
+                  <a
+                    onClick={(e) =>
+                      navigate("../editar-video", { replace: true })
+                    }
+                    href="#"
+                    className="submenu-list"
+                  >
                     Video
                   </a>
-                  <a href="/editar-camera" className="submenu-list">
+                  <a
+                    onClick={(e) =>
+                      navigate("../editar-camera", { replace: true })
+                    }
+                    href="#"
+                    className="submenu-list"
+                  >
                     Camera
                   </a>
                 </li>
               </li>
               <li className="pipelines">
-               <a href="/pipeline-home">Pipelines</a>
+                <a
+                  onClick={(e) =>
+                    navigate("../pipeline-home", { replace: true })
+                  }
+                  href="#"
+                >
+                  Pipelines
+                </a>
               </li>
               <li className="camera">
-                <a href="/camera">Câmeras</a>
+                <a
+                  onClick={(e) => navigate("../camera", { replace: true })}
+                  href="#"
+                >
+                  Câmeras
+                </a>
               </li>
               <li className="pdi">
-                <a href="/pdi">PDIs</a>
+                <a
+                  onClick={(e) => navigate("../pdi", { replace: true })}
+                  href="#"
+                >
+                  PDIs
+                </a>
               </li>
               <li className="change-password">
-                <a href="/alterar-senha">Alterar senha</a>
+                <a
+                  onClick={(e) =>
+                    navigate("../alterar-senha", { replace: true })
+                  }
+                  href="#"
+                >
+                  Alterar senha
+                </a>
               </li>
               <li className="guia">
-                <a href="/user-guide">Guia</a>
+                <a
+                  onClick={(e) => navigate("../user-guide", { replace: true })}
+                  href="#"
+                >
+                  Guia
+                </a>
               </li>
             </ul>
           </div>
