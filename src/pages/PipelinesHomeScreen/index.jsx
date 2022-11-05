@@ -55,6 +55,35 @@ export default function PipelinesHomeScreen() {
     }
   };
 
+  const deletePipeline = async (pipeline) => {
+    try {
+      await toast.promise(PipelineService.deletePipeline(pipeline.id), {
+        pending: {
+          render({ data }) {
+            return <text id="toastMsg">Deletando</text>;
+          },
+        },
+        success: {
+          render({ data }) {
+            return <text id="toastMsg">Deletado com sucesso! 👌</text>;
+          },
+        },
+      });
+      fetchPipelineList();
+    } catch (error) {
+      let errorMessage = "";
+      switch (error.response.data.code) {
+        case "PIPELINE_USED":
+          errorMessage = "Pipeline está sendo utilizada";
+          break;
+        default:
+          errorMessage = "Erro ao tentar deletar o pipeline";
+          break;
+      }
+      toast.error(<text id="toastMsg">{errorMessage}</text>);
+    }
+  };
+
   const enterPipeline = (pipeline) => {
     navigate("../pipeline", { replace: true, state: { pipeline } });
   };
@@ -74,6 +103,7 @@ export default function PipelinesHomeScreen() {
                       setShowNewPipelineModal(true);
                     }}
                     role="button"
+                    className="btn btn-color"
                   >
                     Criar nova
                   </span>
@@ -84,27 +114,37 @@ export default function PipelinesHomeScreen() {
           <ListGroup className="mx-4 mt-4 mb-1 listPipeline">
             {pipelineList.map((pipeline) => {
               return (
-                <ListGroup.Item key={pipeline.id} variant="light" role="button">
+                <ListGroup.Item key={pipeline.id} variant="light">
                   <div>{pipeline.name}</div>
                   <div className={Styles.edit}>
-                    <div
-                      className={Styles.editText}
-                      onClick={() => enterPipeline(pipeline)}
-                    >
-                      Editar
-                    </div>
                     <Form>
                       <Form.Check
                         reverse
                         role="button"
                         label="Ativar/Desativar"
                         type="switch"
-                        className="switch-actions"
+                        className="switch-actions mx-2"
                         id="custom-switch"
                         checked={pipeline.active}
                         onChange={() => activePipeline(pipeline)}
                       />
                     </Form>
+                    <button
+                      title="EDITAR"
+                      className={
+                        Styles.editText +
+                        " fa-solid fa-pen-to-square pdilist-pencil"
+                      }
+                      onClick={() => enterPipeline(pipeline)}
+                    ></button>
+                    <button
+                      title="EXCLUIR"
+                      className={
+                        Styles.excludeButton +
+                        " pdilist-trash fa-solid fa-trash"
+                      }
+                      onClick={(e) => deletePipeline(pipeline)}
+                    ></button>
                   </div>
                 </ListGroup.Item>
               );
