@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import PipelineService from "../../../services/pipeline";
+import PipelineService from "../../services/pipeline";
 
 export default function NewPipeline(props) {
   const [name, setName] = useState("");
@@ -34,6 +34,7 @@ export default function NewPipeline(props) {
         },
       },
     });
+    props.updateData();
     props.response(response);
   };
 

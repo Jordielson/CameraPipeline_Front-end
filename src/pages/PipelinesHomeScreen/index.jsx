@@ -6,12 +6,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PipelineService from "../../services/pipeline";
 import PaginationComponent from "../../components/PaginationComponent";
+import NewPipelineModal from "../../components/NewPipelineModal";
+
+import Styles from "./styles.module.css";
 
 export default function PipelinesHomeScreen() {
   const [pipelineList, setPipelineList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showResults, setShowResults] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
+  const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,28 +67,45 @@ export default function PipelinesHomeScreen() {
           <nav className="navbar">
             <div className="container-fluid">
               <a className="navbar-brand navbar-dark">Pipelines</a>
+              <div className="d-flex flex-row align-items-center justify-content-end">
+                <div className=" form-group has-search justify-content-between px-3">
+                  <span
+                    onClick={() => {
+                      setShowNewPipelineModal(true);
+                    }}
+                    role="button"
+                  >
+                    Criar nova
+                  </span>
+                </div>
+              </div>
             </div>
           </nav>
           <ListGroup className="mx-4 mt-4 mb-1 listPipeline">
             {pipelineList.map((pipeline) => {
               return (
                 <ListGroup.Item key={pipeline.id} variant="light" role="button">
-                  <div onClick={() => enterPipeline(pipeline)}>
-                    {" "}
-                    {pipeline.name}
+                  <div>{pipeline.name}</div>
+                  <div className={Styles.edit}>
+                    <div
+                      className={Styles.editText}
+                      onClick={() => enterPipeline(pipeline)}
+                    >
+                      Editar
+                    </div>
+                    <Form>
+                      <Form.Check
+                        reverse
+                        role="button"
+                        label="Ativar/Desativar"
+                        type="switch"
+                        className="switch-actions"
+                        id="custom-switch"
+                        checked={pipeline.active}
+                        onChange={() => activePipeline(pipeline)}
+                      />
+                    </Form>
                   </div>
-                  <Form>
-                    <Form.Check
-                      reverse
-                      role="button"
-                      label="Ativar/Desativar"
-                      type="switch"
-                      className="switch-actions"
-                      id="custom-switch"
-                      checked={pipeline.active}
-                      onClick={() => activePipeline(pipeline)}
-                    />
-                  </Form>
                 </ListGroup.Item>
               );
             })}
@@ -103,6 +124,11 @@ export default function PipelinesHomeScreen() {
           </div>
         </div>
       </div>
+      <NewPipelineModal
+        show={showNewPipelineModal}
+        onShowChange={setShowNewPipelineModal}
+        updateData={fetchPipelineList}
+      />
     </>
   );
 }

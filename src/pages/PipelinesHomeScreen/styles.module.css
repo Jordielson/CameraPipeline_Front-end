@@ -8,3 +8,11 @@
   height: 10%;
   background: blue;
 }
+
+.edit {
+  display: flex;
+}
+
+.editText {
+  margin-right: 40px;;
+}

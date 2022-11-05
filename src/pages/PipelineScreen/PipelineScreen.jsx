@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
-import NewPipelineModal from "./NewPipelineModal";
+import NewPipelineModal from "../../components/NewPipelineModal";
 
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
@@ -326,19 +326,15 @@ function PipelineScreen() {
   }
 
   useEffect(() => {
-    /* if (response !== {}) {
-      setPipeline((prevState) => {
-        return {
-          ...prevState,
-          active: response.active,
-          category: response.category,
-          description: response.description,
-          id: response.id,
-          name: response.name,
-        };
-      });
-    } */
-    getPipelines();
+    function isObjectEmpty(obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) return false;
+      }
+      return true;
+    }
+    if (!isObjectEmpty(response)) {
+      setPipeline(response);
+    }
   }, [response]);
 
   const create = async () => {
