@@ -20,13 +20,13 @@ export default function NewPipeline(props) {
     await toast.promise(PipelineService.register(request), {
       pending: {
         render({ data }) {
-          exit();
-          props.updateData();
           return <text id="toastMsg">Salvando</text>;
         },
       },
       success: {
         render({ data }) {
+          exit();
+          props.updateData();
           return <text id="toastMsg">Salvo com sucesso!</text>;
         },
       },
