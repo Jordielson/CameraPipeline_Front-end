@@ -3,24 +3,19 @@
   overflow-y: auto;
 }
 
-.espacoOcupado {
-  width: 100%;
-  height: 10%;
-  background: blue;
-}
-
 .edit {
   display: flex;
 }
 
-.editText {
-  /* margin-left: ; */
-}
 .excludeButton {
-  /* margin-left: 1rem; */
   cursor: pointer;
 }
 
 .list:hover {
   background-color: #fffdfdd8;
+}
+
+.labelMain {
+  margin-top: 25px;
+  text-align: center;
 }

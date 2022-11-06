@@ -17,9 +17,11 @@ export default function NewPipeline(props) {
       active: true,
       pdilist: [],
     };
-    const response = await toast.promise(PipelineService.register(request), {
+    await toast.promise(PipelineService.register(request), {
       pending: {
         render({ data }) {
+          exit();
+          props.updateData();
           return <text id="toastMsg">Salvando</text>;
         },
       },
@@ -34,8 +36,6 @@ export default function NewPipeline(props) {
         },
       },
     });
-    props.updateData();
-    props.response(response);
   };
 
   const exit = () => {

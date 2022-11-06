@@ -111,6 +111,9 @@ export default function PipelinesHomeScreen() {
               </div>
             </div>
           </nav>
+          <div className={Styles.labelMain}>
+            <label>Selecione uma pipeline</label>
+          </div>
           <ListGroup className={"mx-4 mt-4 mb-1 " + Styles.listPipeline}>
             {pipelineList.map((pipeline) => {
               return (
@@ -137,8 +140,7 @@ export default function PipelinesHomeScreen() {
                     <button
                       title="EDITAR"
                       className={
-                        Styles.editText +
-                        " fa-solid fa-pen-to-square pdilist-pencil"
+                       " fa-solid fa-pen-to-square pdilist-pencil"
                       }
                       onClick={() => enterPipeline(pipeline)}
                     ></button>

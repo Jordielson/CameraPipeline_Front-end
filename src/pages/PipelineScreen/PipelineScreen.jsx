@@ -69,8 +69,6 @@ function PipelineScreen() {
   const [videoUrl, setVideoUrl] = useState([]);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
-  // const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
-  const [response, setResponse] = useState({});
 
   function Adicionar(props) {
     return (
@@ -324,22 +322,6 @@ function PipelineScreen() {
       }
     });
   }
-
-  useEffect(() => {
-    function isObjectEmpty(obj) {
-      for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) return false;
-      }
-      return true;
-    }
-    if (!isObjectEmpty(response)) {
-      setPipeline(response);
-    }
-  }, [response]);
-
-  // const create = async () => {
-  //   setShowNewPipelineModal(true);
-  // };
 
   function validateParam() {
     pipeline.pdilist.map((pdi) => {
@@ -810,12 +792,6 @@ function PipelineScreen() {
             </div>
           )}
         </div>
-        {/* <NewPipelineModal
-          show={showNewPipelineModal}
-          onShowChange={setShowNewPipelineModal}
-          updateData={getPipelines}
-          response={setResponse}
-        /> */}
       </div>
     </>
   );
