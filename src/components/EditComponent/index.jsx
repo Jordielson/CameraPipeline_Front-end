@@ -40,8 +40,8 @@ function EditComponent(props) {
 
   useEffect(() => {
     const params = {
-      page: currentPage - 1
-    }
+      page: currentPage - 1,
+    };
     getPipeline(params);
   }, [currentPage]);
 
@@ -58,7 +58,7 @@ function EditComponent(props) {
       }
     } else {
       toast.error(
-        <text>Selecione um(a) {props.type} antes de prosseguir</text>,
+        <span>Selecione um(a) {props.type} antes de prosseguir</span>,
         {
           position: "top-right",
           autoClose: 3000,
@@ -123,7 +123,7 @@ function EditComponent(props) {
               errorMessage = "Erro ao baixar a imagem";
               break;
           }
-          toast.error(<text id="toastMsg">{errorMessage}</text>);
+          toast.error(<span id="toastMsg">{errorMessage}</span>);
         });
 
       // const imageByte = await ImageService.getImage(returnedImage);
@@ -183,7 +183,7 @@ function EditComponent(props) {
               errorMessage = "Erro ao buscar as cameras";
               break;
           }
-          toast.error(<text id="toastMsg">{errorMessage}</text>);
+          toast.error(<span id="toastMsg">{errorMessage}</span>);
         });
     }
   }
@@ -217,7 +217,7 @@ function EditComponent(props) {
             errorMessage = "Erro ao buscar os pipeline";
             break;
         }
-        toast.error(<text id="toastMsg">{errorMessage}</text>);
+        toast.error(<span id="toastMsg">{errorMessage}</span>);
       });
   }
 
@@ -225,7 +225,7 @@ function EditComponent(props) {
     CameraService.register(camera)
       .then(() => {
         toast.success(
-          <text id="toastMsg">Pipeline aplicada a câmera com sucesso</text>
+          <span id="toastMsg">Pipeline aplicada a câmera com sucesso</span>
         );
       })
       .catch((error) => {
@@ -244,7 +244,7 @@ function EditComponent(props) {
             errorMessage = "Erro ao salvar a camera com pipeline";
             break;
         }
-        toast.error(<text id="toastMsg">{errorMessage}</text>);
+        toast.error(<span id="toastMsg">{errorMessage}</span>);
       });
   }
 
@@ -349,7 +349,7 @@ function EditComponent(props) {
                     className={Styles.input}
                     onChange={(e) => handleImage(e)}
                   />
-                  <text>ou insira o URL do conteúdo</text>
+                  ou insira o URL do conteúdo
                   <Form.Control
                     className={Styles.input}
                     size="sm"

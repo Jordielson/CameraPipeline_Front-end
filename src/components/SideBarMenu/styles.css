@@ -151,3 +151,6 @@ span {
 .submenu-list:hover {
   border-left: 20px solid #fff;
 }
+.pointer {
+  cursor: pointer;
+}

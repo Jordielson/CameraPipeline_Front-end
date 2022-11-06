@@ -19,7 +19,6 @@ function FormPDI(props) {
       setPDIName(props.obj.name);
       setParameters(props.obj.parameters);
       setDescription(props.obj.description);
-      console.log(parameters, "UE", props.obj);
     }
   }, [props]);
 
@@ -128,7 +127,6 @@ function FormPDI(props) {
       setUrl("");
       setPDIName("");
       setDescription("");
-      console.log(description);
     } catch (e) {
       setShow(false);
       setDuplicatedParam("*Há parâmetros com nome Repetido: " + e);
@@ -164,8 +162,6 @@ function FormPDI(props) {
     };
 
     setParameters([...parameters, newParameter]);
-
-    console.log(parameters);
   }
   function exitHandler() {
     setParameters([]);
@@ -243,7 +239,7 @@ function FormPDI(props) {
           <div className={styles.modalHeader}>
             <div className="d-flex">
               <label
-                for="name"
+                htmlFor="name"
                 className={styles.editname + " fa-solid fa-pen-to-square"}
               ></label>
               <Modal.Title>

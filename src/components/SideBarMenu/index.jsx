@@ -35,10 +35,10 @@ function SidebarMenu(props) {
   }
   return (
     <>
-      <div class="wrapper">
+      <div className="wrapper">
         <nav id="sidebar">
           <div className="main-nav">
-            <div class="sidebar-header">
+            <div className="sidebar-header">
               <img
                 alt=""
                 src="/logo.svg"
@@ -55,7 +55,7 @@ function SidebarMenu(props) {
             <ul className="list-unstyled components">
               <li>
                 <a
-                  className="dashboard"
+                  className="dashboard pointer"
                   onClick={(e) => navigate("../dashboard", { replace: true })}
                 >
                   Dashboard
@@ -64,7 +64,7 @@ function SidebarMenu(props) {
               <li>
                 <a
                   href="#home"
-                  className="edicao"
+                  className="edicao "
                   id="edicao"
                   onClick={handlerSubmenu}
                 >
@@ -75,7 +75,7 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-imagem", { replace: true })
                     }
-                    className="submenu-list"
+                    className="submenu-list pointer"
                   >
                     Imagem
                   </a>
@@ -83,7 +83,7 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-video", { replace: true })
                     }
-                    className="submenu-list"
+                    className="submenu-list pointer"
                   >
                     Video
                   </a>
@@ -91,13 +91,13 @@ function SidebarMenu(props) {
                     onClick={(e) =>
                       navigate("../editar-camera", { replace: true })
                     }
-                    className="submenu-list"
+                    className="submenu-list pointer"
                   >
                     Camera
                   </a>
                 </li>
               </li>
-              <li className="pipelines">
+              <li className="pipelines pointer">
                 <a
                   onClick={(e) =>
                     navigate("../pipeline-home", { replace: true })
@@ -106,17 +106,17 @@ function SidebarMenu(props) {
                   Pipelines
                 </a>
               </li>
-              <li className="camera">
+              <li className="camera pointer">
                 <a onClick={(e) => navigate("../camera", { replace: true })}>
                   Câmeras
                 </a>
               </li>
-              <li className="pdi">
+              <li className="pdi pointer">
                 <a onClick={(e) => navigate("../pdi", { replace: true })}>
                   PDIs
                 </a>
               </li>
-              <li className="change-password">
+              <li className="change-password pointer">
                 <a
                   onClick={(e) =>
                     navigate("../alterar-senha", { replace: true })
@@ -125,7 +125,7 @@ function SidebarMenu(props) {
                   Alterar senha
                 </a>
               </li>
-              <li className="guia">
+              <li className="guia pointer">
                 <a
                   onClick={(e) => navigate("../user-guide", { replace: true })}
                 >
@@ -135,12 +135,12 @@ function SidebarMenu(props) {
             </ul>
           </div>
 
-          <div class="account">
+          <div className="account">
             {/* <div>
               <span>{localStorage.getItem("login")}</span>
             </div> */}
             <div>
-              <a class="logout" onClick={(e) => logOut()}>
+              <a className="logout" onClick={(e) => logOut()}>
                 <IoIosLogOut />
                 sair
               </a>

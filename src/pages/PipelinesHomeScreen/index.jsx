@@ -95,7 +95,7 @@ export default function PipelinesHomeScreen() {
         <div className="content-body">
           <nav className="navbar">
             <div className="container-fluid">
-              <a className="navbar-brand navbar-dark">Pipelines</a>
+              <a className="navbar-brand navbar-dark mx-3">Pipelines</a>
               <div className="d-flex flex-row align-items-center justify-content-end">
                 <div className=" form-group has-search justify-content-between px-3">
                   <span
@@ -123,8 +123,13 @@ export default function PipelinesHomeScreen() {
                   // onClick={(e) => enterPipeline(pipeline)}
                   variant="light"
                 >
-                  <div>{pipeline.name}</div>
-                  <div className={Styles.edit}>
+                  <div
+                    className={Styles.range + " px-2"}
+                    onClick={() => enterPipeline(pipeline)}
+                  >
+                    {pipeline.name}
+                  </div>
+                  <div className={Styles.edit + " m-2"}>
                     <Form>
                       <Form.Check
                         reverse
@@ -139,9 +144,7 @@ export default function PipelinesHomeScreen() {
                     </Form>
                     <button
                       title="EDITAR"
-                      className={
-                       " fa-solid fa-pen-to-square pdilist-pencil"
-                      }
+                      className={" fa-solid fa-pen-to-square pdilist-pencil"}
                       onClick={() => enterPipeline(pipeline)}
                     ></button>
                     <button

@@ -1,5 +1,5 @@
 .listPipeline {
-  max-height: 75vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
@@ -18,4 +18,13 @@
 .labelMain {
   margin-top: 25px;
   text-align: center;
+}
+.range {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  padding: 0;
 }

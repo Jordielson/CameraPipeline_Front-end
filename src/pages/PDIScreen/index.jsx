@@ -207,9 +207,9 @@ function PDIScreen() {
 
   useEffect(() => {
     const params = {
-      page: currentPage - 1
-    }
-    getPDIs(params)
+      page: currentPage - 1,
+    };
+    getPDIs(params);
   }, [currentPage]);
 
   async function getPDIs(params) {
@@ -245,9 +245,9 @@ function PDIScreen() {
         <SidebarMenu page="pdi" />
 
         <div className="content-body">
-          <nav class="navbar navbar-dark navpdi">
-            <div class="container-fluid">
-              <a class="navbar-brand">Lista de PDIs</a>
+          <nav className="navbar navbar-dark navpdi">
+            <div className="container-fluid">
+              <a className="navbar-brand mx-3">Lista de PDIs</a>
 
               <div className="width-full d-flex flex-row align-items-center justify-content-end">
                 <div className="d-flex align-items-center form-group px-3">
@@ -298,7 +298,7 @@ function PDIScreen() {
                   {pdi.name}
                   <div className="buttons">
                     <button
-                      class="fa-solid fa-pen-to-square pdilist-pencil"
+                      className="fa-solid fa-pen-to-square pdilist-pencil"
                       title="EDITAR"
                       id={pdi.id}
                       onClick={(e) => handleShowEdit(pdi.id)}

@@ -12,7 +12,9 @@ function Dashboard() {
         <div className="content-body">
           <nav className="navbar nav-camera">
             <div className="container-fluid">
-              <a className="navbar-brand navbar-dark camera-title">Dashboard</a>
+              <a className="navbar-brand navbar-dark camera-title mx-2">
+                Dashboard
+              </a>
             </div>
           </nav>
           <div className={Styles.containergrid}>

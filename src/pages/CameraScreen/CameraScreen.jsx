@@ -26,9 +26,9 @@ function CameraScreen() {
 
   useEffect(() => {
     const params = {
-      page: currentPage - 1
-    }
-    fetchCameraList(params)
+      page: currentPage - 1,
+    };
+    fetchCameraList(params);
   }, [currentPage]);
 
   async function fetchCameraList(params) {
@@ -153,7 +153,9 @@ function CameraScreen() {
         <div className="content-body">
           <nav className="navbar nav-camera">
             <div className="container-fluid">
-              <a className="navbar-brand navbar-dark camera-title">Câmeras</a>
+              <a className="navbar-brand navbar-dark camera-title mx-3">
+                Câmeras
+              </a>
               <div className="d-flex flex-row align-items-center justify-content-end">
                 <div className=" form-group has-search form-search-camera justify-content-between px-3">
                   <span className="fa fa-search fa-sm form-control-camera"></span>

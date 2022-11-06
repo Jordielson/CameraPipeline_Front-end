@@ -169,6 +169,7 @@ function FlowScreen() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [pipeline, setPipeline] = useState();
+  // const [pipelineBackup, setPipelineBackup] = useState();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -222,14 +223,15 @@ function FlowScreen() {
           className="edgebutton-foreignobject"
           requiredExtensions="http://www.w3.org/1999/xhtml"
         >
-          <body className={Styles.body}>
+          <div className={Styles.body}>
+            {/* era um body no lugar do div */}
             <button
               className={Styles.edgebutton}
               onClick={(event) => onEdgeClick(event, id)}
             >
               ×
             </button>
-          </body>
+          </div>
         </foreignObject>
       </>
     );
@@ -251,6 +253,9 @@ function FlowScreen() {
   useEffect(() => {
     if (location.state) {
       setPipeline(location.state.pipeline);
+      // setPipelineBackup(location.state.pipeline);
+    } else {
+      navigate("../pipeline-home", { replace: true });
     }
   }, []);
 
@@ -300,9 +305,9 @@ function FlowScreen() {
       pdi.children = [];
       edges.map((edge) => {
         if (edge.source == pdi.index) {
-          console.log(edge.source, pdi.index);
+          // console.log(edge.source, pdi.index);
           pdi.children.push(edge.target);
-          console.log(pdi.children);
+          // console.log(pdi.children);
         }
       });
     });
@@ -362,9 +367,11 @@ function FlowScreen() {
           </button>
 
           <a
-            href="#"
             onClick={(e) =>
-              navigate("../pipeline", { replace: true, state: { pipeline } })
+              navigate("../pipeline", {
+                replace: true,
+                state: { pipeline },
+              })
             }
             className={Styles.back}
           >

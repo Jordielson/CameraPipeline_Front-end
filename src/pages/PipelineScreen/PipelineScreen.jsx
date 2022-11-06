@@ -132,7 +132,7 @@ function PipelineScreen() {
         refresh();
 
         toast.success(
-          <text id="toastMsg">{pdi.name} adicionado com sucesso!</text>,
+          <span id="toastMsg">{pdi.name} adicionado com sucesso!</span>,
           {
             position: "top-right",
             autoClose: 1000,
@@ -168,7 +168,7 @@ function PipelineScreen() {
             refresh();
 
             toast.success(
-              <text id="toastMsg">{pipe.name} adicionado com sucesso!</text>,
+              <span id="toastMsg">{pipe.name} adicionado com sucesso!</span>,
               {
                 position: "top-right",
                 autoClose: 1000,
@@ -184,14 +184,14 @@ function PipelineScreen() {
         });
       } else {
         toast.error(
-          <text id="toastMsg">
+          <span id="toastMsg">
             Erro de Loop - A pipeline {pipeline.name} já está sendo utilizada
             por essa pipeline
-          </text>
+          </span>
         );
       }
     } catch (error) {
-      toast.error(<text id="toastMsg">Erro interno</text>);
+      toast.error(<span id="toastMsg">Erro interno</span>);
     }
   }
 
@@ -225,6 +225,8 @@ function PipelineScreen() {
       // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
       // console.log(novoEstado.pdilist);
       // setPipeline(novoEstado);
+    } else {
+      navigate("../pipeline-home", { replace: true });
     }
   }, []);
 
@@ -265,7 +267,7 @@ function PipelineScreen() {
     } catch (error) {
       if (error == "requiredException") {
         toast.error(
-          <text id="toastMsg">parametros obrigatórios não preenchidos</text>
+          <span id="toastMsg">parametros obrigatórios não preenchidos</span>
         );
       } else {
       }
@@ -361,17 +363,17 @@ function PipelineScreen() {
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: {
           render({ data }) {
-            return <text id="toastMsg">Salvando</text>;
+            return <span id="toastMsg">Salvando</span>;
           },
         },
         success: {
           render({ data }) {
-            return <text id="toastMsg">Salvo com sucesso!</text>;
+            return <span id="toastMsg">Salvo com sucesso!</span>;
           },
         },
         error: {
           render({ data }) {
-            return <text id="toastMsg">Erro ao tentar criar a pipeline</text>;
+            return <span id="toastMsg">Erro ao tentar criar a pipeline</span>;
           },
         },
       });
@@ -382,7 +384,7 @@ function PipelineScreen() {
     } catch (error) {
       if (error == "requiredException") {
         toast.error(
-          <text id="toastMsg">parametros obrigatórios não preenchidos</text>
+          <span id="toastMsg">parametros obrigatórios não preenchidos</span>
         );
       }
     }
@@ -408,12 +410,12 @@ function PipelineScreen() {
       await toast.promise(PipelineService.deletePipeline(pipeline.id), {
         pending: {
           render({ data }) {
-            return <text id="toastMsg">Deletando</text>;
+            return <span id="toastMsg">Deletando</span>;
           },
         },
         success: {
           render({ data }) {
-            return <text id="toastMsg">Deletado com sucesso! 👌</text>;
+            return <span id="toastMsg">Deletado com sucesso! 👌</span>;
           },
         },
       });
@@ -429,7 +431,7 @@ function PipelineScreen() {
           errorMessage = "Erro ao tentar deletar o pipeline";
           break;
       }
-      toast.error(<text id="toastMsg">{errorMessage}</text>);
+      toast.error(<span id="toastMsg">{errorMessage}</span>);
     }
   };
 
@@ -442,7 +444,7 @@ function PipelineScreen() {
       // getPipelines();
     } catch (error) {
       toast.error(
-        <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
+        <span id="toastMsg">Não foi possível ativar/desativar a pipeline</span>
       );
     }
   };
@@ -474,6 +476,7 @@ function PipelineScreen() {
                   onClick={(e) => {
                     navigate("../pipeline-home", { replace: true });
                   }}
+                  title="voltar"
                 >
                   <AiOutlineLeft style={{ color: "white" }} title="voltar" />
                 </h6>
@@ -547,18 +550,18 @@ function PipelineScreen() {
                     onClick={() => history(pipeline)}
                     className="align-self-center px-2 history"
                   >
-                    <BsClock /> <text className="p-1">Histórico</text>
+                    <BsClock className="m-1" /> Histórico
                   </a>
                   <a
                     type="button"
-                    class="btn btn-light btn-sm btn-excluir"
+                    className="btn btn-light btn-sm btn-excluir"
                     onClick={deletePipeline}
                   >
                     Excluir
                   </a>
                   <button
                     type="button"
-                    class="btn save-btn btn-sm "
+                    className="btn save-btn btn-sm "
                     onClick={updatePipeline}
                   >
                     Salvar
@@ -580,7 +583,11 @@ function PipelineScreen() {
                       aria-label="Example select with button addon"
                     >
                       {videoUrl.map((video) => {
-                        return <option value={video.url}>{video.name}</option>;
+                        return (
+                          <option key={video.url} value={video.url}>
+                            {video.name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
@@ -651,7 +658,7 @@ function PipelineScreen() {
                 </div>
 
                 <div className="col-4 b2">
-                  <div class="card my-2" key={pipeline.id}>
+                  <div className="card my-2" key={pipeline.id}>
                     <div className="card-header pipeline-header2 ">
                       Pipeline
                       <menu>
@@ -665,7 +672,7 @@ function PipelineScreen() {
                         </div>
                       </menu>
                     </div>
-                    <div class="card-body pipeline-card">
+                    <div className="card-body pipeline-card">
                       <div className="container p-2">
                         <div className="dnd">
                           {pipeline.pdilist.map((pipe) => {
@@ -707,11 +714,11 @@ function PipelineScreen() {
                   </div>
                 </div>
                 <div className="col-4 b3">
-                  <div class="card my-2" key={pipeline.id}>
+                  <div className="card my-2" key={pipeline.id}>
                     <div className="card-header pipeline-header">
                       Parametro da PDI
                     </div>
-                    <div class="card-body pipeline-card-parameter">
+                    <div className="card-body pipeline-card-parameter">
                       {pipeline.pdilist.map((pipe) => {
                         if (
                           pipe.index === selectedPipelineId &&
@@ -720,10 +727,10 @@ function PipelineScreen() {
                           return pipe.valueParameters.map((param) => {
                             if (param.parameter.type == "BOOLEAN") {
                               return (
-                                <div class="form-check">
+                                <div className="form-check" key={param.id}>
                                   <input
                                     id={pipe.index}
-                                    class="form-check-input"
+                                    className="form-check-input"
                                     type="checkbox"
                                     defaultChecked={
                                       param.value == "true" || param.value
@@ -734,7 +741,7 @@ function PipelineScreen() {
                                       handleChange(e, param.parameter.name)
                                     }
                                   />
-                                  <label class="form-check-label">
+                                  <label className="form-check-label">
                                     {param.parameter.name}
                                   </label>
                                 </div>
@@ -742,12 +749,13 @@ function PipelineScreen() {
                             }
                             return (
                               <div
-                                class="mb-3"
+                                className="mb-3"
                                 title={param.parameter.description}
+                                key={param.id}
                               >
                                 <label
                                   for="exampleFormControlInput1"
-                                  class="form-label m-1"
+                                  className="form-label m-1"
                                   title={param.parameter.description}
                                 >
                                   {param.parameter.name}
@@ -763,7 +771,7 @@ function PipelineScreen() {
 
                                 <input
                                   type={param.parameter.type}
-                                  class="form-control"
+                                  className="form-control"
                                   id={pipe.index}
                                   onChange={(e) =>
                                     handleChange(e, param.parameter.name)

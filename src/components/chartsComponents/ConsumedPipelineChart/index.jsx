@@ -4,7 +4,7 @@ import "./styles.css";
 export function ConsumedPipelineChart() {
   return (
     <>
-      <table class="demTable mx-3 mt-2">
+      <table className="demTable mx-3 mt-2">
         <thead>
           <tr>
             <th>Consumo de PIpelines </th>
