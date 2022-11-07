@@ -609,7 +609,23 @@ function PipelineScreen() {
                     className="accordeon-pdi"
                   >
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>PDI</Accordion.Header>
+                      <Accordion.Header className="">
+                        <div className="acordeon-header">
+                          <span>PDI</span>
+                          <div className="acordeon-header-width">
+                            <span
+                              className="fa fa-search fa-sm form-control-pdi 
+                            "
+                            ></span>
+
+                            <input
+                              type="text"
+                              className="form-control form-input-pdi acordeon-header-width "
+                              placeholder="pesquisar PDI"
+                            />
+                          </div>
+                        </div>
+                      </Accordion.Header>
                       <Accordion.Body className="ab">
                         <ul className="list-group list-group-pipeline">
                           {modelPDI.map((pipe) => {
@@ -632,7 +648,23 @@ function PipelineScreen() {
                       </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                      <Accordion.Header>Pipeline</Accordion.Header>
+                      <Accordion.Header>
+                        <div className="acordeon-header">
+                          <span>Pipeline</span>
+                          <div className="acordeon-header-width">
+                            <span
+                              className="fa fa-search fa-sm form-control-pdi 
+                            "
+                            ></span>
+
+                            <input
+                              type="text"
+                              className="form-control form-input-pdi acordeon-header-width "
+                              placeholder="pesquisar pipeline"
+                            />
+                          </div>
+                        </div>
+                      </Accordion.Header>
                       <Accordion.Body className="ab">
                         <ul className="list-group list-group-pipeline">
                           {pipelineList.map((pipe) => {

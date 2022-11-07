@@ -351,7 +351,7 @@ function PDIScreen() {
 
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={getPDIs}>
+              <span className="all-results" onClick={(e) => getPDIs(0)}>
                 voltar para todos os resultados
               </span>
             )}

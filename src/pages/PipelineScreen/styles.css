@@ -389,3 +389,13 @@ menu button:hover span:last-of-type {
 .MuiLinearProgress-bar {
   background-color: #ff0072 !important;
 }
+.acordeon-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.acordeon-header-width {
+  border-radius: 4px;
+  margin-right: 2%;
+}

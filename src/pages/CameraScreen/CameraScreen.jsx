@@ -238,7 +238,7 @@ function CameraScreen() {
           />
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={fetchCameraList}>
+              <span className="all-results" onClick={(e) => fetchCameraList(0)}>
                 voltar para todos os resultados
               </span>
             )}
