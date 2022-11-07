@@ -149,16 +149,23 @@ function FormPDI(props) {
     }
   }
   function newParameterHandler() {
-    var count = 0;
-    parameters.map((param) => {
-      param.index = count++;
-    });
+    // var count = 0;
+    var maxId = 0;
+    Promise.all(
+      parameters.map((param) => {
+        // param.index = count++;
+        if (param.index > maxId) {
+          maxId = param.index;
+        }
+      })
+    );
 
     const newParameter = {
+      // id: maxId + 1,
       name: "",
       type: "STRING",
       required: false,
-      index: parameters.length,
+      index: maxId + 1,
     };
 
     setParameters([...parameters, newParameter]);
@@ -212,6 +219,7 @@ function FormPDI(props) {
   }
   function deleteHandler(e) {
     setShow(true);
+
     setParameters((oldParameters) => {
       return oldParameters.filter((param) => param.index !== e);
     });
@@ -226,6 +234,8 @@ function FormPDI(props) {
     });
     setParameters(parameters);
   }
+  useEffect(() => {}, [setParameters]);
+  useEffect(() => {}, [parameters]);
 
   return (
     <>

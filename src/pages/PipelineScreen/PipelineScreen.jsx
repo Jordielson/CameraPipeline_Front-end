@@ -611,7 +611,7 @@ function PipelineScreen() {
                     <Accordion.Item eventKey="0">
                       <Accordion.Header className="">
                         <div className="acordeon-header">
-                          <span>PDI</span>
+                          <span className="pdispan">PDI</span>
                           <div className="acordeon-header-width">
                             <span
                               className="fa fa-search fa-sm form-control-pdi 
@@ -650,7 +650,7 @@ function PipelineScreen() {
                     <Accordion.Item eventKey="1">
                       <Accordion.Header>
                         <div className="acordeon-header">
-                          <span>Pipeline</span>
+                          <span className="pipelinespan">Pipeline</span>
                           <div className="acordeon-header-width">
                             <span
                               className="fa fa-search fa-sm form-control-pdi 
@@ -659,7 +659,7 @@ function PipelineScreen() {
 
                             <input
                               type="text"
-                              className="form-control form-input-pdi acordeon-header-width "
+                              className="form-control form-input-pdi acordeon-header-width-pipeline "
                               placeholder="pesquisar pipeline"
                             />
                           </div>

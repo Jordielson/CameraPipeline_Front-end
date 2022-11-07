@@ -394,8 +394,23 @@ menu button:hover span:last-of-type {
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  overflow-x: hidden;
 }
 .acordeon-header-width {
   border-radius: 4px;
-  margin-right: 2%;
+  margin-right: 4%;
+
+  /* max-width: 80%; */
+}
+.acordeon-header-width-pipeline {
+  border-radius: 4px;
+  margin-right: 4%;
+
+  /* max-width: 80%; */
+}
+.pipelinespan {
+  margin-right: 4rem;
+}
+.pdispan {
+  margin-right: 6rem;
 }
