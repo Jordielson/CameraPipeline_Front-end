@@ -42,13 +42,16 @@ function MyRoutes() {
           <Route path="/user-guide" element={<UserGuideScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
-          <Route path="/editar-imagem" element={<EditImageScreen />}></Route>
+          <Route path="/processar-imagem" element={<EditImageScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
-          <Route path="/editar-video" element={<EditVideoScreen />}></Route>
+          <Route path="/processar-video" element={<EditVideoScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
-          <Route path="/editar-camera" element={<EditCameraScreen />}></Route>
+          <Route
+            path="/processar-camera"
+            element={<EditCameraScreen />}
+          ></Route>
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/flow" element={<FlowScreen />}></Route>
@@ -60,7 +63,7 @@ function MyRoutes() {
           ></Route>
         </Route>
         <Route element={<PrivateRouter />}>
-          <Route path="/pipeline-home" element={<PipelinesHomeScreen />}/>
+          <Route path="/pipeline-home" element={<PipelinesHomeScreen />} />
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/pipeline" element={<PipelineScreen />}></Route>

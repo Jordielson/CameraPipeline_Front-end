@@ -68,12 +68,12 @@ function SidebarMenu(props) {
                   id="edicao"
                   onClick={handlerSubmenu}
                 >
-                  Edição
+                  Processar
                 </a>
                 <li className="submenu" id="submenu">
                   <a
                     onClick={(e) =>
-                      navigate("../editar-imagem", { replace: true })
+                      navigate("../processar-imagem", { replace: true })
                     }
                     className="submenu-list pointer"
                   >
@@ -81,7 +81,7 @@ function SidebarMenu(props) {
                   </a>
                   <a
                     onClick={(e) =>
-                      navigate("../editar-video", { replace: true })
+                      navigate("../processar-video", { replace: true })
                     }
                     className="submenu-list pointer"
                   >
@@ -89,7 +89,7 @@ function SidebarMenu(props) {
                   </a>
                   <a
                     onClick={(e) =>
-                      navigate("../editar-camera", { replace: true })
+                      navigate("../processar-camera", { replace: true })
                     }
                     className="submenu-list pointer"
                   >

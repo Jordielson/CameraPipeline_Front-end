@@ -140,7 +140,7 @@ function CameraScreen() {
         deleteCameraConfirm(cam);
       }
     } catch (error) {
-      toast.error(<text id="toastMsg">Não foi remover a camera</text>);
+      toast.error(<text id="toastMsg">Não foi remover possível a camera</text>);
     }
   };
 

@@ -2,6 +2,7 @@ import "../styles.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import SidebarMenu from "./../../../components/SideBarMenu/index";
+import gif from "../../../assets/animação.gif";
 
 function UserGuideScreen() {
   const [vision, setVision] = useState(0);
@@ -105,6 +106,26 @@ function UserGuideScreen() {
           ) : vision === 1 ? (
             <div className="vision">
               <h4>Pipelines</h4>
+              <div className="image-guide">
+                <img
+                  className="guide-shadow m-3"
+                  src={gif}
+                  alt="exemplo de gif"
+                />
+                <p> demonstração de gif para o guia</p>
+              </div>
+              <p>
+                {" "}
+                Demonstração de paragrafo para o guia de pipelines Lorem ipsum
+                dolor, sit amet consectetur adipisicing elit. Ducimus, amet
+                explicabo. Ea, explicabo libero architecto tempora ratione alias
+                placeat sint a excepturi! Possimus, natus! Vitae pariatur quam
+                cumque corporis vel? Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Laudantium veniam tempora libero ullam
+                numquam, iure similique! Suscipit, alias esse. Aliquam ea
+                ducimus iste deleniti quibusdam quisquam optio distinctio, at
+                dolor!
+              </p>
             </div>
           ) : vision === 2 ? (
             <div className="vision">

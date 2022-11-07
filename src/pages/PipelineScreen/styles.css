@@ -330,12 +330,21 @@ menu button:hover span:last-of-type {
   border-radius: 0 4px 4px 0 !important;
 }
 .empty-pipeline {
-  height: 80%;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #9b9b9b;
 }
+.empty-body {
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #9b9b9b;
+}
+
 .required {
   color: red;
 }
