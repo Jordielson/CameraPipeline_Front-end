@@ -7,20 +7,25 @@ import SidebarMenu from "../../components/SideBarMenu";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineLeft } from "react-icons/ai";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function PipelineHistoryScreen() {
   const navigate = useNavigate();
   const location = useLocation();
   const [versionList, setVersionList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchVersionList();
   }, []);
 
   function fetchVersionList() {
+    setLoading(true);
     PipelineHistoryService.getHistoric(location.state.pipeline.id)
       .then((response) => {
         setVersionList(response.content);
+        setLoading(false);
       })
       .catch((error) => {
         let errorMessage = "";
@@ -134,6 +139,11 @@ function PipelineHistoryScreen() {
               </div> */}
             </div>
           </nav>
+          {loading && (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          )}
           <ListGroup className="mx-4 mt-4 mb-1">
             {versionList.map((version) => {
               return (

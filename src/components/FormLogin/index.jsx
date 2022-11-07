@@ -62,6 +62,11 @@ function FormLogin() {
               placeholder="Insira seu email..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              // onKeyPress={(e) => {
+              //   if (e.key === "Enter") {
+              //     handleSignUp();
+              //   }
+              // }}
             />
           </Form.Group>
           <Form.Group
@@ -75,6 +80,11 @@ function FormLogin() {
               placeholder="Insira sua senha,,,"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              // onKeyPress={(e) => {
+              //   if (e.key === "Enter") {
+              //     handleSignUp();
+              //   }
+              // }}
             />
           </Form.Group>
           <Card
@@ -97,9 +107,10 @@ function FormLogin() {
                 Entrar
               </button>
               <button
+                key={5}
                 className="btn mx-4 btn-color"
                 // variant="primary"
-                onClick={newUser}
+                onClick={(e) => newUser}
               >
                 Cadastrar
               </button>

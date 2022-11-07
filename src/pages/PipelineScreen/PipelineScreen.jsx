@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import PDIService from "../../services/pdi";
 import CameraService from "../../services/camera";
 import PipelineService from "../../services/pipeline";
-import NewPipelineModal from "../../components/NewPipelineModal";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
@@ -795,9 +796,12 @@ function PipelineScreen() {
               </div>
             </div>
           ) : (
-            <div className="empty-pipeline">
-              <h1> Carregando pipeline... </h1>
-            </div>
+            // <div className="empty-pipeline">
+            //   <h1> Carregando pipeline... </h1>
+            // </div>
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
           )}
         </div>
       </div>

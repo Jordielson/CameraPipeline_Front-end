@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import PipelineService from "../../services/pipeline";
 import PaginationComponent from "../../components/PaginationComponent";
 import NewPipelineModal from "../../components/NewPipelineModal";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import Styles from "./styles.module.css";
 
@@ -16,6 +18,7 @@ export default function PipelinesHomeScreen() {
   const [showResults, setShowResults] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,10 +35,12 @@ export default function PipelinesHomeScreen() {
 
   async function fetchPipelineList(params) {
     try {
+      setLoading(true);
       const response = await PipelineService.getAll(params);
       setTotalPages(response.totalPages);
       setPipelineList(response.content);
       setShowResults(true);
+      setLoading(false);
     } catch (error) {
       console.log("Could not get the pipelines");
     }
@@ -111,6 +116,11 @@ export default function PipelinesHomeScreen() {
               </div>
             </div>
           </nav>
+          {loading && (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          )}
           <div className={Styles.labelMain}>
             <label>Selecione uma pipeline</label>
           </div>

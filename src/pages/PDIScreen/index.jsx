@@ -8,6 +8,8 @@ import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
 import { toast } from "react-toastify";
 import PaginationComponent from "../../components/PaginationComponent";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const modelPDIList = [
   {
@@ -116,6 +118,7 @@ function PDIScreen() {
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   console.log("salvo");
@@ -213,10 +216,12 @@ function PDIScreen() {
   }, [currentPage]);
 
   async function getPDIs(params) {
+    setLoading(true);
     const response = await PDIService.getAll(params);
     setTotalPages(response.totalPages);
     setPdiList(response.content);
     setShowResults(true);
+    setLoading(false);
   }
 
   async function searchPdi(e) {
@@ -287,6 +292,11 @@ function PDIScreen() {
               </div>
             </div>
           </nav>
+          {loading && (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          )}
           <ListGroup className="mx-4 mt-4 mb-1 listpdi">
             {modelPDI.map((pdi) => {
               return (

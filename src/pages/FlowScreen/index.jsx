@@ -338,6 +338,7 @@ function FlowScreen() {
           edgeTypes={edgeTypes}
           fitView
           attributionPosition="top-right"
+          className={Styles.reactflow}
         >
           <MiniMap
             nodeStrokeColor={(n) => {

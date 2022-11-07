@@ -12,6 +12,8 @@ import CameraList from "../CameraList";
 import VideoComponent from "../VideoComponent";
 import PipelineService from "../../services/pipeline";
 import PaginationComponent from "../PaginationComponent";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function EditComponent(props) {
   const [activeStep, setActiveStep] = useState(0);
@@ -31,6 +33,7 @@ function EditComponent(props) {
   const [showCamera, setShowCamera] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (activeStep === 1) {
@@ -202,10 +205,12 @@ function EditComponent(props) {
   // }
 
   async function getPipeline(params) {
+    setLoading(true);
     PipelineService.getAll(params)
       .then((response) => {
         setPipelineList(response.content);
         setTotalPages(response.totalPages);
+        setLoading(false);
       })
       .catch((error) => {
         var errorMessage = "";
@@ -316,6 +321,11 @@ function EditComponent(props) {
 
   return (
     <div className="content-body">
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
       <div className={Styles.content}>
         <Stepper
           alternativeLabel

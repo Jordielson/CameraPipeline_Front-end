@@ -1,12 +1,12 @@
 .back {
   color: red;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .position {
   position: absolute;
   top: 2%;
-  right: 2%;
+  right: 0.6%;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -39,4 +39,7 @@
   justify-content: center;
   align-items: center;
   min-height: 40px;
+}
+.reactflow a {
+  display: none;
 }

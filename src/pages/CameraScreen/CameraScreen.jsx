@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import PaginationComponent from "../../components/PaginationComponent";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function CameraScreen() {
   const [query, setQuery] = useState("");
@@ -19,6 +21,7 @@ function CameraScreen() {
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCameraList();
@@ -33,10 +36,12 @@ function CameraScreen() {
 
   async function fetchCameraList(params) {
     try {
+      setLoading(true);
       const response = await CameraService.getAll(params);
       setTotalPages(response.totalPages);
       setCameraList(response.content);
       setShowResults(true);
+      setLoading(false);
     } catch (error) {
       console.log("Could not get the cameras");
     }
@@ -182,6 +187,11 @@ function CameraScreen() {
               </div>
             </div>
           </nav>
+          {loading && (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          )}
           <ListGroup className="mx-4 mt-4 mb-1 listCamera">
             {cameraList.map((camera) => {
               return (

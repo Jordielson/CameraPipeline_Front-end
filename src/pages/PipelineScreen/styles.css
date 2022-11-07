@@ -382,3 +382,10 @@ menu button:hover span:last-of-type {
 .switch {
   font-size: small;
 }
+.MuiLinearProgress-root {
+  background-color: #9489af !important;
+  /* background-color: #ffb8d8 !important; */
+}
+.MuiLinearProgress-bar {
+  background-color: #ff0072 !important;
+}
