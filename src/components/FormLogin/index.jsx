@@ -13,7 +13,8 @@ function FormLogin() {
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    e.stopPropagation();
     try {
       const login = await UserService.login({
         login: email,
@@ -46,7 +47,12 @@ function FormLogin() {
         <Form
           key={1}
           className="d-flex justify-content-center align-items-center flex-column"
-          // onSubmit={handleSignUp}
+          // onKeyPress={(e) => {
+          //   if (e.key === "Enter") {
+          //     handleSignUp();
+          //   }
+          // }}
+          onSubmit={handleSignUp}
         >
           <h2 className="mb-5 mt-5 pt-5" style={{ color: "#6c6c6c" }}>
             Login
@@ -99,10 +105,10 @@ function FormLogin() {
                 style={{
                   fontSize: "1rem",
                 }}
-                onClick={(e) => {
-                  handleSignUp();
-                }}
-                type="button"
+                // onClick={(e) => {
+                //   handleSignUp();
+                // }}
+                type="submit"
               >
                 Entrar
               </button>
@@ -110,7 +116,7 @@ function FormLogin() {
                 key={5}
                 className="btn mx-4 btn-color"
                 // variant="primary"
-                onClick={(e) => newUser}
+                onClick={(e) => newUser()}
               >
                 Cadastrar
               </button>
