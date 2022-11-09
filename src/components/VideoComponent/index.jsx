@@ -3,6 +3,7 @@ import Styles from "./styles.module.css";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
 import VideoStreamService from "../../services/video_stream";
 import load from "../../assets/load.gif";
+import load2 from "../../assets/Pulse-1s-200px.svg";
 
 const ffmpegIP = "localhost";
 
@@ -45,7 +46,7 @@ function VideoStream(props) {
     try {
       let resp = await VideoStreamService.createStream({
         url: stream,
-        resolution: "640x360"
+        resolution: "640x360",
       });
       setResponse(resp);
       let canvas = document.getElementById("video-wrapper");
@@ -82,7 +83,7 @@ function VideoStream(props) {
       <canvas id="video-wrapper" className={Styles.child} />
       {showVideo === StreamStatus.LOADING ? (
         <img
-          src={load}
+          src={load2}
           alt="loading..."
           width={"120px"}
           height={"120px"}

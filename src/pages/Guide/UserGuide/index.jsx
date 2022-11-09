@@ -179,7 +179,7 @@ function UserGuideScreen() {
                   src={criarpdi}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de historico de pipeline</p>
+                <p>Demonstração de criação de PDI</p>
               </div>
               <br />
               <p id="criacaoparametro">
@@ -193,7 +193,7 @@ function UserGuideScreen() {
                   src={criarparam}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de historico de pipeline</p>
+                <p>Demonstração de criação de parametro</p>
               </div>
               <br />
               <br />
@@ -219,7 +219,7 @@ function UserGuideScreen() {
                   src={criarpipe}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de historico de pipeline</p>
+                <p>Demonstração de criação de pipeline</p>
               </div>
               <br />
               <p id="edicaopipeline">
@@ -234,7 +234,7 @@ function UserGuideScreen() {
                   src={editarpipeline}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de historico de pipeline</p>
+                <p>Demonstração de edição de pipeline</p>
               </div>
               <br />
               <p id="historicopipeline">
@@ -277,7 +277,7 @@ function UserGuideScreen() {
                   src={editarfluxo}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de historico de pipeline</p>
+                <p>Demonstração de fluxo da pipeline</p>
               </div>
               <br />
             </div>

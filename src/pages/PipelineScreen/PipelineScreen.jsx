@@ -421,6 +421,8 @@ function PipelineScreen() {
         },
       });
       setPipeline(pipelineEmpty);
+      navigate("../pipeline-home", { replace: true });
+
       // getPipelines();
     } catch (error) {
       let errorMessage = "";
@@ -578,7 +580,7 @@ function PipelineScreen() {
                   <div className="input-group a">
                     <select
                       role="button"
-                      onClick={(e) => setUrl(e.target.value)}
+                      onChange={(e) => setUrl(e.target.value)}
                       className="custom-select input inputvideo"
                       id="inputGroupSelect04"
                       aria-label="Example select with button addon"
@@ -592,17 +594,19 @@ function PipelineScreen() {
                       })}
                     </select>
                   </div>
-                  <div className="background-video mb-0 d-flex justify-content-center">
-                    <VideoStream
-                      key={pipeline.id}
-                      show={true}
-                      url={url}
-                      width="94%"
-                    />
+                  <div className="video-container">
+                    <div className="background-video mb-0 d-flex justify-content-center">
+                      <VideoStream
+                        key={pipeline.id}
+                        show={true}
+                        url={url}
+                        width="94%"
+                      />
+                    </div>
+                    <span className="warning d-flex justify-content-center mb-2">
+                      este video é uma pré-visualização da pipeline
+                    </span>
                   </div>
-                  <span className="warning d-flex justify-content-center mb-2">
-                    O video acima é uma pré-visualização da pipeline
-                  </span>
                   <Accordion
                     defaultActiveKey={["0"]}
                     flush

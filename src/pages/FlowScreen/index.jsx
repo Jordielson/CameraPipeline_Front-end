@@ -364,7 +364,7 @@ function FlowScreen() {
             className={"btn btn-color " + Styles.btn}
             onClick={(e) => handleSave()}
           >
-            Salvar e voltar
+            Salvar
           </button>
 
           <a
@@ -376,7 +376,7 @@ function FlowScreen() {
             }
             className={Styles.back}
           >
-            voltar
+            Fechar
           </a>
         </div>
       </div>

@@ -251,22 +251,23 @@ i:hover {
 
 .warning {
   width: 100%;
-  color: #000;
+  color: #fff;
   font-size: smaller;
+  margin-top: -30px;
 }
 
 @media (max-width: 768px) {
   #sidebar {
-    margin-left: -250px;
+    /* margin-left: -250px; */
   }
   #sidebar.active {
-    margin-left: 0;
+    /* margin-left: 0; */
   }
   #sidebarCollapse span {
-    display: none;
+    /* display: none; */
   }
   .sidebar-component {
-    display: none;
+    /* display: none; */
   }
 }
 .li {
@@ -413,4 +414,17 @@ menu button:hover span:last-of-type {
 }
 .pdispan {
   margin-right: 6rem;
+}
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+@media screen and (max-width: 1200px) {
+  .warning {
+    font-size: 10px;
+  }
 }
