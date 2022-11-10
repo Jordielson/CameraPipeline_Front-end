@@ -804,9 +804,7 @@ function PipelineScreen() {
                                     className="form-check-input"
                                     type="checkbox"
                                     defaultChecked={
-                                      param.value == "true" || param.value
-                                        ? true
-                                        : false
+                                      param.value == "true" || param.value == true ? true : false
                                     }
                                     onChange={(e) =>
                                       handleChange(e, param.parameter.name)
