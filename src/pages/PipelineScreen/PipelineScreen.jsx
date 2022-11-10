@@ -522,7 +522,7 @@ function PipelineScreen() {
                     onChange={(e) => handleNameChange(e.target.value)}
                     value={pipeline.name}
                     placeholder="Insira o nome da pipeline..."
-                    className="form-control-plaintext navbar-brand "
+                    className="form-control-plaintext navbar-brand name-edit"
                     style={{ color: "white" }}
                   />
                 )}
@@ -648,24 +648,21 @@ function PipelineScreen() {
                       <Accordion.Header className="">
                         <div className="acordeon-header">
                           <span className="pdispan">PDI</span>
-                          <div className="acordeon-header-width">
-                            <span
-                              className="fa fa-search fa-sm form-control-pdi 
-                            "
-                            ></span>
-
-                            <input
-                              type="text"
-                              className="form-control form-input-pdi acordeon-header-width "
-                              placeholder="pesquisar PDI"
-                              value={pdiQuery}
-                              onChange={(e) => setPdiQuery(e.target.value)}
-                              onKeyDown={searchPdi}
-                            />
-                          </div>
                         </div>
                       </Accordion.Header>
                       <Accordion.Body className="ab">
+                        <div className="">
+                          <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
+
+                          <input
+                            type="text"
+                            className="form-control form-input-pdi acordeon-header-width "
+                            placeholder="pesquisar PDI"
+                            value={pdiQuery}
+                            onChange={(e) => setPdiQuery(e.target.value)}
+                            onKeyDown={searchPdi}
+                          />
+                        </div>
                         <ul className="list-group list-group-pipeline">
                           {modelPDI.map((pipe) => {
                             return (
