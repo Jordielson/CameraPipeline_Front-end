@@ -188,7 +188,7 @@ function CameraScreen() {
               <a className="navbar-brand navbar-dark camera-title mx-3">
                 Câmeras
               </a>
-              <div className="d-flex flex-row align-items-center justify-content-end">
+              <div className="d-flex flex-row align-items-center justify-content-end action-buttons">
                 <div className=" form-group has-search form-search-camera justify-content-between px-3">
                   <span className="fa fa-search fa-sm form-control-camera"></span>
                   <input

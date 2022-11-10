@@ -281,7 +281,7 @@ function PDIScreen() {
             <div className="container-fluid">
               <a className="navbar-brand mx-3">Lista de PDIs</a>
 
-              <div className="width-full d-flex flex-row align-items-center justify-content-end">
+              <div className="width-full d-flex flex-row align-items-center justify-content-end action-buttons">
                 <div className="d-flex align-items-center form-group px-3">
                   <span
                     className="fa fa-search fa-sm form-control-pdi 
