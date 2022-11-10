@@ -687,24 +687,23 @@ function PipelineScreen() {
                       <Accordion.Header>
                         <div className="acordeon-header">
                           <span className="pipelinespan">Pipeline</span>
-                          <div className="acordeon-header-width">
-                            <span
-                              className="fa fa-search fa-sm form-control-pdi 
-                            "
-                            ></span>
-
-                            <input
-                              type="text"
-                              className="form-control form-input-pdi acordeon-header-width-pipeline "
-                              placeholder="pesquisar pipeline"
-                              value={pipelineQuery}
-                              onChange={(e) => setPipelineQuery(e.target.value)}
-                              onKeyDown={searchPipeline}
-                            />
-                          </div>
                         </div>
                       </Accordion.Header>
                       <Accordion.Body className="ab">
+                        <div className="">
+                          <span
+                            className="fa fa-search fa-sm form-control-pdi icon-search"
+                          ></span>
+
+                          <input
+                            type="text"
+                            className="form-control form-input-pdi acordeon-header-width "
+                            placeholder="pesquisar pipeline"
+                            value={pipelineQuery}
+                            onChange={(e) => setPipelineQuery(e.target.value)}
+                            onKeyDown={searchPipeline}
+                          />
+                        </div>
                         <ul className="list-group list-group-pipeline">
                           {pipelineList.map((pipe) => {
                             return (

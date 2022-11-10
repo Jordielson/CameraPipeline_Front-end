@@ -410,12 +410,12 @@ menu button:hover span:last-of-type {
 .icon-search {
   padding-left: 1rem;
 }
-.acordeon-header-width-pipeline {
+/* .acordeon-header-width-pipeline {
   border-radius: 4px;
   margin-right: 4%;
 
-  /* max-width: 80%; */
-}
+  max-width: 80%;
+} */
 .pipelinespan {
   margin-right: 4rem;
 }
