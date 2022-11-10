@@ -106,3 +106,7 @@
   border: 0;
   width: 100%;
 }
+
+.action-buttons {
+  margin-right: 0.75rem;
+}

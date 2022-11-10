@@ -316,7 +316,7 @@ function FlowScreen() {
     // console.log(novoEstado.pdilist);
     // setPipeline(novoEstado);
     await PipelineService.update(pipeline);
-    navigate("../pipeline", { replace: true, state: { pipeline } });
+    // navigate("../pipeline", { replace: true, state: { pipeline } });
   }
 
   const edgeTypes = {

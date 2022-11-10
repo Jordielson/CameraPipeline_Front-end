@@ -89,3 +89,6 @@
   display: flex;
   justify-content: space-between;
 }
+.action-buttons {
+  margin-right: 0.7rem;
+}

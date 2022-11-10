@@ -143,7 +143,7 @@ function UserGuideScreen() {
             <div className="vision">
               {/* <h4>Pipelines</h4> */}
               <div className=" sumarycenter">
-                <h4>Sumario do guia de pipeline</h4>
+                <h4>Sumário do guia de pipeline</h4>
                 <a href="#criacaopdi">Criação da PDI</a>
 
                 <a href="#criacaoparametro">Criação de parâmetros da PDI</a>
