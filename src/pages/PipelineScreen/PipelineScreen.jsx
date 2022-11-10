@@ -376,7 +376,7 @@ function PipelineScreen() {
         },
         error: {
           render({ data }) {
-            return <span id="toastMsg">Erro ao tentar criar a pipeline</span>;
+            return <span id="toastMsg">Erro ao tentar salvar a pipeline</span>;
           },
         },
       });

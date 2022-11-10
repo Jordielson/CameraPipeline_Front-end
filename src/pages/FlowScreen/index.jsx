@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PipelineService from "../../services/pipeline";
+import { toast } from "react-toastify";
 
 const pipelineEmpty = {
   name: "",
@@ -315,7 +316,28 @@ function FlowScreen() {
     // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
     // console.log(novoEstado.pdilist);
     // setPipeline(novoEstado);
-    await PipelineService.update(pipeline);
+    try {
+      const response = await toast.promise(PipelineService.update(pipeline), {
+        pending: {
+          render({ data }) {
+            return <span id="toastMsg">Salvando</span>;
+          },
+        },
+        success: {
+          render({ data }) {
+            return <span id="toastMsg">Salvo com sucesso!</span>;
+          },
+        },
+        error: {
+          render({ data }) {
+            return <span id="toastMsg">Erro ao tentar salvar a pipeline</span>;
+          },
+        },
+      });
+    } catch(error) {
+      toast.error(<span id="toastMsg">Não foi possível salvar</span>);
+    }
+
     // navigate("../pipeline", { replace: true, state: { pipeline } });
   }
 
