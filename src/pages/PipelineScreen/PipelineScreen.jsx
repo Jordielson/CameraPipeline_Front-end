@@ -70,6 +70,8 @@ function PipelineScreen() {
   const [videoUrl, setVideoUrl] = useState([]);
   const [url, setUrl] = useState("");
   const [show, setShow] = useState(" ");
+  const [pdiQuery, setPdiQuery] = useState("");
+  const [pipelineQuery, setPipelineQuery] = useState("");
 
   function Adicionar(props) {
     return (
@@ -452,6 +454,36 @@ function PipelineScreen() {
     }
   };
 
+  async function searchPdi(e) {
+    if (e.key === "Enter") {
+      const pdiName = {
+        name: pdiQuery,
+      };
+      try {
+        const response = await PDIService.search(pdiName);
+        setPdiQuery("");
+        setPdiList(response.content);
+      } catch (error) {
+        toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
+      }
+    }
+  }
+
+  async function searchPipeline(e) {
+    if (e.key === "Enter") {
+      const pipelienName = {
+        name: pipelineQuery,
+      };
+      try {
+        const response = await PipelineService.search(pipelienName);
+        setPipelineQuery("");
+        setPipelineList(response.content);
+      } catch (error) {
+        toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
+      }
+    }
+  }
+
   const clickMethod = (name) => {
     ////if(confirm("Are you sure to delete "+name)) {
     console.log("Implement delete functionality here");
@@ -626,6 +658,9 @@ function PipelineScreen() {
                               type="text"
                               className="form-control form-input-pdi acordeon-header-width "
                               placeholder="pesquisar PDI"
+                              value={pdiQuery}
+                              onChange={(e) => setPdiQuery(e.target.value)}
+                              onKeyDown={searchPdi}
                             />
                           </div>
                         </div>
@@ -665,6 +700,9 @@ function PipelineScreen() {
                               type="text"
                               className="form-control form-input-pdi acordeon-header-width-pipeline "
                               placeholder="pesquisar pipeline"
+                              value={pipelineQuery}
+                              onChange={(e) => setPipelineQuery(e.target.value)}
+                              onKeyDown={searchPipeline}
                             />
                           </div>
                         </div>

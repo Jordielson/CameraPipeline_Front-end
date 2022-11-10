@@ -15,10 +15,12 @@ import Styles from "./styles.module.css";
 export default function PipelinesHomeScreen() {
   const [pipelineList, setPipelineList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentListPage, setCurrentListPage] = useState(1);
   const [showResults, setShowResults] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   const navigate = useNavigate();
 
@@ -27,22 +29,40 @@ export default function PipelinesHomeScreen() {
   }, []);
 
   useEffect(() => {
-    const params = {
-      page: currentPage - 1,
-    };
-    fetchPipelineList(params);
+    if(showResults == true) {
+      const params = {
+        page: currentPage - 1,
+        sort: "creationTime,DESC"
+      };
+      fetchPipelineList(params);
+    } else {
+      const params = {
+        name: query,
+        page: currentPage - 1
+      };
+      searchPipeline(params);
+    }
   }, [currentPage]);
 
   async function fetchPipelineList(params) {
+    if(!params) {
+      params = {
+        page: currentListPage - 1,
+        sort: "creationTime,DESC"
+      };
+      setShowResults(true);
+      setQuery("");
+      setCurrentPage(currentListPage);
+    }
     try {
       setLoading(true);
       const response = await PipelineService.getAll(params);
       setTotalPages(response.totalPages);
       setPipelineList(response.content);
-      setShowResults(true);
+      setCurrentListPage(response.number + 1);
       setLoading(false);
     } catch (error) {
-      console.log("Could not get the pipelines");
+      toast.error(<span id="toastMsg">Não foi possível carregar os pipeline</span>);
     }
   }
 
@@ -89,6 +109,30 @@ export default function PipelinesHomeScreen() {
     }
   };
 
+  async function handleSearchPipeline(e) {
+    if (e.key === "Enter") {
+      setShowResults(false);
+      if (currentPage == 1) {
+        const pipelienName = {
+          name: query
+        };
+        searchPipeline(pipelienName);
+      } else {
+        setCurrentPage(1);
+      }
+    }
+  }
+
+  async function searchPipeline(pipelienName) {
+    try {
+      const response = await PipelineService.search(pipelienName);
+      setTotalPages(response.totalPages);
+      setPipelineList(response.content);
+    } catch (error) {
+      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
+    }
+  }
+
   const enterPipeline = (pipeline) => {
     navigate("../pipeline", { replace: true, state: { pipeline } });
   };
@@ -102,6 +146,19 @@ export default function PipelinesHomeScreen() {
             <div className="container-fluid">
               <a className="navbar-brand navbar-dark mx-3">Pipelines</a>
               <div className="d-flex flex-row align-items-center justify-content-end">
+                <div className="d-flex align-items-center form-group px-3">
+                  <span
+                    className="fa fa-search fa-sm form-control-pdi"
+                  />
+                  <input
+                    type="text"
+                    className="form-control form-input-camera"
+                    placeholder="Encontrar Pipeline"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleSearchPipeline}
+                  />
+                </div>
                 <div className=" form-group has-search justify-content-between px-3">
                   <span
                     onClick={() => {
@@ -177,7 +234,7 @@ export default function PipelinesHomeScreen() {
           />
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={fetchPipelineList}>
+              <span className="all-results" onClick={(e) => fetchPipelineList()}>
                 voltar para todos os resultados
               </span>
             )}

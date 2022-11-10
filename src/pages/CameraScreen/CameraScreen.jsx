@@ -20,6 +20,7 @@ function CameraScreen() {
   const [cameraList, setCameraList] = useState([]);
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentListPage, setCurrentListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -28,38 +29,64 @@ function CameraScreen() {
   }, []);
 
   useEffect(() => {
-    const params = {
-      page: currentPage - 1,
-    };
-    fetchCameraList(params);
+    if(showResults == true) {
+      const params = {
+        page: currentPage - 1,
+        sort: "creationTime,DESC"
+      };
+      fetchCameraList(params);
+    } else {
+      const params = {
+        name: query,
+        page: currentPage - 1
+      };
+      searchCamera(params);
+    }
   }, [currentPage]);
 
   async function fetchCameraList(params) {
+    if(!params) {
+      params = {
+        page: currentListPage - 1,
+        sort: "creationTime,DESC"
+      };
+      setShowResults(true);
+      setQuery("");
+      setCurrentPage(currentListPage);
+    }
     try {
       setLoading(true);
       const response = await CameraService.getAll(params);
       setTotalPages(response.totalPages);
       setCameraList(response.content);
-      setShowResults(true);
+      setCurrentListPage(response.number + 1);
       setLoading(false);
     } catch (error) {
-      console.log("Could not get the cameras");
+      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
     }
   }
-  async function searchCamera(e) {
+
+  async function handleSearchCamera(e) {
     if (e.key === "Enter") {
-      const cam = {
-        name: query,
-      };
-      try {
-        const response = await CameraService.search(cam);
-        setTotalPages(response.totalPages);
-        setQuery("");
-        setCameraList(response.content);
-        setShowResults(false);
-      } catch (error) {
-        console.log("Could not search cameras");
+      setShowResults(false);
+      if (currentPage == 1) {
+        const cam = {
+          name: query
+        };
+        searchCamera(cam);
+      } else {
+        setCurrentPage(1);
       }
+    }
+  }
+
+  async function searchCamera(params) {
+    try {
+      const response = await CameraService.search(params);
+      setTotalPages(response.totalPages);
+      setCameraList(response.content);
+    } catch (error) {
+      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
     }
   }
 
@@ -170,7 +197,7 @@ function CameraScreen() {
                     placeholder="Encontrar câmera"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={searchCamera}
+                    onKeyDown={handleSearchCamera}
                   />
                 </div>
 
@@ -238,7 +265,7 @@ function CameraScreen() {
           />
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={(e) => fetchCameraList(0)}>
+              <span className="all-results" onClick={(e) => fetchCameraList()}>
                 voltar para todos os resultados
               </span>
             )}

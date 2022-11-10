@@ -68,6 +68,15 @@ const PipelineService = {
       });
     return data;
   },
+  search: async (params) => {
+    var data = null;
+    await Api()
+      .get("/api/pipeline", { params: params })
+      .then((response) => {
+        data = response.data;
+      });
+    return data;
+  },
 };
 
 export default PipelineService;

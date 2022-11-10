@@ -117,6 +117,7 @@ function PDIScreen() {
   const [pdi, setPdi] = useState();
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentListPage, setCurrentListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -208,35 +209,61 @@ function PDIScreen() {
   //   console.log("salvo");
   // }, [modelPDI]);
 
-  useEffect(() => {
-    const params = {
-      page: currentPage - 1,
-    };
-    getPDIs(params);
+  useEffect(() => {   
+    if(showResults == true) {
+      const params = {
+        page: currentPage - 1,
+        sort: "creationTime,DESC"
+      };
+      getPDIs(params);
+    } else {
+      const params = {
+        name: query,
+        page: currentPage - 1
+      };
+      searchPdi(params);
+    }
   }, [currentPage]);
 
   async function getPDIs(params) {
+    if(!params) {
+      params = {
+        page: currentListPage - 1,
+        sort: "creationTime,DESC"
+      };
+      setShowResults(true);
+      setQuery("");
+      setCurrentPage(currentListPage);
+    }
     setLoading(true);
     const response = await PDIService.getAll(params);
     setTotalPages(response.totalPages);
     setPdiList(response.content);
-    setShowResults(true);
+    setCurrentListPage(response.number + 1);
     setLoading(false);
   }
 
-  async function searchPdi(e) {
+  async function handleSearchPdi(e) {
     if (e.key === "Enter") {
-      const pdiName = {
-        name: query,
-      };
-      try {
-        const response = await PDIService.search(pdiName);
-        setQuery("");
-        setPdiList(response.content);
-        setShowResults(false);
-      } catch (error) {
-        console.log("Could not search cameras");
+      setShowResults(false);
+      if (currentPage == 1) {
+        const pdiName = {
+          name: query
+        };
+        searchPdi(pdiName);
+      } else {
+        setCurrentPage(1);
       }
+    }
+  }
+
+  async function searchPdi(params) {
+    try {
+      const response = await PDIService.search(params);
+      setTotalPages(response.totalPages);
+      setPdiList(response.content);
+    } catch (error) {
+      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
     }
   }
 
@@ -266,7 +293,7 @@ function PDIScreen() {
                     placeholder="Encontrar PDI"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={searchPdi}
+                    onKeyDown={handleSearchPdi}
                   />
                 </div>
 
@@ -351,7 +378,7 @@ function PDIScreen() {
 
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={(e) => getPDIs(0)}>
+              <span className="all-results" onClick={(e) => getPDIs()}>
                 voltar para todos os resultados
               </span>
             )}
