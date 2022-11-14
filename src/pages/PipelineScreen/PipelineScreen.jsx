@@ -72,6 +72,8 @@ function PipelineScreen() {
   const [show, setShow] = useState(" ");
   const [pdiQuery, setPdiQuery] = useState("");
   const [pipelineQuery, setPipelineQuery] = useState("");
+  const [activeSearchPdi, setActiveSearchPdi] = useState(false);
+  const [activeSearchPipeline, setActiveSearchPipeline] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -237,6 +239,7 @@ function PipelineScreen() {
     try {
       const response = await PDIService.getAll();
       setPdiList(response.content);
+      setActiveSearchPdi(false);
     } catch (error) {
       alert("Error");
     }
@@ -254,6 +257,7 @@ function PipelineScreen() {
     try {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
+      setActiveSearchPipeline(false);
     } catch (error) {
       alert("Error");
     }
@@ -463,6 +467,7 @@ function PipelineScreen() {
         const response = await PDIService.search(pdiName);
         setPdiQuery("");
         setPdiList(response.content);
+        setActiveSearchPdi(true);
       } catch (error) {
         toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
       }
@@ -478,6 +483,7 @@ function PipelineScreen() {
         const response = await PipelineService.search(pipelienName);
         setPipelineQuery("");
         setPipelineList(response.content);
+        setActiveSearchPipeline(true);
       } catch (error) {
         toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
       }
@@ -522,7 +528,7 @@ function PipelineScreen() {
                     onChange={(e) => handleNameChange(e.target.value)}
                     value={pipeline.name}
                     placeholder="Insira o nome da pipeline..."
-                    className="form-control-plaintext navbar-brand name-edit"
+                    className="form-control-plaintext navbar-brand name-edit px-2"
                     style={{ color: "white" }}
                   />
                 )}
@@ -647,7 +653,7 @@ function PipelineScreen() {
                     <Accordion.Item eventKey="0">
                       <Accordion.Header className="">
                         <div className="acordeon-header">
-                          <span className="pdispan">PDI</span>
+                          <span className="pdispan">Serviço</span>
                         </div>
                       </Accordion.Header>
                       <Accordion.Body className="ab">
@@ -657,12 +663,19 @@ function PipelineScreen() {
                           <input
                             type="text"
                             className="form-control form-input-pdi acordeon-header-width "
-                            placeholder="pesquisar PDI"
+                            placeholder="pesquisar serviço"
                             value={pdiQuery}
                             onChange={(e) => setPdiQuery(e.target.value)}
                             onKeyDown={searchPdi}
                           />
                         </div>
+                        {activeSearchPdi && (
+                          <div className="show-results">
+                            <p onClick={(e) => getPDIs()}>
+                              mostrar todos os resultados
+                            </p>
+                          </div>
+                        )}
                         <ul className="list-group list-group-pipeline">
                           {modelPDI.map((pipe) => {
                             return (
@@ -691,9 +704,7 @@ function PipelineScreen() {
                       </Accordion.Header>
                       <Accordion.Body className="ab">
                         <div className="">
-                          <span
-                            className="fa fa-search fa-sm form-control-pdi icon-search"
-                          ></span>
+                          <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
 
                           <input
                             type="text"
@@ -704,6 +715,13 @@ function PipelineScreen() {
                             onKeyDown={searchPipeline}
                           />
                         </div>
+                        {activeSearchPipeline && (
+                          <div className="show-results">
+                            <p onClick={(e) => getPipelines()}>
+                              mostrar todos os resultados
+                            </p>
+                          </div>
+                        )}
                         <ul className="list-group list-group-pipeline">
                           {pipelineList.map((pipe) => {
                             return (
@@ -768,7 +786,7 @@ function PipelineScreen() {
 
                                 <div className="card-button">
                                   <i
-                                    title="Remover PDI da pipeline"
+                                    title="Remover serviço da pipeline"
                                     id={pipe.index}
                                     onClick={(e) => {
                                       removePipeline(e);
@@ -787,7 +805,7 @@ function PipelineScreen() {
                 <div className="col-4 b3">
                   <div className="card my-2" key={pipeline.id}>
                     <div className="card-header pipeline-header">
-                      Parametro da PDI
+                      Parametro da serviço
                     </div>
                     <div className="card-body pipeline-card-parameter">
                       {pipeline.pdilist.map((pipe) => {
@@ -804,7 +822,10 @@ function PipelineScreen() {
                                     className="form-check-input"
                                     type="checkbox"
                                     defaultChecked={
-                                      param.value == "true" || param.value == true ? true : false
+                                      param.value == "true" ||
+                                      param.value == true
+                                        ? true
+                                        : false
                                     }
                                     onChange={(e) =>
                                       handleChange(e, param.parameter.name)

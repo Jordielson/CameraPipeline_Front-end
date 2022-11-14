@@ -111,9 +111,9 @@ function SidebarMenu(props) {
                   Câmeras
                 </a>
               </li>
-              <li className="pdi pointer">
-                <a onClick={(e) => navigate("../pdi", { replace: true })}>
-                  PDIs
+              <li className="servico pointer">
+                <a onClick={(e) => navigate("../servico", { replace: true })}>
+                  Serviços
                 </a>
               </li>
               <li className="change-password pointer">
