@@ -1,6 +1,9 @@
 import { ConsumedPipelineChart } from "../../components/chartsComponents/ConsumedPipelineChart";
 import { InternetChart } from "../../components/chartsComponents/InternetChart";
 import { StorageChart } from "../../components/chartsComponents/StorageComponent";
+import { ConsumedAPIChart } from "../../components/chartsComponents/ConsumedAPIChart";
+import { HistoryConsumedPipelineChart } from "../../components/chartsComponents/HistoryConsumedPipelineChart";
+import { ConsumedAPILineChart } from "../../components/chartsComponents/ConsumedAPILineChart";
 import SidebarMenu from "../../components/SideBarMenu";
 import Styles from "./Styles.module.css";
 
@@ -32,7 +35,11 @@ function Dashboard() {
               <InternetChart />{" "}
             </div>
             <div className={Styles.area7}>CHART </div>
-            <div className={Styles.area8}>CHART </div>
+            <div className={Styles.area8}>
+              <ConsumedAPILineChart/>
+              {/* <HistoryConsumedPipelineChart/> */}
+              {/* <ConsumedAPIChart/> */}
+               </div>
           </div>
           {/* <div class="dashboard">
             <div class="grid grid-a1-a2 grid-white grid-updating">
