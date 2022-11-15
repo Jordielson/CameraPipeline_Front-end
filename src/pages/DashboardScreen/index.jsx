@@ -1,5 +1,7 @@
 import { ConsumedPipelineChart } from "../../components/chartsComponents/ConsumedPipelineChart";
+import { CurrentUsageChart } from "../../components/chartsComponents/CurrentUsageChart";
 import { InternetChart } from "../../components/chartsComponents/InternetChart";
+import { ProcessByPipelineChart } from "../../components/chartsComponents/ProcessByPipeline";
 import { StorageChart } from "../../components/chartsComponents/StorageComponent";
 import SidebarMenu from "../../components/SideBarMenu";
 import Styles from "./Styles.module.css";
@@ -27,11 +29,15 @@ function Dashboard() {
             <div className={Styles.area4}>
               <StorageChart />
             </div>
-            <div className={Styles.area5}>C </div>
+            <div className={Styles.area5}>
+              <CurrentUsageChart />  
+            </div>
             <div className={Styles.area6}>
               <InternetChart />{" "}
             </div>
-            <div className={Styles.area7}>CHART </div>
+            <div className={Styles.area7}>
+              <ProcessByPipelineChart />
+            </div>
             <div className={Styles.area8}>CHART </div>
           </div>
           {/* <div class="dashboard">
