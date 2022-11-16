@@ -8,41 +8,68 @@ export function ConsumedAPILineChart() {
     const [options, setOptions] = useState(0);
   
 
-    function teste(){
-        // Calma, vou por um random melhor aqui 
+    function getRandomNumber(max=100, min=0) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomMonth() {
+      const date = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
+      ];
+
+      const rand =  getRandomNumber(11, 0);
+ 
+      setOptions({
+        chart: {
+          title: "Historico de Consumo Total",
+          subtitle: date[rand],
+        }
+    })
+
     }
 
     function getRandomData() {
-      setData([
-        ["Year", "Consumo API"],
-        ["dia 1", (Math.random() * 100 + 1)],
-        ["dia 6", (Math.random() * 100 + 1)],
-        ["dia 12", (Math.random() * 100 + 1)],
-        ["dia 18", (Math.random() * 100 + 1)],
-        ["dia 24", (Math.random() * 100 + 1)],
-        ["dia 30", (Math.random() * 100 + 1)]]);
+
+      const DataConsumed = [["", "Consumo API"]]
+
+      for(var i = 0 ; i<30; i++){
+        if(i<10){
+          DataConsumed.push([`dia 0${i+1}`, getRandomNumber()])
+        }else{
+          DataConsumed.push([`dia ${i+1}`, getRandomNumber()])
+        }
+      }
+
+      setData(DataConsumed);
 
     }
   
     useEffect(() => {
         getRandomData();
-
-        setOptions({
-                title: "Novembro",
-                curveType: "function",
-                legend: { position: "bottom" },
-              })
+        getRandomMonth();
 
       const interval = setInterval(() => {
         getRandomData();
-      }, 3000);
+        getRandomMonth();
+      }, 10000);
       return () => {
         clearInterval(interval);
       };
     }, []);
   return (
     <Chart
-      chartType="LineChart"
+      chartType="Line"
       width="95%"
       height="95%"
       data={data}
