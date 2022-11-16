@@ -1,0 +1,15 @@
+.dbcurrentusage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+  padding: 10px;
+  padding-top: 20px;
+}
+
+.infocurrentusagechart {
+  width: 90%;
+  height: 80%;
+}

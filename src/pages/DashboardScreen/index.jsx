@@ -3,6 +3,8 @@ import { CurrentUsageChart } from "../../components/chartsComponents/CurrentUsag
 import { InternetChart } from "../../components/chartsComponents/InternetChart";
 import { ProcessByPipelineChart } from "../../components/chartsComponents/ProcessByPipeline";
 import { StorageChart } from "../../components/chartsComponents/StorageComponent";
+import { PipelinesCreated } from "../../components/chartsComponents/PipelinesCreatedPerPeriodChart";
+import { PipelinesActive } from "../../components/chartsComponents/PipelineActive";
 import SidebarMenu from "../../components/SideBarMenu";
 import Styles from "./Styles.module.css";
 
@@ -24,8 +26,8 @@ function Dashboard() {
               {" "}
               <ConsumedPipelineChart />
             </div>
-            <div className={Styles.area1}> CT</div>
-            <div className={Styles.area3}>CHART </div>
+            <div className={Styles.area1}><PipelinesActive /></div>
+            <div className={Styles.area3}><PipelinesCreated /> </div>
             <div className={Styles.area4}>
               <StorageChart />
             </div>
