@@ -34,6 +34,7 @@ export function ConsumedAPILineChart() {
         chart: {
           title: "Historico de Consumo Total",
           subtitle: date[rand],
+          curveType: 'function',
         }
     })
 
@@ -43,12 +44,20 @@ export function ConsumedAPILineChart() {
 
       const DataConsumed = [["", "Consumo API"]]
 
+      var max = 10;
+      var min = 0;
+
       for(var i = 0 ; i<30; i++){
-        if(i<10){
-          DataConsumed.push([`dia 0${i+1}`, getRandomNumber()])
+
+        if(i<9){
+          DataConsumed.push([`dia 0${i+1}`, getRandomNumber(max,min)])
         }else{
-          DataConsumed.push([`dia ${i+1}`, getRandomNumber()])
+          DataConsumed.push([`dia ${i+1}`, getRandomNumber(max,min)])
         }
+        var setMax = (getRandomNumber(1,0) === 0 ?  max + 15 > 100 ? max - 10 : max + 15 : max - 10 < 0 ? max + 15 : max - 10)
+        max =  setMax
+        min = setMax/1.5
+        console.log(max, min)
       }
 
       setData(DataConsumed);

@@ -4,6 +4,7 @@ import { InternetChart } from "../../components/chartsComponents/InternetChart";
 import { ProcessByPipelineChart } from "../../components/chartsComponents/ProcessByPipeline";
 import { StorageChart } from "../../components/chartsComponents/StorageComponent";
 import { ConsumedAPIChart } from "../../components/chartsComponents/ConsumedAPIChart";
+import { ConsumedAPIAreaChart } from "../../components/chartsComponents/ConsumedAPIAreaChart";
 import { HistoryConsumedPipelineChart } from "../../components/chartsComponents/HistoryConsumedPipelineChart";
 import { ConsumedAPILineChart } from "../../components/chartsComponents/ConsumedAPILineChart";
 import { PipelinesCreated } from "../../components/chartsComponents/PipelinesCreatedPerPeriodChart";
@@ -44,7 +45,8 @@ function Dashboard() {
               <ProcessByPipelineChart />
             </div>
             <div className={Styles.area8}>
-            <ConsumedAPILineChart/>
+            <ConsumedAPIAreaChart/>
+            {/* <ConsumedAPILineChart/> */}
               {/* <HistoryConsumedPipelineChart/> */}
               {/* <ConsumedAPIChart/> */}
             </div>
