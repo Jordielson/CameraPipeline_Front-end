@@ -138,11 +138,11 @@ function FormPDI(props) {
       } else if (e == "emptyPdi") {
         setDuplicatedParam("*Não há parametros");
       } else if (e == "emptyName") {
-        setDuplicatedParam("Insira o NOME do PDI");
+        setDuplicatedParam("Insira o NOME do serviço");
       } else if (e == "nameExists") {
-        setDuplicatedParam("Esse nome da PDI já foi cadastrado");
+        setDuplicatedParam("O nome do serviço já foi cadastrado");
       } else if (e == "urlExists") {
-        setDuplicatedParam("Essa url da PDI já foi cadastrado");
+        setDuplicatedParam("O url da serviço já foi cadastrado");
       } else {
         setDuplicatedParam("ERRO AO SALVAR");
       }
@@ -258,7 +258,7 @@ function FormPDI(props) {
                   // value={PDIName}
                   id="name"
                   defaultValue={PDIName}
-                  placeholder={"Insira o nome do PDI"}
+                  placeholder={"Insira o nome do serviço"}
                   onChange={(value) => setPDIName(value.target.value)}
                 ></input>
               </Modal.Title>
@@ -283,7 +283,7 @@ function FormPDI(props) {
         <Modal.Body className={styles.modal}>
           <div className={styles.formPdi}>
             <Form.Label className={styles.formDescLabel}>
-              Decrição da PDI
+              Decrição do serviço
             </Form.Label>
             <Form.Control
               value={description} //

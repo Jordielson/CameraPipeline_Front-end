@@ -69,7 +69,7 @@ function MyRoutes() {
           <Route path="/pipeline" element={<PipelineScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
-          <Route path="/pdi" element={<PDIScreen />}></Route>
+          <Route path="/servico" element={<PDIScreen />}></Route>
         </Route>
         <Route element={<PrivateRouter />}>
           <Route path="/camera" element={<CameraScreen />}></Route>

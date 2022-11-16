@@ -1,9 +1,13 @@
 import { ConsumedPipelineChart } from "../../components/chartsComponents/ConsumedPipelineChart";
+import { CurrentUsageChart } from "../../components/chartsComponents/CurrentUsageChart";
 import { InternetChart } from "../../components/chartsComponents/InternetChart";
+import { ProcessByPipelineChart } from "../../components/chartsComponents/ProcessByPipeline";
 import { StorageChart } from "../../components/chartsComponents/StorageComponent";
 import { ConsumedAPIChart } from "../../components/chartsComponents/ConsumedAPIChart";
 import { HistoryConsumedPipelineChart } from "../../components/chartsComponents/HistoryConsumedPipelineChart";
 import { ConsumedAPILineChart } from "../../components/chartsComponents/ConsumedAPILineChart";
+import { PipelinesCreated } from "../../components/chartsComponents/PipelinesCreatedPerPeriodChart";
+import { PipelinesActive } from "../../components/chartsComponents/PipelineActive";
 import SidebarMenu from "../../components/SideBarMenu";
 import Styles from "./Styles.module.css";
 
@@ -25,21 +29,25 @@ function Dashboard() {
               {" "}
               <ConsumedPipelineChart />
             </div>
-            <div className={Styles.area1}> CT</div>
-            <div className={Styles.area3}>CHART </div>
+            <div className={Styles.area1}><PipelinesActive /></div>
+            <div className={Styles.area3}><PipelinesCreated /> </div>
             <div className={Styles.area4}>
               <StorageChart />
             </div>
-            <div className={Styles.area5}>C </div>
+            <div className={Styles.area5}>
+              <CurrentUsageChart />  
+            </div>
             <div className={Styles.area6}>
               <InternetChart />{" "}
             </div>
-            <div className={Styles.area7}>CHART </div>
+            <div className={Styles.area7}>
+              <ProcessByPipelineChart />
+            </div>
             <div className={Styles.area8}>
-              <ConsumedAPILineChart/>
+            <ConsumedAPILineChart/>
               {/* <HistoryConsumedPipelineChart/> */}
               {/* <ConsumedAPIChart/> */}
-               </div>
+            </div>
           </div>
           {/* <div class="dashboard">
             <div class="grid grid-a1-a2 grid-white grid-updating">

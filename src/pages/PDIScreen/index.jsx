@@ -201,7 +201,7 @@ function PDIScreen() {
         deleteConfirm(e);
       }
     } catch (error) {
-      toast.error(<text id="toastMsg">Não foi remover o pdi</text>);
+      toast.error(<text id="toastMsg">Não foi remover o serviço</text>);
     }
   }
 
@@ -209,27 +209,27 @@ function PDIScreen() {
   //   console.log("salvo");
   // }, [modelPDI]);
 
-  useEffect(() => {   
-    if(showResults == true) {
+  useEffect(() => {
+    if (showResults == true) {
       const params = {
         page: currentPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       getPDIs(params);
     } else {
       const params = {
         name: query,
-        page: currentPage - 1
+        page: currentPage - 1,
       };
       searchPdi(params);
     }
   }, [currentPage]);
 
   async function getPDIs(params) {
-    if(!params) {
+    if (!params) {
       params = {
         page: currentListPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       setShowResults(true);
       setQuery("");
@@ -248,7 +248,7 @@ function PDIScreen() {
       setShowResults(false);
       if (currentPage == 1) {
         const pdiName = {
-          name: query
+          name: query,
         };
         searchPdi(pdiName);
       } else {
@@ -274,12 +274,12 @@ function PDIScreen() {
   return (
     <>
       <div className="content">
-        <SidebarMenu page="pdi" />
+        <SidebarMenu page="servico" />
 
         <div className="content-body">
           <nav className="navbar navbar-dark navpdi">
             <div className="container-fluid">
-              <a className="navbar-brand mx-3">Lista de PDIs</a>
+              <a className="navbar-brand mx-3">Lista de serviços</a>
 
               <div className="width-full d-flex flex-row align-items-center justify-content-end action-buttons">
                 <div className="d-flex align-items-center form-group px-3">
@@ -290,7 +290,7 @@ function PDIScreen() {
                   <input
                     type="text"
                     className="form-control form-input-pdi"
-                    placeholder="Encontrar PDI"
+                    placeholder="Encontrar serviço"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleSearchPdi}
@@ -313,7 +313,7 @@ function PDIScreen() {
                     id="button-addon2"
                     onClick={handleShow}
                   >
-                    Adicionar novo PDI
+                    Adicionar novo serviço
                   </button>
                 </div>
               </div>

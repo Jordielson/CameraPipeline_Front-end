@@ -20,3 +20,28 @@ export function useStateCallback(initialState) {
   
     return [state, setStateCallback];
 }
+
+export function ProgressBar (props) {
+  const { bgcolor, completed } = props;
+
+  const containerStyles = {
+    height: 1,
+    width: '100%',
+    backgroundColor: "#e0e0de",
+    textAlign: 'left',
+    justifyContent: 'left'
+  }
+
+  const fillerStyles = {
+    height: '20%',
+    width: `${completed}%`,
+    backgroundColor: bgcolor,
+    textAlign: 'center'
+  }
+
+  return (
+    <div style={containerStyles}>
+      <div style={fillerStyles} />
+    </div>
+  );
+};
