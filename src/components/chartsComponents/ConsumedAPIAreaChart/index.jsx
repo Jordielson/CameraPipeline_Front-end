@@ -70,7 +70,7 @@ export function ConsumedAPIAreaChart() {
             }
             var setMax = (getRandomNumber(1, 0) === 0 ? max + 15 > 100 ? max - 10 : max + 15 : max - 10 < 0 ? max + 15 : max - 10)
             max = setMax
-            min = setMax / 1.5
+            min = Math.floor(setMax / 1.5)
             console.log(max, min)
         }
 
