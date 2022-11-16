@@ -47,7 +47,7 @@ export function ConsumedAPIAreaChart() {
                 minValue: 0,
                 ticks: [0, 25, 50, 75, 100],
             },
-            hAxis: {maxTextLines: 1},
+            hAxis: {maxAlternation:0},
             chartArea: {left:90,top:60,width:'95%',height:'60%'}
 
         })
