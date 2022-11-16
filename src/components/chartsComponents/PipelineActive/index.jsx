@@ -4,8 +4,8 @@ import "./styles.css";
 
 export function PipelinesActive() {
   const data = [
-    { bgcolor: "#008000", completed: 75, text: "Pipelines ativadas: ", current: "150/200" },
-    { bgcolor: "#FF0000", completed: 25, text: "Pipelines desativadas: ", current: "50/200" },
+    { bgcolor: "#008000", completed: 75, text: "Pipelines ativadas: ", current: "75/100" },
+    { bgcolor: "#FF0000", completed: 25, text: "Pipelines desativadas: ", current: "25/100" },
   ];
 
   return (
