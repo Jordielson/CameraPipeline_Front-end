@@ -46,9 +46,6 @@ function Dashboard() {
             </div>
             <div className={Styles.area8}>
             <ConsumedAPIAreaChart/>
-            {/* <ConsumedAPILineChart/> */}
-              {/* <HistoryConsumedPipelineChart/> */}
-              {/* <ConsumedAPIChart/> */}
             </div>
           </div>
           {/* <div class="dashboard">

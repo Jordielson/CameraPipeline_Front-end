@@ -1,7 +1,5 @@
-import { color, rgbToHex } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
-
 
 
 export function ConsumedAPIAreaChart() {
@@ -71,7 +69,6 @@ export function ConsumedAPIAreaChart() {
             var setMax = (getRandomNumber(1, 0) === 0 ? max + 15 > 100 ? max - 10 : max + 15 : max - 10 < 0 ? max + 15 : max - 10)
             max = setMax
             min = Math.floor(setMax / 1.5)
-            console.log(max, min)
         }
 
         setData(DataConsumed);
