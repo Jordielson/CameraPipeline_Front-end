@@ -258,6 +258,11 @@ function PipelineScreen() {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
       setActiveSearchPipeline(false);
+      response.content.forEach(element => {
+        if(element.id === pipeline.id){
+          setPipeline(element);
+        }
+      });
     } catch (error) {
       alert("Error");
     }
@@ -450,7 +455,7 @@ function PipelineScreen() {
         id: pipeline.id,
         active: !pipeline.active,
       });
-      // getPipelines();
+      getPipelines();
     } catch (error) {
       toast.error(
         <span id="toastMsg">Não foi possível ativar/desativar a pipeline</span>

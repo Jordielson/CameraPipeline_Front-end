@@ -22,7 +22,7 @@ const PublicRouter = () => {
 
   return state.loading ? (<></>) : 
     state.isAuthenticated ? (
-    <Navigate to={"/pipeline"} />
+    <Navigate to={"/dashboard"} />
   ) : (
     <Outlet />
   );
