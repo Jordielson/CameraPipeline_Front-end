@@ -168,7 +168,7 @@ const onInit = (reactFlowInstance) =>
 
 function FlowScreen() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [pipeline, setPipeline] = useState();
   // const [pipelineBackup, setPipelineBackup] = useState();
   const location = useLocation();
@@ -262,6 +262,7 @@ function FlowScreen() {
 
   useEffect(() => {
     if (pipeline) {
+      let childrens = []
       setEdges([]);
       const outputNode = {
         id: `output`,
@@ -308,6 +309,7 @@ function FlowScreen() {
         };
         if (pdi.children && pdi.children > 0) {
           pdi.children.map((child) => {
+            childrens.push(child);
             const newEdge = {
               id: `e${pdi.index}-${child}`,
               source: `${pdi.index}`,
@@ -329,6 +331,24 @@ function FlowScreen() {
         }
 
         setNodes((oldnodes) => [...oldnodes, newNode]);
+      });
+      pipeline.pdilist.map((pdi) => {
+        let isChildren = false;
+        childrens.map((child) => {
+          if(pdi.index == child) {
+            isChildren = true;
+          }
+        }) 
+        if(isChildren == false) {
+          const newEdge = {
+            id: `input-e${pdi.index}`,
+            target: `${pdi.index}`,
+            source: `input`,
+            type: "buttonedge",
+            animated: true,
+          };
+          setEdges((oldedges) => [...oldedges, newEdge]);
+        }
       });
     }
   }, [pipeline]);
