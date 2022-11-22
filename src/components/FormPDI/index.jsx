@@ -69,6 +69,7 @@ function FormPDI(props) {
           if (!verifyUrl.valid) {
             throw "urlExists";
           }
+
           await toast.promise(PDIService.update(pdi, props.obj.id), {
             pending: {
               render({ data }) {

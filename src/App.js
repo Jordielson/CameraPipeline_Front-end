@@ -9,7 +9,19 @@ function App() {
   return (
     <div className="App">
       <MyRoutes />
-      <ToastContainer position="top-right" />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      ;
     </div>
   );
 }

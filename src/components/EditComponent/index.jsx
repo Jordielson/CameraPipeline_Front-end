@@ -14,6 +14,7 @@ import PipelineService from "../../services/pipeline";
 import PaginationComponent from "../PaginationComponent";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+import logo2 from "../../assets/Pulse-1s-200px.svg";
 
 function EditComponent(props) {
   const [activeStep, setActiveStep] = useState(0);
@@ -34,6 +35,7 @@ function EditComponent(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     if (activeStep === 1) {
@@ -149,6 +151,7 @@ function EditComponent(props) {
       setgeneratedImageUrl(returnedImage.url);
       setReturnedImage(returnedImage);
       nextStep();
+      setLoading2(false);
     } else if (props.type == "video") {
       const data = new FormData();
       data.append("video", video);
@@ -156,7 +159,9 @@ function EditComponent(props) {
       const response = await VideoService.generateVideo(data);
       setReturnedVideo(response);
       setgeneratedVideoUrl(response.url);
+
       nextStep();
+      setLoading2(false);
     } else {
       CameraService.generateCamera({
         pipelineId: pipelineId,
@@ -167,8 +172,8 @@ function EditComponent(props) {
 
           setgeneratedCameraUrl(response.url);
           setShowCamera(true);
-
           nextStep();
+          setLoading2(false);
         })
         .catch((error) => {
           var errorMessage = "";
@@ -186,12 +191,14 @@ function EditComponent(props) {
               errorMessage = "Erro ao buscar as cameras";
               break;
           }
+          setLoading2(false);
           toast.error(<span id="toastMsg">{errorMessage}</span>);
         });
     }
   }
 
   function handlePipeline(e) {
+    setLoading2(true);
     pipelineList.map((item) => {
       if (item.id == e.target.id) {
         setPipeline(item);
@@ -327,21 +334,23 @@ function EditComponent(props) {
         </Box>
       )}
       <div className={Styles.content}>
-        <Stepper
-          alternativeLabel
-          activeStep={activeStep}
-          className={Styles.grid1}
-        >
-          <Step sx={theme} className={Styles.step}>
-            <StepLabel>Selecionar {props.type}</StepLabel>
-          </Step>
-          <Step sx={theme}>
-            <StepLabel>Selecionar Pipeline</StepLabel>
-          </Step>
-          <Step sx={theme}>
-            <StepLabel>Resultado</StepLabel>
-          </Step>
-        </Stepper>
+        <div className={Styles.grid0}>
+          <Stepper
+            alternativeLabel
+            activeStep={activeStep}
+            className={Styles.grid1}
+          >
+            <Step sx={theme} className={Styles.step}>
+              <StepLabel>Selecionar {props.type}</StepLabel>
+            </Step>
+            <Step sx={theme}>
+              <StepLabel>Selecionar Pipeline</StepLabel>
+            </Step>
+            <Step sx={theme}>
+              <StepLabel>Resultado</StepLabel>
+            </Step>
+          </Stepper>
+        </div>
         <div className={Styles.stepContent}>
           {(activeStep == 0 && (
             <Form.Group
@@ -375,27 +384,43 @@ function EditComponent(props) {
           )) ||
             (activeStep == 1 && (
               <div className={"d-flex flex-column  "}>
-                <h2 className={(Styles.stepTitle = "d-flex align-self-center")}>
-                  Selecione uma pipeline
-                </h2>
-                <ListGroup className={Styles.list}>
-                  {pipelineList.map((item) => {
-                    return (
-                      <ListGroup.Item
-                        id={item.id}
-                        action
-                        onClick={(e) => handlePipeline(e)}
-                      >
-                        {item.name}
-                      </ListGroup.Item>
-                    );
-                  })}
-                </ListGroup>
-                <PaginationComponent
-                  totalPages={totalPages}
-                  currentPage={currentPage}
-                  setPage={(e) => setCurrentPage(e)}
-                />
+                {loading2 ? (
+                  <div className={Styles.logo2Div}>
+                    <img
+                      src={logo2}
+                      alt="Carregando..."
+                      className={Styles.load2}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <h2
+                      className={
+                        (Styles.stepTitle = "d-flex align-self-center")
+                      }
+                    >
+                      Selecione uma pipeline
+                    </h2>
+                    <ListGroup className={Styles.list}>
+                      {pipelineList.map((item) => {
+                        return (
+                          <ListGroup.Item
+                            id={item.id}
+                            action
+                            onClick={(e) => handlePipeline(e)}
+                          >
+                            {item.name}
+                          </ListGroup.Item>
+                        );
+                      })}
+                    </ListGroup>
+                    <PaginationComponent
+                      totalPages={totalPages}
+                      currentPage={currentPage}
+                      setPage={(e) => setCurrentPage(e)}
+                    />
+                  </>
+                )}
               </div>
             )) ||
             (activeStep == 2 && (

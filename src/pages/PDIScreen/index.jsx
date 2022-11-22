@@ -263,7 +263,16 @@ function PDIScreen() {
       setTotalPages(response.totalPages);
       setPdiList(response.content);
     } catch (error) {
-      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
+      toast.error(<span id="toastMsg">Não foi possível pesquisar</span>, {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   }
 

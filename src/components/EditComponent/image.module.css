@@ -1,12 +1,13 @@
 .content {
   background-color: #fff;
   height: 90vh;
-  padding: 1%;
+  /* padding: 1%; */
   margin: 2%;
-  border-radius: 7px;
+  /* border-radius: 7px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* border: solid 1px #bbbbbb; */
 }
 
 .buttons {
@@ -77,4 +78,16 @@
 .list {
   overflow-y: auto;
   max-height: 50vh;
+}
+.grid0 {
+  background-color: #c9c9c9;
+  padding: 1%;
+}
+.load2 {
+  width: 10%;
+}
+.logo2Div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
