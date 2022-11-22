@@ -13,3 +13,9 @@
   border-radius: 10px;
   border: 2px solid #fff;
 }
+.login-guide {
+  right: 0;
+}
+.loginlogo {
+  align-self: flex-end !important;
+}

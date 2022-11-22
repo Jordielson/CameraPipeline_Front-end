@@ -29,26 +29,26 @@ function CameraScreen() {
   }, []);
 
   useEffect(() => {
-    if(showResults == true) {
+    if (showResults == true) {
       const params = {
         page: currentPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       fetchCameraList(params);
     } else {
       const params = {
         name: query,
-        page: currentPage - 1
+        page: currentPage - 1,
       };
       searchCamera(params);
     }
   }, [currentPage]);
 
   async function fetchCameraList(params) {
-    if(!params) {
+    if (!params) {
       params = {
         page: currentListPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       setShowResults(true);
       setQuery("");
@@ -63,6 +63,7 @@ function CameraScreen() {
       setLoading(false);
     } catch (error) {
       toast.error(<span id="toastMsg">Não foi possível pesquisar</span>);
+      setLoading(false);
     }
   }
 
@@ -71,7 +72,7 @@ function CameraScreen() {
       setShowResults(false);
       if (currentPage == 1) {
         const cam = {
-          name: query
+          name: query,
         };
         searchCamera(cam);
       } else {

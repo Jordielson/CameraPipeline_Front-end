@@ -4,6 +4,8 @@ import { useState } from "react";
 import UserService from "../../services/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function FormLogin() {
   const [email, setEmail] = useState("");
@@ -11,8 +13,10 @@ function FormLogin() {
   // const [redirectToRegister, setRedirectToRegister] = useState(false);
   const [redirectToPipeline, setRedirectToPipeline] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
+    setLoading(true);
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -25,8 +29,10 @@ function FormLogin() {
     } catch (error) {
       if (error.message === "Network Error") {
         toast.error(<text id="toastMsg">Conexão recusada</text>);
+        setLoading(false);
       } else {
         toast.error(<text id="toastMsg">Email ou senha inválida</text>);
+        setLoading(false);
       }
     }
     // if (redirectToRegister) {
@@ -43,6 +49,11 @@ function FormLogin() {
 
   return (
     <>
+      {loading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
       <div className="">
         <Form
           key={1}
@@ -98,28 +109,22 @@ function FormLogin() {
             style={{ width: "100%", borderLeft: "none", borderRight: "none" }}
           >
             <Card.Body key={3} className="d-flex justify-content-center space">
-              <button
-                key={4}
-                className="btn mx-4 btn-lg py-0 btn-color"
-                // variant="primary"
-                style={{
-                  fontSize: "1rem",
-                }}
-                // onClick={(e) => {
-                //   handleSignUp();
-                // }}
-                type="submit"
-              >
-                Entrar
-              </button>
-              <button
-                key={5}
-                className="btn mx-4 btn-color"
-                // variant="primary"
-                onClick={(e) => newUser()}
-              >
-                Cadastrar
-              </button>
+              <Form.Group className="">
+                <button
+                  key={4}
+                  className="btn loginbtn  btn-color"
+                  type="submit"
+                >
+                  Entrar
+                </button>
+                <button
+                  key={5}
+                  className="btn   btn-color"
+                  onClick={(e) => newUser()}
+                >
+                  Cadastrar
+                </button>
+              </Form.Group>
             </Card.Body>
           </Card>
 

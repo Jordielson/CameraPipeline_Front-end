@@ -140,7 +140,7 @@ function SidebarMenu(props) {
               <span>{localStorage.getItem("login")}</span>
             </div> */}
             <div>
-              <a className="logout" onClick={(e) => logOut()}>
+              <a className="logout pointer" onClick={(e) => logOut()}>
                 <IoIosLogOut />
                 sair
               </a>

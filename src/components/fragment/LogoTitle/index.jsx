@@ -12,8 +12,8 @@ function LogoTitle() {
   return (
     <>
       <Navbar variant="dark">
-        <Container className="justify-content-center">
-          <Navbar.Brand href="/login">
+        <Container className="d-flex">
+          <Navbar.Brand href="/login" className="loginlogo">
             <img
               alt=""
               src="/logo.svg"
@@ -23,10 +23,10 @@ function LogoTitle() {
             />{" "}
             Câmera Pipeline
           </Navbar.Brand>
+          <span className="guide login-guide" onClick={guidePage}>
+            Guia
+          </span>
         </Container>
-        <span className="guide" onClick={guidePage}>
-          Guia
-        </span>
       </Navbar>
     </>
   );

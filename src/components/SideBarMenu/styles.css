@@ -152,5 +152,5 @@ span {
   border-left: 20px solid #fff;
 }
 .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }

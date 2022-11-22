@@ -1,2 +1,12 @@
 .card {
 }
+.card-div {
+  width: 27%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginbtn {
+  width: 6rem;
+  margin-right: 3rem;
+}
