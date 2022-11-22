@@ -78,6 +78,7 @@ function EditComponent(props) {
     }
   }
   function previousStep() {
+    setLoading2(false);
     setShowCamera(false);
     if (activeStep > 0) {
       if (activeStep == 2) {
