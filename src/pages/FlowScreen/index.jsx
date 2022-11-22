@@ -168,7 +168,7 @@ const onInit = (reactFlowInstance) =>
 
 function FlowScreen() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [pipeline, setPipeline] = useState();
   // const [pipelineBackup, setPipelineBackup] = useState();
   const location = useLocation();
@@ -262,7 +262,7 @@ const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   useEffect(() => {
     if (pipeline) {
-      let childrens = []
+      let childrens = [];
       setEdges([]);
       const outputNode = {
         id: `output`,
@@ -335,11 +335,11 @@ const [edges, setEdges, onEdgesChange] = useEdgesState([]);
       pipeline.pdilist.map((pdi) => {
         let isChildren = false;
         childrens.map((child) => {
-          if(pdi.index == child) {
+          if (pdi.index == child) {
             isChildren = true;
           }
-        }) 
-        if(isChildren == false) {
+        });
+        if (isChildren == false) {
           const newEdge = {
             id: `input-e${pdi.index}`,
             target: `${pdi.index}`,
@@ -365,7 +365,7 @@ const [edges, setEdges, onEdgesChange] = useEdgesState([]);
       edges.map((edge) => {
         if (edge.source == pdi.index) {
           // console.log(edge.source, pdi.index);
-          if (edge.target != "output") {
+          if (edge.target != "output" && edge.source != "input") {
             pdi.children.push(edge.target);
           }
           // console.log(pdi.children);
