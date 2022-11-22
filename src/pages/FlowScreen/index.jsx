@@ -263,6 +263,35 @@ function FlowScreen() {
   useEffect(() => {
     if (pipeline) {
       setEdges([]);
+      const outputNode = {
+        id: `output`,
+        data: {
+          label: <>{`Output - id: output`}</>,
+        },
+        position: { x: 100, y: 300 },
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #233821",
+          width: 180,
+        },
+      };
+      const inputNode = {
+        id: `input`,
+        data: {
+          label: <>{`Input - id: input`}</>,
+        },
+        position: { x: 100, y: -180 },
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #233821",
+          width: 180,
+        },
+      };
+      setNodes((oldnodes) => [...oldnodes, outputNode]);
+      setNodes((oldnodes) => [...oldnodes, inputNode]);
+
       pipeline.pdilist.map((pdi) => {
         const newNode = {
           id: `${pdi.index}`,
@@ -277,7 +306,7 @@ function FlowScreen() {
             width: 180,
           },
         };
-        if (pdi.children) {
+        if (pdi.children && pdi.children > 0) {
           pdi.children.map((child) => {
             const newEdge = {
               id: `e${pdi.index}-${child}`,
@@ -288,6 +317,15 @@ function FlowScreen() {
             };
             setEdges((oldedges) => [...oldedges, newEdge]);
           });
+        } else {
+          const newEdge = {
+            id: `e${pdi.index}-output`,
+            source: `${pdi.index}`,
+            target: `output`,
+            type: "buttonedge",
+            animated: true,
+          };
+          setEdges((oldedges) => [...oldedges, newEdge]);
         }
 
         setNodes((oldnodes) => [...oldnodes, newNode]);
@@ -307,7 +345,9 @@ function FlowScreen() {
       edges.map((edge) => {
         if (edge.source == pdi.index) {
           // console.log(edge.source, pdi.index);
-          pdi.children.push(edge.target);
+          if (edge.target != "output") {
+            pdi.children.push(edge.target);
+          }
           // console.log(pdi.children);
         }
       });
@@ -334,7 +374,7 @@ function FlowScreen() {
           },
         },
       });
-    } catch(error) {
+    } catch (error) {
       toast.error(<span id="toastMsg">Não foi possível salvar</span>);
     }
 
