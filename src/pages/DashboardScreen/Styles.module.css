@@ -8,12 +8,13 @@
     "area1 area5 area6 area3"
     "area2 area7 area7 area3"
     "area2 area8 area8 area4";
+  padding-bottom: 1.3rem;
 }
 
 .area2 {
   /* position: absolute;
   height: 60vh; */
-  max-height: 66vh;
+  max-height: 100vh;
   grid-area: area2;
   display: flex;
   justify-content: center;
