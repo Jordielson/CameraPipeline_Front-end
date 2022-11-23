@@ -231,7 +231,7 @@ function PipelineScreen() {
       // console.log(novoEstado.pdilist);
       // setPipeline(novoEstado);
     } else {
-      navigate("../pipeline-home", { replace: true });
+      navigate("../pipeline-home");
     }
   }, []);
 
@@ -432,7 +432,7 @@ function PipelineScreen() {
         },
       });
       setPipeline(pipelineEmpty);
-      navigate("../pipeline-home", { replace: true });
+      navigate("../pipeline-home");
 
       // getPipelines();
     } catch (error) {
@@ -520,7 +520,7 @@ function PipelineScreen() {
                 <h6
                   className="backbutton"
                   onClick={(e) => {
-                    navigate("../pipeline-home", { replace: true });
+                    navigate("../pipeline-home");
                   }}
                   title="voltar"
                 >

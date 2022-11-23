@@ -25,7 +25,7 @@ function FormLogin() {
         password: password,
       });
       setRedirectToPipeline(true);
-      navigate("../dashboard", { replace: true });
+      navigate("../dashboard");
     } catch (error) {
       if (error.message === "Network Error") {
         toast.error(<text id="toastMsg">Conexão recusada</text>);
@@ -36,10 +36,10 @@ function FormLogin() {
       }
     }
     // if (redirectToRegister) {
-    //   navigate("../register", { replace: true });
+    //   navigate("../register");
     // }
     if (redirectToPipeline) {
-      navigate("../dashboard", { replace: true });
+      navigate("../dashboard");
     }
   };
 

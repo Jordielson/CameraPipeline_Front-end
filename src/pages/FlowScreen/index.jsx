@@ -256,7 +256,7 @@ function FlowScreen() {
       setPipeline(location.state.pipeline);
       // setPipelineBackup(location.state.pipeline);
     } else {
-      navigate("../pipeline-home", { replace: true });
+      navigate("../pipeline-home");
     }
   }, []);
 

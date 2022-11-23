@@ -134,7 +134,7 @@ export default function PipelinesHomeScreen() {
   }
 
   const enterPipeline = (pipeline) => {
-    navigate("../pipeline", { replace: true, state: { pipeline } });
+    navigate("../pipeline", { state: { pipeline } });
   };
 
   return (

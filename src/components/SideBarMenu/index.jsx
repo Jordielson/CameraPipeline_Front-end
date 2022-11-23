@@ -22,7 +22,7 @@ function SidebarMenu(props) {
   }, [props.page]);
 
   if (redirectToHome == true) {
-    navigate("../login", { replace: true });
+    navigate("../login");
   }
 
   function handlerSubmenu() {
@@ -56,7 +56,7 @@ function SidebarMenu(props) {
               <li>
                 <a
                   className="dashboard pointer"
-                  onClick={(e) => navigate("../dashboard", { replace: true })}
+                  onClick={(e) => navigate("../dashboard")}
                 >
                   Dashboard
                 </a>
@@ -73,7 +73,7 @@ function SidebarMenu(props) {
                 <li className="submenu" id="submenu">
                   <a
                     onClick={(e) =>
-                      navigate("../processar-imagem", { replace: true })
+                      navigate("../processar-imagem")
                     }
                     className="submenu-list pointer"
                   >
@@ -81,7 +81,7 @@ function SidebarMenu(props) {
                   </a>
                   <a
                     onClick={(e) =>
-                      navigate("../processar-video", { replace: true })
+                      navigate("../processar-video")
                     }
                     className="submenu-list pointer"
                   >
@@ -89,7 +89,7 @@ function SidebarMenu(props) {
                   </a>
                   <a
                     onClick={(e) =>
-                      navigate("../processar-camera", { replace: true })
+                      navigate("../processar-camera")
                     }
                     className="submenu-list pointer"
                   >
@@ -100,26 +100,26 @@ function SidebarMenu(props) {
               <li className="pipelines pointer">
                 <a
                   onClick={(e) =>
-                    navigate("../pipeline-home", { replace: true })
+                    navigate("../pipeline-home")
                   }
                 >
                   Pipelines
                 </a>
               </li>
               <li className="camera pointer">
-                <a onClick={(e) => navigate("../camera", { replace: true })}>
+                <a onClick={(e) => navigate("../camera")}>
                   Câmeras
                 </a>
               </li>
               <li className="servico pointer">
-                <a onClick={(e) => navigate("../servico", { replace: true })}>
+                <a onClick={(e) => navigate("../servico")}>
                   Serviços
                 </a>
               </li>
               <li className="change-password pointer">
                 <a
                   onClick={(e) =>
-                    navigate("../alterar-senha", { replace: true })
+                    navigate("../alterar-senha")
                   }
                 >
                   Alterar senha
@@ -127,7 +127,7 @@ function SidebarMenu(props) {
               </li>
               <li className="guia pointer">
                 <a
-                  onClick={(e) => navigate("../user-guide", { replace: true })}
+                  onClick={(e) => navigate("../user-guide")}
                 >
                   Guia
                 </a>

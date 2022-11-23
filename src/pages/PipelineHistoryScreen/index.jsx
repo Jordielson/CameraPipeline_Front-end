@@ -118,7 +118,7 @@ function PipelineHistoryScreen() {
                   className="backbutton"
                   onClick={(e) => {
                     goBack();
-                    // navigate("../pipeline-home", { replace: true });
+                    // navigate("../pipeline-home");
                   }}
                   title="voltar"
                 >
