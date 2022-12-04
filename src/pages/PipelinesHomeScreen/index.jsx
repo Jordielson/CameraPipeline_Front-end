@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PipelineService from "../../services/pipeline";
 import PaginationComponent from "../../components/PaginationComponent";
 import NewPipelineModal from "../../components/NewPipelineModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
@@ -21,6 +22,9 @@ export default function PipelinesHomeScreen() {
   const [showNewPipelineModal, setShowNewPipelineModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [pipelineDelete, setPipelineDelete] = useState({});
 
   const navigate = useNavigate();
 
@@ -29,26 +33,26 @@ export default function PipelinesHomeScreen() {
   }, []);
 
   useEffect(() => {
-    if(showResults == true) {
+    if (showResults == true) {
       const params = {
         page: currentPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       fetchPipelineList(params);
     } else {
       const params = {
         name: query,
-        page: currentPage - 1
+        page: currentPage - 1,
       };
       searchPipeline(params);
     }
   }, [currentPage]);
 
   async function fetchPipelineList(params) {
-    if(!params) {
+    if (!params) {
       params = {
         page: currentListPage - 1,
-        sort: "creationTime,DESC"
+        sort: "creationTime,DESC",
       };
       setShowResults(true);
       setQuery("");
@@ -62,7 +66,9 @@ export default function PipelinesHomeScreen() {
       setCurrentListPage(response.number + 1);
       setLoading(false);
     } catch (error) {
-      toast.error(<span id="toastMsg">Não foi possível carregar os pipeline</span>);
+      toast.error(
+        <span id="toastMsg">Não foi possível carregar os pipeline</span>
+      );
     }
   }
 
@@ -80,9 +86,13 @@ export default function PipelinesHomeScreen() {
     }
   };
 
-  const deletePipeline = async (pipeline) => {
+  useEffect(() => {
+    info ? deletePipeline() : setInfo(false);
+  }, [info]);
+
+  const deletePipeline = async () => {
     try {
-      await toast.promise(PipelineService.deletePipeline(pipeline.id), {
+      await toast.promise(PipelineService.deletePipeline(pipelineDelete.id), {
         pending: {
           render({ data }) {
             return <text id="toastMsg">Deletando</text>;
@@ -114,7 +124,7 @@ export default function PipelinesHomeScreen() {
       setShowResults(false);
       if (currentPage == 1) {
         const pipelienName = {
-          name: query
+          name: query,
         };
         searchPipeline(pipelienName);
       } else {
@@ -147,9 +157,7 @@ export default function PipelinesHomeScreen() {
               <a className="navbar-brand navbar-dark mx-3">Pipelines</a>
               <div className="d-flex flex-row align-items-center justify-content-end">
                 <div className="d-flex align-items-center form-group px-3">
-                  <span
-                    className="fa fa-search fa-sm form-control-pdi"
-                  />
+                  <span className="fa fa-search fa-sm form-control-pdi" />
                   <input
                     type="text"
                     className="form-control form-input-camera"
@@ -220,7 +228,10 @@ export default function PipelinesHomeScreen() {
                         Styles.excludeButton +
                         " pdilist-trash fa-solid fa-trash"
                       }
-                      onClick={(e) => deletePipeline(pipeline)}
+                      onClick={() => {
+                        setPipelineDelete(pipeline);
+                        setShowConfirmation(true);
+                      }}
                     ></button>
                   </div>
                 </ListGroup.Item>
@@ -234,7 +245,10 @@ export default function PipelinesHomeScreen() {
           />
           <div className="d-flex justify-content-center">
             {!showResults && (
-              <span className="all-results" onClick={(e) => fetchPipelineList()}>
+              <span
+                className="all-results"
+                onClick={(e) => fetchPipelineList()}
+              >
                 voltar para todos os resultados
               </span>
             )}
@@ -245,6 +259,11 @@ export default function PipelinesHomeScreen() {
         show={showNewPipelineModal}
         onShowChange={setShowNewPipelineModal}
         updateData={fetchPipelineList}
+      />
+      <ConfirmationModal
+        show={showConfirmation}
+        onShowChange={setShowConfirmation}
+        info={setInfo}
       />
     </>
   );

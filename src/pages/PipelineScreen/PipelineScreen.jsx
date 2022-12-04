@@ -1,5 +1,6 @@
 import SidebarMenu from "../../components/SideBarMenu";
 import VideoStream from "../../components/VideoComponent";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import Accordion from "react-bootstrap/Accordion";
 import { BsClock } from "react-icons/bs";
 import { AiOutlineLeft } from "react-icons/ai";
@@ -74,6 +75,8 @@ function PipelineScreen() {
   const [pipelineQuery, setPipelineQuery] = useState("");
   const [activeSearchPdi, setActiveSearchPdi] = useState(false);
   const [activeSearchPipeline, setActiveSearchPipeline] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [info, setInfo] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -417,6 +420,10 @@ function PipelineScreen() {
   //   });
   // }
 
+  useEffect(() => {
+    info ? deletePipeline() : setInfo(false);
+  }, [info]);
+
   const deletePipeline = async () => {
     try {
       await toast.promise(PipelineService.deletePipeline(pipeline.id), {
@@ -601,7 +608,7 @@ function PipelineScreen() {
                   <a
                     type="button"
                     className="btn btn-light btn-sm btn-excluir"
-                    onClick={deletePipeline}
+                    onClick={() => setShowConfirmation(true)}
                   >
                     Excluir
                   </a>
@@ -899,6 +906,11 @@ function PipelineScreen() {
           )}
         </div>
       </div>
+      <ConfirmationModal
+        show={showConfirmation}
+        onShowChange={setShowConfirmation}
+        info={setInfo}
+      />
     </>
   );
 }
