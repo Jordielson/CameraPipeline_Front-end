@@ -345,6 +345,7 @@ function FormPDI(props) {
                 <div className={styles.formTxt}>
                   <Form.Label className="px-2">Decrição</Form.Label>
                   <Form.Control
+                    id={param.index}
                     defaultValue={param.description}
                     onChange={(e) => {
                       handleDescritionParameter(e);

@@ -113,7 +113,7 @@ function PDIScreen() {
   const [query, setQuery] = useState("");
   const handleShow = () => setShow(true);
   const [showEdit, setShowEdit] = useState(false);
-  const [modelPDI, setPdiList] = useState(modelPDIList);
+  const [modelPDI, setPdiList] = useState([]);
   const [pdi, setPdi] = useState();
   const [showResults, setShowResults] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
