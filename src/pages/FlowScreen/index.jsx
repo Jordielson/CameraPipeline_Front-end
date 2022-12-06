@@ -262,6 +262,11 @@ function FlowScreen() {
 
   useEffect(() => {
     if (pipeline) {
+      let outputYPosition = 400;
+      if (pipeline.pdilist.length > 5) {
+        outputYPosition += (pipeline.pdilist.length / 5) * 90;
+      }
+
       let childrens = [];
       setEdges([]);
       const outputNode = {
@@ -269,7 +274,7 @@ function FlowScreen() {
         data: {
           label: <>{`Output - id: output`}</>,
         },
-        position: { x: 100, y: 300 },
+        position: { x: 100, y: outputYPosition },
         style: {
           background: "#fff",
           color: "#333",
@@ -293,13 +298,18 @@ function FlowScreen() {
       setNodes((oldnodes) => [...oldnodes, outputNode]);
       setNodes((oldnodes) => [...oldnodes, inputNode]);
 
+      let positionX = 100;
+      let positionY = 100;
+
       pipeline.pdilist.map((pdi) => {
         const newNode = {
           id: `${pdi.index}`,
           data: {
             label: <>{`${pdi.digitalProcess.name} - id: ${pdi.index}`}</>,
           },
-          position: pdi.position ? pdi.position : { x: 100, y: 100 },
+          position: pdi.position
+            ? pdi.position
+            : { x: positionX, y: positionY },
           style: {
             background: "#fff",
             color: "#333",
@@ -331,6 +341,12 @@ function FlowScreen() {
         }
 
         setNodes((oldnodes) => [...oldnodes, newNode]);
+        if (positionX < 900) {
+          positionX += 200;
+        } else {
+          positionX = 100;
+          positionY += 100;
+        }
       });
       pipeline.pdilist.map((pdi) => {
         let isChildren = false;
@@ -404,6 +420,29 @@ function FlowScreen() {
   const edgeTypes = {
     buttonedge: CustomEdge,
   };
+
+  useEffect(() => {
+    if (edges.length > 0) {
+      if (
+        edges[edges.length - 1].source == "output" ||
+        edges[edges.length - 1].target == "input"
+      ) {
+        edges.pop();
+        const novoEstado = Object.assign([], edges);
+        setEdges(novoEstado);
+      } else {
+        const source = edges[edges.length - 1].source;
+        const target = edges[edges.length - 1].target;
+        edges.map((edge) => {
+          if (edge.source == target && edge.target == source) {
+            edges.pop();
+            const novoEstado = Object.assign([], edges);
+            setEdges(novoEstado);
+          }
+        });
+      }
+    }
+  }, [edges]);
 
   return (
     <div className="content">
