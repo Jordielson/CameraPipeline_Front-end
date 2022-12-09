@@ -48,3 +48,13 @@
   display: flex;
   justify-content: space-between;
 }
+
+.formTags {
+  display: flex;
+  flex: 1;
+  width: 98%;
+  align-items: center; 
+  justify-content: center;
+  padding-left: 0.89rem;
+  padding-bottom: 1rem;
+}

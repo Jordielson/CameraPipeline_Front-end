@@ -871,7 +871,23 @@ function PipelineScreen() {
                                   )}
                                 </label>
 
-                                <input
+                                {
+                                param.parameter.type == "SELECT" ?
+                                (<select
+                                  className="form-control" 
+                                  id={pipe.index}
+                                  defaultValue={param.value}
+                                  onChange={(e) =>
+                                    handleChange(e, param.parameter.name)}
+                                >
+                                  <option value={''} disabled={true}>Selecione</option>
+                                  {param.parameter.selectOptions.map((value) =>
+                                      <option value={value} key={value}>
+                                        {value}
+                                      </option>
+                                  )}
+                                </select>) :
+                                (<input
                                   type={param.parameter.type}
                                   className="form-control"
                                   id={pipe.index}
@@ -885,7 +901,8 @@ function PipelineScreen() {
                                       : param.value
                                   }
                                   // value={param.type == "FILE" && ""}
-                                ></input>
+                                ></input>)
+                                }
                               </div>
                             );
                           });

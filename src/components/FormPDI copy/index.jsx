@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import PDIService from "./../../services/pdi";
+import PDIService from "../../services/pdi";
 import styles from "./Pdi.module.css";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useForceUpdate } from "../../shared/Utils";
-import TagsInput from "../TagsInput";
+import { WithContext as ReactTags } from 'react-tag-input';
+import { TagsInput } from "react-tag-input-component";
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 function FormPDI(props) {
+  const [selected, setSelected] = useState(["papaya"]);
   const [PDIName, setPDIName] = useState("");
   const [url, setUrl] = useState("");
   const [parameters, setParameters] = useState([]);
@@ -43,6 +52,10 @@ function FormPDI(props) {
         throw "emptyName";
       }
       parameters.map((param) => {
+        if (param.type == 'SELECT') {
+          param.selectOptions = param.description.split(";");
+          console.log(param.selectOptions);
+        }
         parameters.forEach((param1) => {
           if (param1.name == "") {
             throw `emptyparam`;
@@ -351,10 +364,15 @@ function FormPDI(props) {
                 {
                   (param.type == 'SELECT') ?
                   (<div className={styles.formTags}>
-                    <Form.Label className={"px-2"}>Opções</Form.Label>
+                    <Form.Label className="px-2">Opções</Form.Label>
                     <TagsInput
-                      value={param.selectOptions}
-                      onChange={(value) => {param.selectOptions=value; forceUpdate()}}
+                      classNames={{
+                        tag: styles.tagsInputTag,
+                        input: styles.tagsInputInput,
+                      }}
+                      value={selected}
+                      onChange={setSelected}
+                      name="options"
                       placeHolder="Digite as opções da seleção"
                     />
                   </div>) : (<></>)

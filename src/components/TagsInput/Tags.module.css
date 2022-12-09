@@ -1,0 +1,38 @@
+.tagsInputContainer{
+  min-width: (80vw, 600px);
+  width: 100%;
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  /* gap: .5em; */
+}
+
+.tagItem{
+  background-color: rgb(218, 216, 216);
+  display: inline-block;
+  padding: .5em .75em;
+  margin-left: .6rem;
+  margin-bottom: .5rem;
+  border-radius: 20px;
+  font-size: 9px;
+}
+.close{
+  height: 20px;
+  width: 20px;
+  color: rgb(49, 49, 49);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: .5em;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.tagsInput{
+  flex-grow: 1;
+  padding: .5em 0;
+  margin-left: .6rem;
+}
