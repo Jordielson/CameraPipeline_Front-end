@@ -262,6 +262,7 @@ function FlowScreen() {
 
   useEffect(() => {
     if (pipeline) {
+      console.log(pipeline);
       let outputYPosition = 400;
       if (pipeline.pdilist.length > 5) {
         outputYPosition += (pipeline.pdilist.length / 5) * 90;
@@ -317,7 +318,9 @@ function FlowScreen() {
             width: 180,
           },
         };
-        if (pdi.children && pdi.children > 0) {
+
+        if (pdi.children && pdi.children.length > 0) {
+          console.log(pdi);
           pdi.children.map((child) => {
             childrens.push(child);
             const newEdge = {
