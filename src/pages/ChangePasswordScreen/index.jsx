@@ -57,7 +57,7 @@ function ChangePassword() {
             success: {
               render({ data }) {
                 return (
-                  <text id="" className="">
+                  <text id="toastMsg" className="">
                     Senha alterada com sucesso!
                   </text>
                 );

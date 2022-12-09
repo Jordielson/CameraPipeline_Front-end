@@ -76,7 +76,7 @@ function NewUser() {
             errorMessage = error.message;
             break;
         }
-        toast.error(<text>{errorMessage}</text>);
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
       }
     } else {
       toast.error(<text id="toastMsg">{validateFields().text}</text>);
