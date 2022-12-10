@@ -252,21 +252,21 @@ function FormPDI(props) {
       >
         <Modal.Header closeButton>
           <div className={styles.modalHeader}>
-            <div className="d-flex">
+            <div className="d-flex align-items-center ">
               <label
                 htmlFor="name"
-                className={styles.editname + " fa-solid fa-pen-to-square"}
+                className={styles.editname + "  fa-solid fa-pen-to-square"}
               ></label>
               <Modal.Title>
-                <input
+                <Form.Control
                   // className="input-custom"
-                  className="input-custom mx-2"
+                  className="input-custom mx-2 "
                   // value={PDIName}
                   id="name"
                   defaultValue={PDIName}
                   placeholder={"Insira o nome do serviço"}
                   onChange={(value) => setPDIName(value.target.value)}
-                ></input>
+                ></Form.Control>
               </Modal.Title>
             </div>
             <div className="d-flex align-items-center">
@@ -306,13 +306,13 @@ function FormPDI(props) {
             return (
               <div key={param.index} className={"card " + styles.margin}>
                 <div className="card-body d-flex align-items-center">
-                  <input
+                  <Form.Control
                     className="input-custom mx-1"
                     placeholder="insira o nome do parametro"
                     defaultValue={param.name}
                     id={param.index}
                     onChange={(e) => inputHandler(e)}
-                  ></input>
+                  ></Form.Control>
                   <Form.Select
                     key={param.index}
                     id={param.index}

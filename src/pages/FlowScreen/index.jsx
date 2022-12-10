@@ -245,7 +245,7 @@ function FlowScreen() {
   );
   const reactFlowStyle = {
     background: "white",
-    boxShadow: "10px 0 20px -10px #888 inset",
+    // boxShadow: "10px 0 20px -10px #888 inset",
     width: "100%",
     height: 300,
     zIndex: 1,

@@ -105,6 +105,12 @@
 .input-custom {
   border: 0;
   width: 100%;
+  font-weight: bold;
+}
+.input-custom:focus {
+  border: 1px solid #ff0072 !important;
+
+  box-shadow: 0 0 3px #ff0072;
 }
 
 .action-buttons {

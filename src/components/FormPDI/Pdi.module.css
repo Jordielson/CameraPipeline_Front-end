@@ -19,6 +19,7 @@
 
 .editname {
   color: rgb(155, 155, 155);
+  font-size: 25px;
 }
 .btnparam:hover {
   background-color: #fff;
