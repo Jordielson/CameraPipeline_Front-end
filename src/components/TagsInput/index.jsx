@@ -8,16 +8,15 @@ function TagsInput(props) {
   function handleKeyDown(e) {
     if (e.key !== "Enter") return;
 
-    const value = e.target.value;
-
-    if (!value.trim()) return;
-    if (props.value.includes(value)) return;
-
     addValue();
   }
 
   function addValue() {
-    props.onChange([...props.value, textInput]);
+    if (!textInput.trim()) return;
+    if (props.value.includes(textInput.toUpperCase())) return;
+    
+    console.log(textInput);
+    props.onChange([...props.value, textInput.toUpperCase()]);
 
     setTextInput("");
   }
@@ -31,16 +30,16 @@ function TagsInput(props) {
   return (
     <div className={styles.tagsInputContainer}>
       {props.value.map((tag, index) => (
-        <div className={styles.tagItem} key={index}>
+        <div className={styles.tagItem} key={index} id={`tag-${index}`}>
           <span className={styles.text}>{tag}</span>
-          <span onClick={() => removeTag(index)} className={styles.close}>
+          <span onClick={() => removeTag(index)} className={styles.close} id={`tag-remove-${index}`}>
             &times;
           </span>
         </div>
       ))}
       <div className={styles.inputC}>
         <Form.Control
-          id={"taginputid"}
+          id={"tag-input-id"}
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -49,7 +48,7 @@ function TagsInput(props) {
           as="input"
           rows={1}
         />
-        <button className={"btn btn-color " + styles.addButton} onClick={addValue}>
+        <button className={"btn btn-color " + styles.addButton} onClick={addValue} id={'tag-button-id'}>
           Adicionar
         </button>
       </div>
