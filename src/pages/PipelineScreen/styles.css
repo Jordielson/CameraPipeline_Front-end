@@ -29,6 +29,19 @@
 .row-body {
 }
 
+.view-image {
+  width: 94%;
+  height: 165px;
+  background: black;
+  border-radius: 5px;
+}
+
+img#image-test {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
 .inputvideo {
   width: 100%;
 }

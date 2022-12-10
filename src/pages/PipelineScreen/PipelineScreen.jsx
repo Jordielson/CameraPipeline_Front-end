@@ -18,6 +18,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 import ValueParameterService from "../../services/value_parameter";
+import ImageTest from "../../images/image-test.jpg";
+import ImageService from "../../services/image";
 
 const pipelineEmpty = {
   id: 0,
@@ -77,6 +79,7 @@ function PipelineScreen() {
   const [activeSearchPipeline, setActiveSearchPipeline] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [info, setInfo] = useState(false);
+  const [generatedImageUrl, setgeneratedImageUrl] = useState();
 
   function Adicionar(props) {
     return (
@@ -229,6 +232,7 @@ function PipelineScreen() {
 
     if (location.state) {
       setPipeline(location.state.pipeline);
+      generateContent(location.state.pipeline.id)
       // let novoEstado = Object.assign({}, location.state.pipeline);
       // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
       // console.log(novoEstado.pdilist);
@@ -261,9 +265,10 @@ function PipelineScreen() {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
       setActiveSearchPipeline(false);
-      response.content.forEach(element => {
-        if(element.id === pipeline.id){
+      response.content.forEach((element) => {
+        if (element.id === pipeline.id) {
           setPipeline(element);
+          generateContent(element.id)
         }
       });
     } catch (error) {
@@ -383,6 +388,7 @@ function PipelineScreen() {
         },
         success: {
           render({ data }) {
+            getPipelines();
             return <span id="toastMsg">Salvo com sucesso!</span>;
           },
         },
@@ -508,6 +514,18 @@ function PipelineScreen() {
     // }
   };
 
+  async function generateContent(pipelineId) {
+    let imageObj;
+    await fetch(ImageTest)
+      .then((res) => res.blob())
+      .then((blob) => imageObj = blob);
+    const data = new FormData();
+    data.append("image", imageObj);
+    data.append("pipeline", pipelineId);
+    const returnedImage = await ImageService.generateImage(data);
+    setgeneratedImageUrl(returnedImage.url);
+  }
+
   return (
     <>
       <div className="content">
@@ -627,7 +645,7 @@ function PipelineScreen() {
             <div className="container-fluid container-body">
               <div className="row row-body">
                 <div className="col-4 b1 py-2">
-                  <div className="input-group a">
+                  {/* <div className="input-group a">
                     <select
                       role="button"
                       onChange={(e) => setUrl(e.target.value)}
@@ -643,18 +661,25 @@ function PipelineScreen() {
                         );
                       })}
                     </select>
-                  </div>
+                  </div> */}
                   <div className="video-container">
                     <div className="background-video mb-0 d-flex justify-content-center">
-                      <VideoStream
+                      {/* <VideoStream
                         key={pipeline.id}
                         show={true}
                         url={url}
                         width="94%"
-                      />
+                      /> */}
+                      <div className="view-image">
+                        <img
+                          id="image-test"
+                          src={generatedImageUrl}
+                          alt="imagem de teste"
+                        />
+                      </div>
                     </div>
                     <span className="warning d-flex justify-content-center mb-2">
-                      este video é uma pré-visualização da pipeline
+                      esta imagem é uma pré-visualização da pipeline
                     </span>
                   </div>
                   <Accordion
