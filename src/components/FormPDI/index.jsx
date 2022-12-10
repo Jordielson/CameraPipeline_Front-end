@@ -4,6 +4,8 @@ import PDIService from "./../../services/pdi";
 import styles from "./Pdi.module.css";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useForceUpdate } from "../../shared/Utils";
+import TagsInput from "../TagsInput";
 
 function FormPDI(props) {
   const [PDIName, setPDIName] = useState("");
@@ -12,6 +14,7 @@ function FormPDI(props) {
   const [show, setShow] = useState(false);
   const [duplicatedParam, setDuplicatedParam] = useState();
   const [description, setDescription] = useState();
+  const forceUpdate = useForceUpdate();
 
   useEffect(() => {
     if (props.obj) {
@@ -197,6 +200,7 @@ function FormPDI(props) {
 
       return oldParameters;
     });
+    forceUpdate();
   }
   // function selectHandler(e) {
   //   setShow(true);
@@ -248,20 +252,21 @@ function FormPDI(props) {
       >
         <Modal.Header closeButton>
           <div className={styles.modalHeader}>
-            <div className="d-flex">
+            <div className="d-flex align-items-center ">
               <label
                 htmlFor="name"
-                className={styles.editname + " fa-solid fa-pen-to-square"}
+                className={styles.editname + "  fa-solid fa-pen-to-square"}
               ></label>
               <Modal.Title>
-                <input
-                  className="input-custom"
+                <Form.Control
+                  // className="input-custom"
+                  className="input-custom mx-2 "
                   // value={PDIName}
                   id="name"
                   defaultValue={PDIName}
                   placeholder={"Insira o nome do serviço"}
                   onChange={(value) => setPDIName(value.target.value)}
-                ></input>
+                ></Form.Control>
               </Modal.Title>
             </div>
             <div className="d-flex align-items-center">
@@ -271,7 +276,7 @@ function FormPDI(props) {
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control inputPerson"
                 id="basic-url"
                 aria-describedby="basic-addon3"
                 placeholder="https://"
@@ -291,7 +296,7 @@ function FormPDI(props) {
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
-              className=""
+              className="inputPerson"
               as="textarea"
               rows={1}
             />
@@ -299,28 +304,32 @@ function FormPDI(props) {
           {!show && <p className={styles.error}>{duplicatedParam}</p>}
           {parameters.map((param) => {
             return (
-              <div key={param.index} className="card">
+              <div key={param.index} className={"card " + styles.margin}>
                 <div className="card-body d-flex align-items-center">
-                  <input
+                  <Form.Control
                     className="input-custom mx-1"
                     placeholder="insira o nome do parametro"
                     defaultValue={param.name}
                     id={param.index}
                     onChange={(e) => inputHandler(e)}
-                  ></input>
+                  ></Form.Control>
                   <Form.Select
                     key={param.index}
                     id={param.index}
                     defaultValue={param.type}
-                    className="mx-2"
+                    className="mx-2 inputPerson"
                     onChange={(e) => {
                       selectHandler(e);
                     }}
                   >
-                    <option value="STRING">STRING</option>
+                    <option className="inputselect" value="STRING">
+                      STRING
+                    </option>
                     <option value="NUMBER">NUMBER</option>
                     <option value="BOOLEAN">BOOLEAN</option>
                     <option value="FILE">FILE</option>
+                    <option value="SELECT">SELECT</option>
+                    <option value="COLOR">COLOR</option>
                   </Form.Select>
                   <Form.Check
                     // checked
@@ -342,14 +351,35 @@ function FormPDI(props) {
                     }}
                   ></i>
                 </div>
+                {param.type == "SELECT" ? (
+                  <div className={styles.formTags}>
+                    <Form.Label className={"px-2 " + styles.opt}>
+                      Opções
+                    </Form.Label>
+                    <TagsInput
+                      className={styles.tags}
+                      value={param.selectOptions ?? []}
+                      onChange={(value) => {
+                        param.selectOptions = value;
+                        forceUpdate();
+                      }}
+                      placeHolder="Digite as opções da seleção"
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className={styles.formTxt}>
-                  <Form.Label className="px-2">Decrição</Form.Label>
+                  <Form.Label className={"px-2 " + styles.descw}>
+                    Descrição
+                  </Form.Label>
                   <Form.Control
+                    id={param.index}
                     defaultValue={param.description}
                     onChange={(e) => {
                       handleDescritionParameter(e);
                     }}
-                    className=""
+                    className="inputPerson"
                     as="textarea"
                     rows={1}
                   />

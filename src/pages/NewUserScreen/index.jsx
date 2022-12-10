@@ -76,7 +76,7 @@ function NewUser() {
             errorMessage = error.message;
             break;
         }
-        toast.error(<text>{errorMessage}</text>);
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
       }
     } else {
       toast.error(<text id="toastMsg">{validateFields().text}</text>);
@@ -103,7 +103,7 @@ function NewUser() {
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             placeholder="Insira seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -111,7 +111,7 @@ function NewUser() {
 
           <Form.Label className="mb-0">Senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Insira sua senha"
             value={password}
@@ -120,7 +120,7 @@ function NewUser() {
 
           <Form.Label className="mb-0">Confirme a senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Confirme sua senha"
             value={confirmPassword}

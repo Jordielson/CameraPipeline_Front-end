@@ -39,16 +39,12 @@ export default function NewPipeline(props) {
   };
 
   const exit = () => {
-    props.onShowChange()
+    props.onShowChange();
     setName("");
-  }
+  };
 
   return (
-    <Modal
-      dialogClassName="modal-custom"
-      show={props.show}
-      onHide={exit}
-    >
+    <Modal dialogClassName="modal-custom" show={props.show} onHide={exit}>
       <Modal.Header closeButton>
         <div className="modal-header-custom">
           <div>
@@ -67,7 +63,7 @@ export default function NewPipeline(props) {
           />
           <Form.Label className="mb-0">Nome</Form.Label>
           <Form.Control
-            className="px-3 py-1"
+            className="px-3 py-1 inputPerson"
             value={name}
             type="text"
             placeholder="Digite o nome da pipeline"

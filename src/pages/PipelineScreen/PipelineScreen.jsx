@@ -842,7 +842,7 @@ function PipelineScreen() {
                 <div className="col-4 b3">
                   <div className="card my-2" key={pipeline.id}>
                     <div className="card-header pipeline-header">
-                      Parametro da serviço
+                      Parâmetros do serviço
                     </div>
                     <div className="card-body pipeline-card-parameter">
                       {pipeline.pdilist.map((pipe) => {
@@ -896,21 +896,43 @@ function PipelineScreen() {
                                   )}
                                 </label>
 
-                                <input
-                                  type={param.parameter.type}
-                                  className="form-control"
-                                  id={pipe.index}
-                                  onChange={(e) =>
-                                    handleChange(e, param.parameter.name)
-                                  }
-                                  placeholder={`insira um ${param.parameter.type}`}
-                                  value={
-                                    param.parameter.type == "FILE"
-                                      ? ""
-                                      : param.value
-                                  }
-                                  // value={param.type == "FILE" && ""}
-                                ></input>
+                                {param.parameter.type == "SELECT" ? (
+                                  <select
+                                    className="form-select inputPerson"
+                                    id={pipe.index}
+                                    defaultValue={param.value}
+                                    onChange={(e) =>
+                                      handleChange(e, param.parameter.name)
+                                    }
+                                  >
+                                    <option value={""} disabled={true}>
+                                      Selecione
+                                    </option>
+                                    {param.parameter.selectOptions.map(
+                                      (value) => (
+                                        <option value={value} key={value}>
+                                          {value}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                ) : (
+                                  <input
+                                    type={param.parameter.type}
+                                    className="form-control inputPerson"
+                                    id={pipe.index}
+                                    onChange={(e) =>
+                                      handleChange(e, param.parameter.name)
+                                    }
+                                    placeholder={`insira um ${param.parameter.type}`}
+                                    value={
+                                      param.parameter.type == "FILE"
+                                        ? ""
+                                        : param.value
+                                    }
+                                    // value={param.type == "FILE" && ""}
+                                  ></input>
+                                )}
                               </div>
                             );
                           });

@@ -36,7 +36,7 @@ function ChangePassword() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    
+
     if (validateFields().flag) {
       try {
         await toast.promise(
@@ -57,20 +57,26 @@ function ChangePassword() {
             success: {
               render({ data }) {
                 return (
-                  <text id="" className="">
+                  <text id="toastMsg" className="">
                     Senha alterada com sucesso!
                   </text>
                 );
               },
-            }
+            },
           }
         );
         clearInputs();
       } catch (error) {
-        if(error.response.data.code === "ERR_SAME_PASSWORD"){
-          toast.error(<text id="toastMsg">Sua nova senha não pode ser igual a anterior.</text>);
-        }else {
-          toast.error(<text id="toastMsg">Ocorreu um erro tentar alterar sua senha.</text>);
+        if (error.response.data.code === "ERR_SAME_PASSWORD") {
+          toast.error(
+            <text id="toastMsg">
+              Sua nova senha não pode ser igual a anterior.
+            </text>
+          );
+        } else {
+          toast.error(
+            <text id="toastMsg">Ocorreu um erro tentar alterar sua senha.</text>
+          );
         }
       }
     } else {
@@ -82,7 +88,7 @@ function ChangePassword() {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmNewPassword("");
-  }
+  };
 
   const getUser = () => localStorage.getItem("login");
 
@@ -102,7 +108,7 @@ function ChangePassword() {
         >
           <Form.Label className="mb-0">Senha atual</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Insira sua senha atual"
             value={currentPassword}
@@ -111,7 +117,7 @@ function ChangePassword() {
 
           <Form.Label className="mb-0">Nova senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Insira sua nova senha"
             value={newPassword}
@@ -120,7 +126,7 @@ function ChangePassword() {
 
           <Form.Label className="mb-0">Confirme a nova senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Confirme sua nova senha"
             value={confirmNewPassword}

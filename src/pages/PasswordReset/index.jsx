@@ -12,7 +12,6 @@ function PasswordReset() {
   const { resetString } = useParams();
 
   const validateFields = () => {
-
     let valid = {
       flag: true,
       text: "",
@@ -23,10 +22,11 @@ function PasswordReset() {
     if (password === "") {
       valid.flag = false;
       valid.text = "Preencha o campo de senha.";
-    } if (!regexSpace.test(password)) {
+    }
+    if (!regexSpace.test(password)) {
       valid.flag = false;
       valid.text = "Senha não pode conter caracteres vazios.";
-    }else if (password.length < 6) {
+    } else if (password.length < 6) {
       valid.flag = false;
       valid.text = "Senha deve conter no mínimo seis dígitos.";
     } else if (password !== confirmPassword) {
@@ -34,7 +34,6 @@ function PasswordReset() {
       valid.text = "Senha não confirmada.";
     }
     return valid;
-
   };
 
   const handleRegister = async (e) => {
@@ -64,24 +63,24 @@ function PasswordReset() {
         let errorMessage = "";
         switch (error.response.status) {
           case 404:
-            errorMessage = "Usuário não encontrado"
+            errorMessage = "Usuário não encontrado";
             break;
           case 400:
-            errorMessage = "Tempo para alterar a senha acabou, "+
-                "solicite o envio de outro email com novo link.";
+            errorMessage =
+              "Tempo para alterar a senha acabou, " +
+              "solicite o envio de outro email com novo link.";
             break;
           case 400:
-            errorMessage = "Não foi alterar a senha devido "+
-                "a um erro interno, tente novamente mais tarde.";
+            errorMessage =
+              "Não foi alterar a senha devido " +
+              "a um erro interno, tente novamente mais tarde.";
             break;
           default:
             errorMessage = "Não foi possível alterar a senha";
             break;
         }
 
-        toast.error(
-          <text id="toastMsg">{errorMessage}</text>
-        );
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
       }
     } else {
       toast.error(validateFields().text);
@@ -109,7 +108,7 @@ function PasswordReset() {
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Insira sua senha"
             value={password}
@@ -118,7 +117,7 @@ function PasswordReset() {
 
           <Form.Label className="mb-0">Confirme a senha</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             type="password"
             placeholder="Confirme sua senha"
             value={confirmPassword}
