@@ -353,7 +353,7 @@ function FormPDI(props) {
                   (<div className={styles.formTags}>
                     <Form.Label className={"px-2"}>Opções</Form.Label>
                     <TagsInput
-                      value={param.selectOptions}
+                      value={param.selectOptions ?? []}
                       onChange={(value) => {param.selectOptions=value; forceUpdate()}}
                       placeHolder="Digite as opções da seleção"
                     />
