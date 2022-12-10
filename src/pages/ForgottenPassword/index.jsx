@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { LOCAL_APP_URL } from "../../config/server/config";
 
 function ForgottenPassword() {
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
 
   const validateFields = () => {
     let valid = {
@@ -16,7 +16,8 @@ function ForgottenPassword() {
       text: "",
     };
 
-    var regexEmail = /^[a-z0-9^_~-]+(?:\.[a-z0-9^_~-]+)*@{1}(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])$/;
+    var regexEmail =
+      /^[a-z0-9^_~-]+(?:\.[a-z0-9^_~-]+)*@{1}(?:[a-z](?:[a-z]*[a-z])?\.)+[a-z](?:[a-z]*[a-z])$/;
 
     if (email === "") {
       valid.flag = false;
@@ -35,7 +36,7 @@ function ForgottenPassword() {
         await toast.promise(
           UserService.forgotPassword({
             email: email,
-            redirect: `${LOCAL_APP_URL}/password-reset`
+            redirect: `${LOCAL_APP_URL}/password-reset`,
           }),
           {
             pending: {
@@ -45,7 +46,11 @@ function ForgottenPassword() {
             },
             success: {
               render({ data }) {
-                return <text id="toastMsg">Foi enviado o link de recuperação para seu email</text>;
+                return (
+                  <text id="toastMsg">
+                    Foi enviado o link de recuperação para seu email
+                  </text>
+                );
               },
             },
           }
@@ -55,24 +60,21 @@ function ForgottenPassword() {
         let errorMessage = "";
         switch (error.response.status) {
           case 404:
-            errorMessage = "Verifique se seu email está correto"
+            errorMessage = "Verifique se seu email está correto";
             break;
           case 500:
-            errorMessage = "Não foi possível enviar o email devido "+
+            errorMessage =
+              "Não foi possível enviar o email devido " +
               "a um erro interno, tente novamente mais tarde";
             break;
           default:
             errorMessage = "Não foi possível enviar o email";
             break;
         }
-        toast.error(
-          <text id="toastMsg">{errorMessage}</text>
-        );
+        toast.error(<text id="toastMsg">{errorMessage}</text>);
       }
     } else {
-      toast.error(
-        <text id="toastMsg">{validateFields().text}</text>
-      );
+      toast.error(<text id="toastMsg">{validateFields().text}</text>);
     }
   };
 
@@ -94,7 +96,7 @@ function ForgottenPassword() {
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
-            className="px-4 py-1 mb-2"
+            className="px-4 py-1 mb-2 inputPerson"
             placeholder="Insira seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

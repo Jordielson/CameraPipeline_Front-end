@@ -171,7 +171,7 @@ function ModalCamera(props) {
             >
               <Form.Label className="mb-0">Nome</Form.Label>
               <Form.Control
-                className="px-3 py-1"
+                className="px-3 py-1 inputPerson"
                 value={name}
                 type="text"
                 placeholder="Camera 01..."
@@ -190,7 +190,7 @@ function ModalCamera(props) {
             >
               <Form.Label className="mb-0">URL</Form.Label>
               <Form.Control
-                className="px-3 py-1"
+                className="px-3 py-1 inputPerson"
                 type="text"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -247,14 +247,14 @@ function ModalCamera(props) {
                 </Form.Label>
                 <div className="d-flex justify-content-around">
                   <Form.Control
-                    className="px-3 py-1 me-3"
+                    className="px-3 py-1 me-3 inputPerson"
                     type="number"
                     placeholder="Latitude"
                     value={latitude}
                     onChange={(e) => setLatitude(e.target.value)}
                   />
                   <Form.Control
-                    className="px-3 py-1"
+                    className="px-3 py-1 inputPerson"
                     type="number"
                     placeholder="Longitude"
                     value={longitude}
@@ -269,7 +269,7 @@ function ModalCamera(props) {
             >
               <Form.Label className="mb-0">Limitador de FPS</Form.Label>
               <Form.Control
-                className="px-3 py-1"
+                className="px-3 py-1 inputPerson"
                 type="number"
                 value={fpsLimiter}
                 onChange={(e) => setFpsLimiter(e.target.value)}

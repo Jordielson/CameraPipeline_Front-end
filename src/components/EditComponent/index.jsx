@@ -366,16 +366,8 @@ function EditComponent(props) {
                     type="file"
                     size="sm"
                     accept={props.format}
-                    className={Styles.input}
+                    className={Styles.input + " inputPerson"}
                     onChange={(e) => handleImage(e)}
-                  />
-                  ou insira o URL do conteúdo
-                  <Form.Control
-                    className={Styles.input}
-                    size="sm"
-                    type="text"
-                    placeholder="URL"
-                    onChange={(e) => handleUrl(e)}
                   />
                 </>
               ) : (

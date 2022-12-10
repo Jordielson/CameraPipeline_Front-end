@@ -75,7 +75,7 @@ function FormLogin() {
           >
             <Form.Label className="mb-0">E-mail</Form.Label>
             <Form.Control
-              className="px-4 py-1"
+              className="px-4 py-1 inputPerson"
               placeholder="Insira seu email..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -92,7 +92,7 @@ function FormLogin() {
           >
             <Form.Label className="mb-0">Senha</Form.Label>
             <Form.Control
-              className="px-4 py-1"
+              className="px-4 py-1 inputPerson"
               type="password"
               placeholder="Insira sua senha,,,"
               value={password}
