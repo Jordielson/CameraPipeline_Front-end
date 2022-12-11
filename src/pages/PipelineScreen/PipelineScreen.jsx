@@ -267,12 +267,12 @@ function PipelineScreen() {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
       setActiveSearchPipeline(false);
-      response.content.forEach((element) => {
+      response.content.forEach(async (element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
           setLoading2(true);
 
-          generateContent(element.id);
+          await generateContent(element.id);
 
           setLoading2(false);
         }

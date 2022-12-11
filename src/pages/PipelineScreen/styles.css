@@ -461,7 +461,7 @@ menu button:hover span:last-of-type {
   z-index: 0;
 }
 .imgpreview {
-  position: absolute;
+  position: relative;
 }
 .view-image {
   position: relative;
@@ -469,11 +469,11 @@ menu button:hover span:last-of-type {
   justify-content: center;
   align-items: center;
   z-index: 1;
-  width: 94%;
-  height: 290px;
+  width: 100%;
+  height: auto;
   background: black;
   border-radius: 5px;
 }
 .background-video {
-  width: 106%;
+  width: 100%;
 }
