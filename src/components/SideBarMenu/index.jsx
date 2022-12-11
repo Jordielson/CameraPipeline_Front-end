@@ -48,8 +48,7 @@ function SidebarMenu(props) {
               />{" "}
               <h5>Câmera Pipeline</h5>
             </div>
-            <div className="px-2 d-flex flex-row align-items-center pr-2">
-              <div className="px-1"></div>
+            <div className="d-flex">
               <span className="email">{localStorage.getItem("login")}</span>
             </div>
             <ul className="list-unstyled components">
@@ -72,25 +71,19 @@ function SidebarMenu(props) {
                 </a>
                 <li className="submenu" id="submenu">
                   <a
-                    onClick={(e) =>
-                      navigate("../processar-imagem")
-                    }
+                    onClick={(e) => navigate("../processar-imagem")}
                     className="submenu-list pointer"
                   >
                     Imagem
                   </a>
                   <a
-                    onClick={(e) =>
-                      navigate("../processar-video")
-                    }
+                    onClick={(e) => navigate("../processar-video")}
                     className="submenu-list pointer"
                   >
                     Video
                   </a>
                   <a
-                    onClick={(e) =>
-                      navigate("../processar-camera")
-                    }
+                    onClick={(e) => navigate("../processar-camera")}
                     className="submenu-list pointer"
                   >
                     Camera
@@ -98,51 +91,30 @@ function SidebarMenu(props) {
                 </li>
               </li>
               <li className="pipelines pointer">
-                <a
-                  onClick={(e) =>
-                    navigate("../pipeline-home")
-                  }
-                >
-                  Pipelines
-                </a>
+                <a onClick={(e) => navigate("../pipeline-home")}>Pipelines</a>
               </li>
               <li className="camera pointer">
-                <a onClick={(e) => navigate("../camera")}>
-                  Câmeras
-                </a>
+                <a onClick={(e) => navigate("../camera")}>Câmeras</a>
               </li>
               <li className="servico pointer">
-                <a onClick={(e) => navigate("../servico")}>
-                  Serviços
-                </a>
+                <a onClick={(e) => navigate("../servico")}>Serviços</a>
               </li>
               <li className="change-password pointer">
-                <a
-                  onClick={(e) =>
-                    navigate("../alterar-senha")
-                  }
-                >
+                <a onClick={(e) => navigate("../alterar-senha")}>
                   Alterar senha
                 </a>
               </li>
               <li className="guia pointer">
-                <a
-                  onClick={(e) => navigate("../user-guide")}
-                >
-                  Guia
-                </a>
+                <a onClick={(e) => navigate("../user-guide")}>Guia</a>
               </li>
             </ul>
           </div>
 
           <div className="account">
-            {/* <div>
-              <span>{localStorage.getItem("login")}</span>
-            </div> */}
             <div>
               <a className="logout pointer" onClick={(e) => logOut()}>
                 <IoIosLogOut />
-                sair
+                Sair
               </a>
             </div>
           </div>

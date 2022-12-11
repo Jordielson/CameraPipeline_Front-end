@@ -25,6 +25,7 @@ a:focus {
   max-width: 225px;
   font-weight: 500;
   overflow-wrap: break-word;
+  margin-left: 10px;
 }
 
 #sidebar {
@@ -125,8 +126,7 @@ a.article:hover {
 .account {
   height: 10vh;
   display: flex;
-  padding: 20px;
-  justify-content: space-between;
+  padding: 10px;
 }
 span {
   font-size: large;

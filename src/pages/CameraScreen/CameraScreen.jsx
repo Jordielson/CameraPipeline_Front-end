@@ -206,7 +206,7 @@ function CameraScreen() {
                   <button
                     id="button-add-camera"
                     type="button"
-                    className="btn btn-outline-secondary d-flex justify-content-between btn-add-camera"
+                    className="btn btn-outline-secondary d-flex justify-content-between btn-add-camera button-default"
                     onClick={() => showModal({}, TypeModal.Form)}
                   >
                     Adicionar câmera

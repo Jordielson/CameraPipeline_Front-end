@@ -232,7 +232,7 @@ function PipelineScreen() {
 
     if (location.state) {
       setPipeline(location.state.pipeline);
-      generateContent(location.state.pipeline.id)
+      generateContent(location.state.pipeline)
       // let novoEstado = Object.assign({}, location.state.pipeline);
       // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
       // console.log(novoEstado.pdilist);
@@ -268,7 +268,7 @@ function PipelineScreen() {
       response.content.forEach((element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
-          generateContent(element.id)
+          generateContent(element)
         }
       });
     } catch (error) {
@@ -514,16 +514,23 @@ function PipelineScreen() {
     // }
   };
 
-  async function generateContent(pipelineId) {
+  async function generateContent(pipeline) {
     let imageObj;
     await fetch(ImageTest)
       .then((res) => res.blob())
       .then((blob) => imageObj = blob);
     const data = new FormData();
     data.append("image", imageObj);
-    data.append("pipeline", pipelineId);
-    const returnedImage = await ImageService.generateImage(data);
-    setgeneratedImageUrl(returnedImage.url);
+    data.append("pipeline", pipeline.id);
+    try {
+      const returnedImage = await ImageService.generateImage(data);
+      setgeneratedImageUrl(returnedImage.url);
+    } catch (error) {
+      setgeneratedImageUrl(ImageTest);
+      if(pipeline.pdilist.length > 0){
+        toast.error(<span id="toastMsg">Acorreu um erro ao gerar um resultado</span>);
+      }
+    }
   }
 
   return (
@@ -625,14 +632,14 @@ function PipelineScreen() {
                   </a>
                   <a
                     type="button"
-                    className="btn btn-light btn-sm btn-excluir"
+                    className="btn btn-light btn-sm btn-excluir button-default"
                     onClick={() => setShowConfirmation(true)}
                   >
                     Excluir
                   </a>
                   <button
                     type="button"
-                    className="btn save-btn btn-sm "
+                    className="btn save-btn btn-sm button-default"
                     onClick={updatePipeline}
                   >
                     Salvar

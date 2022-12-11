@@ -317,7 +317,7 @@ function PDIScreen() {
                     NOVO
                   </button> */}
                   <button
-                    className="btn btn-outline-secondary addpdi no-shadow"
+                    className="btn btn-outline-secondary addpdi no-shadow button-default"
                     type="button"
                     id="button-addon2"
                     onClick={handleShow}

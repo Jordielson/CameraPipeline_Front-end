@@ -87,7 +87,9 @@ export default function PipelinesHomeScreen() {
   };
 
   useEffect(() => {
+    console.log(info)
     info ? deletePipeline() : setInfo(false);
+    setInfo(false)
   }, [info]);
 
   const deletePipeline = async () => {
@@ -173,7 +175,7 @@ export default function PipelinesHomeScreen() {
                       setShowNewPipelineModal(true);
                     }}
                     role="button"
-                    className="btn btn-color"
+                    className="btn btn-color button-default"
                   >
                     Criar nova
                   </span>
