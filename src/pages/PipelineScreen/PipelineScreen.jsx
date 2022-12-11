@@ -20,6 +20,7 @@ import { Form } from "react-bootstrap";
 import ValueParameterService from "../../services/value_parameter";
 import ImageTest from "../../images/image-test.jpg";
 import ImageService from "../../services/image";
+import logo2 from "../../assets/Pulse-1s-200px.svg";
 
 const pipelineEmpty = {
   id: 0,
@@ -80,6 +81,7 @@ function PipelineScreen() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [info, setInfo] = useState(false);
   const [generatedImageUrl, setgeneratedImageUrl] = useState();
+  const [loading2, setLoading2] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -265,10 +267,14 @@ function PipelineScreen() {
       const response = await PipelineService.getAll();
       setPipelineList(response.content);
       setActiveSearchPipeline(false);
-      response.content.forEach((element) => {
+      response.content.forEach(async (element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
-          generateContent(element)
+          setLoading2(true);
+
+          await generateContent(element);
+
+          setLoading2(false);
         }
       });
     } catch (error) {
@@ -518,7 +524,7 @@ function PipelineScreen() {
     let imageObj;
     await fetch(ImageTest)
       .then((res) => res.blob())
-      .then((blob) => imageObj = blob);
+      .then((blob) => (imageObj = blob));
     const data = new FormData();
     data.append("image", imageObj);
     data.append("pipeline", pipeline.id);
@@ -679,15 +685,21 @@ function PipelineScreen() {
                       /> */}
                       <div className="view-image">
                         <img
+                          className="imgpreview"
                           id="image-test"
                           src={generatedImageUrl}
                           alt="imagem de teste"
                         />
+                        {loading2 && (
+                          <div className="loadpreview">
+                            <img src={logo2} alt="Carregando..." className="" />
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <span className="warning d-flex justify-content-center mb-2">
+                    {/* <span className="warning d-flex justify-content-center mb-2">
                       esta imagem é uma pré-visualização da pipeline
-                    </span>
+                    </span> */}
                   </div>
                   <Accordion
                     defaultActiveKey={["0"]}

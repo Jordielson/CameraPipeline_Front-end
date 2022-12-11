@@ -87,7 +87,6 @@ export default function PipelinesHomeScreen() {
   };
 
   useEffect(() => {
-    console.log(info)
     info ? deletePipeline() : setInfo(false);
     setInfo(false)
   }, [info]);
