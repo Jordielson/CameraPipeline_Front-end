@@ -29,13 +29,6 @@
 .row-body {
 }
 
-.view-image {
-  width: 94%;
-  height: 165px;
-  background: black;
-  border-radius: 5px;
-}
-
 img#image-test {
   width: 100%;
   height: 100%;
@@ -203,9 +196,6 @@ i:hover {
   align-items: center;
 }
 
-.background-video {
-  width: 106%;
-}
 .ab {
   padding: 0;
 }
@@ -465,4 +455,25 @@ menu button:hover span:last-of-type {
   color: rgb(45, 45, 66);
   cursor: pointer;
   text-decoration: underline;
+}
+.loadpreview {
+  position: absolute;
+  z-index: 0;
+}
+.imgpreview {
+  position: absolute;
+}
+.view-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  width: 94%;
+  height: 290px;
+  background: black;
+  border-radius: 5px;
+}
+.background-video {
+  width: 106%;
 }

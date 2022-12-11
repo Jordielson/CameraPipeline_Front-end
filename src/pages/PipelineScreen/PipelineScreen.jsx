@@ -20,6 +20,7 @@ import { Form } from "react-bootstrap";
 import ValueParameterService from "../../services/value_parameter";
 import ImageTest from "../../images/image-test.jpg";
 import ImageService from "../../services/image";
+import logo2 from "../../assets/Pulse-1s-200px.svg";
 
 const pipelineEmpty = {
   id: 0,
@@ -80,6 +81,7 @@ function PipelineScreen() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [info, setInfo] = useState(false);
   const [generatedImageUrl, setgeneratedImageUrl] = useState();
+  const [loading2, setLoading2] = useState(false);
 
   function Adicionar(props) {
     return (
@@ -232,7 +234,7 @@ function PipelineScreen() {
 
     if (location.state) {
       setPipeline(location.state.pipeline);
-      generateContent(location.state.pipeline.id)
+      generateContent(location.state.pipeline.id);
       // let novoEstado = Object.assign({}, location.state.pipeline);
       // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
       // console.log(novoEstado.pdilist);
@@ -268,7 +270,11 @@ function PipelineScreen() {
       response.content.forEach((element) => {
         if (element.id === pipeline.id) {
           setPipeline(element);
-          generateContent(element.id)
+          setLoading2(true);
+
+          generateContent(element.id);
+
+          setLoading2(false);
         }
       });
     } catch (error) {
@@ -518,11 +524,13 @@ function PipelineScreen() {
     let imageObj;
     await fetch(ImageTest)
       .then((res) => res.blob())
-      .then((blob) => imageObj = blob);
+      .then((blob) => (imageObj = blob));
     const data = new FormData();
     data.append("image", imageObj);
     data.append("pipeline", pipelineId);
+
     const returnedImage = await ImageService.generateImage(data);
+
     setgeneratedImageUrl(returnedImage.url);
   }
 
@@ -672,15 +680,21 @@ function PipelineScreen() {
                       /> */}
                       <div className="view-image">
                         <img
+                          className="imgpreview"
                           id="image-test"
                           src={generatedImageUrl}
                           alt="imagem de teste"
                         />
+                        {loading2 && (
+                          <div className="loadpreview">
+                            <img src={logo2} alt="Carregando..." className="" />
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <span className="warning d-flex justify-content-center mb-2">
+                    {/* <span className="warning d-flex justify-content-center mb-2">
                       esta imagem é uma pré-visualização da pipeline
-                    </span>
+                    </span> */}
                   </div>
                   <Accordion
                     defaultActiveKey={["0"]}
