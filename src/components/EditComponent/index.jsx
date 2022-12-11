@@ -63,7 +63,7 @@ function EditComponent(props) {
       }
     } else {
       toast.error(
-        <span>Selecione um(a) {props.type} antes de prosseguir</span>,
+        <span id="toastMsg" >Selecione um(a) {props.type} antes de prosseguir</span>,
         {
           position: "top-right",
           autoClose: 3000,
