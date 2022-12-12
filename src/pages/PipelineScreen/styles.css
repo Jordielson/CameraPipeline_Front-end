@@ -220,10 +220,10 @@ i:hover {
   padding: 0;
 }
 
- .container-input-search {
+.container-input-search {
   width: 100%;
   height: 100%;
- }
+}
 
 .input-search {
   height: 100%;
@@ -465,7 +465,7 @@ menu button:hover span:last-of-type {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 @media screen and (max-width: 1200px) {
   .warning {
@@ -506,4 +506,21 @@ menu button:hover span:last-of-type {
 }
 .background-video {
   width: 100%;
+}
+.editinputname {
+  /* font-size: 25px; */
+}
+.nofocusinput {
+  background-color: transparent !important;
+  /* font-size: medium; */
+  border: none;
+  color: #fff;
+  margin-bottom: 0.29rem;
+  margin-top: 0.29rem;
+}
+.nofocusinput:focus {
+  background-color: #fff !important;
+}
+.pipeline-contentbar {
+  margin-bottom: 0.5rem;
 }

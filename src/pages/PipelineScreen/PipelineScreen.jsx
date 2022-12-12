@@ -80,7 +80,7 @@ function PipelineScreen() {
   const [activeSearchPipeline, setActiveSearchPipeline] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [info, setInfo] = useState(false);
-  const [generatedImageUrl, setgeneratedImageUrl] = useState();
+  const [generatedImageUrl, setgeneratedImageUrl] = useState(ImageTest);
   const [loading2, setLoading2] = useState(false);
 
   function Adicionar(props) {
@@ -528,6 +528,7 @@ function PipelineScreen() {
     const data = new FormData();
     data.append("image", imageObj);
     data.append("pipeline", pipeline.id);
+
     try {
       const returnedImage = await ImageService.generateImage(data);
       setgeneratedImageUrl(returnedImage.url);
@@ -548,7 +549,7 @@ function PipelineScreen() {
           <SidebarMenu page="pipeline" />
         </div>
         <div className="content-body">
-          <div className="sticky-top contentbar">
+          <div className="sticky-top contentbar pipeline-contentbar ">
             <nav
               className={
                 pipelineList.length > 0
@@ -569,10 +570,10 @@ function PipelineScreen() {
                 <div className="d-flex align-items-center">
                   <label
                     htmlFor="pipeline-name"
-                    className={"editname fa-solid fa-pen-to-square"}
+                    className={"editinputname fa-solid fa-pen-to-square"}
                   />
                   <Form.Control
-                    className="input-custom mx-2"
+                    className="input-custom nofocusinput mx-2"
                     id="pipeline-name"
                     size="sm"
                     defaultValue={pipeline.name}
