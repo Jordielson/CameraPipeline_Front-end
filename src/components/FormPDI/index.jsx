@@ -136,11 +136,11 @@ function FormPDI(props) {
       setDuplicatedParam("*Há parâmetros com nome Repetido: " + e);
 
       if (e == "emptyparam") {
-        setDuplicatedParam("*Há parametros vazios");
+        setDuplicatedParam("*Há parâmetros vazios");
       } else if (e == "emptyUrl") {
         setDuplicatedParam("*Insira o Url");
       } else if (e == "emptyPdi") {
-        setDuplicatedParam("*Não há parametros");
+        setDuplicatedParam("*Não há parâmetros");
       } else if (e == "emptyName") {
         setDuplicatedParam("Insira o NOME do serviço");
       } else if (e == "nameExists") {
@@ -308,7 +308,7 @@ function FormPDI(props) {
                 <div className="card-body d-flex align-items-center">
                   <Form.Control
                     className="input-custom mx-1"
-                    placeholder="insira o nome do parametro"
+                    placeholder="insira o nome do parâmetro"
                     defaultValue={param.name}
                     id={param.index}
                     onChange={(e) => inputHandler(e)}
@@ -396,7 +396,7 @@ function FormPDI(props) {
               id="button-addon2"
               onClick={newParameterHandler}
             >
-              Novo Parametro
+              Novo Parâmetro
             </button>
           </div>
           <div className="col text-end">

@@ -299,7 +299,7 @@ function PipelineScreen() {
     } catch (error) {
       if (error == "requiredException") {
         toast.error(
-          <span id="toastMsg">parametros obrigatórios não preenchidos</span>
+          <span id="toastMsg">parâmetros obrigatórios não preenchidos</span>
         );
       } else {
       }
@@ -417,7 +417,7 @@ function PipelineScreen() {
     } catch (error) {
       if (error == "requiredException") {
         toast.error(
-          <span id="toastMsg">parametros obrigatórios não preenchidos</span>
+          <span id="toastMsg">parâmetros obrigatórios não preenchidos</span>
         );
       }
     }
@@ -728,7 +728,7 @@ function PipelineScreen() {
                             <input
                               type="text"
                               className="form-control form-input-pdi input-search"
-                              placeholder="pesquisar serviço"
+                              placeholder="Pesquisar serviço"
                               value={pdiQuery}
                               onChange={(e) => setPdiQuery(e.target.value)}
                               onKeyDown={searchPdi}
