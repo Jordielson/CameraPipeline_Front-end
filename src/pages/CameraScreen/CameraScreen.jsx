@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import PaginationComponent from "../../components/PaginationComponent";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
@@ -23,6 +24,9 @@ function CameraScreen() {
   const [currentListPage, setCurrentListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [cameraDelete, setCameraDelete] = useState({});
 
   useEffect(() => {
     fetchCameraList();
@@ -115,6 +119,11 @@ function CameraScreen() {
     }
   }
 
+  useEffect(() => {
+    info ? deleteCamera() : setInfo(false);
+    setInfo(false);
+  }, [info]);
+
   const deleteCameraConfirm = async (cam) => {
     await toast.promise(CameraService.delete(cam), {
       pending: {
@@ -137,9 +146,9 @@ function CameraScreen() {
     fetchCameraList();
   };
 
-  const deleteCamera = async (cam) => {
+  const deleteCamera = async () => {
     try {
-      const response = await CameraService.verifyUsed({ id: cam.id });
+      const response = await CameraService.verifyUsed({ id: cameraDelete.id });
       if (response.valid) {
         await confirmAlert({
           customUI: ({ onClose }) => {
@@ -157,7 +166,7 @@ function CameraScreen() {
                   <button
                     className="btn btn-danger m-2"
                     onClick={() => {
-                      deleteCameraConfirm(cam);
+                      deleteCameraConfirm(cameraDelete);
                       onClose();
                     }}
                   >
@@ -170,7 +179,7 @@ function CameraScreen() {
           overlayClassName: "overlay",
         });
       } else {
-        deleteCameraConfirm(cam);
+        deleteCameraConfirm(cameraDelete);
       }
     } catch (error) {
       toast.error(<text id="toastMsg">Não foi remover possível a camera</text>);
@@ -252,7 +261,10 @@ function CameraScreen() {
                       className={"camera-list-trash fa-solid fa-trash "}
                       title="EXCLUIR"
                       id={camera.id}
-                      onClick={() => deleteCamera(camera)}
+                      onClick={() => {
+                        setCameraDelete(camera);
+                        setShowConfirmation(true);
+                      }}
                     ></button>
                   </div>
                 </ListGroup.Item>
@@ -278,6 +290,12 @@ function CameraScreen() {
           camera={camera}
           updateData={fetchCameraList}
           type={typeModal}
+        />
+        <ConfirmationModal
+          show={showConfirmation}
+          onShowChange={setShowConfirmation}
+          info={setInfo}
+          title={"câmera"}
         />
       </div>
     </>

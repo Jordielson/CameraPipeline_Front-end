@@ -15,7 +15,7 @@ export default function ConfirmationModal(props) {
   return (
     <Modal show={props.show} onHide={handleShow}>
       <Modal.Header closeButton>
-        <Modal.Title>Excluir pipeline</Modal.Title>
+        <Modal.Title>Excluir {props.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         Tem certeza que deseja excluir o item selecionado?

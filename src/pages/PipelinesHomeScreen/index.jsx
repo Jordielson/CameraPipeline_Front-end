@@ -265,6 +265,7 @@ export default function PipelinesHomeScreen() {
         show={showConfirmation}
         onShowChange={setShowConfirmation}
         info={setInfo}
+        title={"pipeline"}
       />
     </>
   );

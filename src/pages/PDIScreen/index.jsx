@@ -8,6 +8,7 @@ import { ListGroup, Pagination } from "react-bootstrap";
 import PDIService from "./../../services/pdi";
 import { toast } from "react-toastify";
 import PaginationComponent from "../../components/PaginationComponent";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
@@ -120,10 +121,9 @@ function PDIScreen() {
   const [currentListPage, setCurrentListPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   console.log("salvo");
-  // }, [modelPDI]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [pdiDelete, setPdiDelete] = useState("");
 
   const handleClose = () => {
     setShow(false);
@@ -142,6 +142,11 @@ function PDIScreen() {
     });
     setShowEdit(true);
   };
+
+  useEffect(() => {
+    info ? deleteHandler() : setInfo(false);
+    setInfo(false);
+  }, [info]);
 
   async function deleteConfirm(e) {
     await toast.promise(PDIService.delete(e), {
@@ -164,9 +169,9 @@ function PDIScreen() {
     getPDIs();
   }
 
-  async function deleteHandler(e) {
+  async function deleteHandler() {
     try {
-      const response = await PDIService.verifyUsed({ id: e });
+      const response = await PDIService.verifyUsed({ id: pdiDelete });
 
       if (response.valid) {
         await confirmAlert({
@@ -185,7 +190,7 @@ function PDIScreen() {
                   <button
                     className="btn btn-danger m-2"
                     onClick={() => {
-                      deleteConfirm(e);
+                      deleteConfirm(pdiDelete);
                       onClose();
                     }}
                   >
@@ -198,7 +203,7 @@ function PDIScreen() {
           overlayClassName: "overlay",
         });
       } else {
-        deleteConfirm(e);
+        deleteConfirm(pdiDelete);
       }
     } catch (error) {
       toast.error(<text id="toastMsg">Não foi remover o serviço</text>);
@@ -353,8 +358,9 @@ function PDIScreen() {
                       className={"pdilist-trash fa-solid fa-trash "}
                       title="EXCLUIR"
                       id={pdi.id}
-                      onClick={(e) => {
-                        deleteHandler(pdi.id);
+                      onClick={() =>{
+                        setPdiDelete(pdi.id);
+                        setShowConfirmation(true);
                       }}
                     ></button>
                   </div>
@@ -398,6 +404,12 @@ function PDIScreen() {
             show={showEdit}
             hide={handleCloseEdit}
             obj={pdi}
+          />
+          <ConfirmationModal
+            show={showConfirmation}
+            onShowChange={setShowConfirmation}
+            info={setInfo}
+            title={"serviço"}
           />
         </div>
       </div>

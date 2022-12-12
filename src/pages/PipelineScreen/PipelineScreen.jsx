@@ -234,7 +234,7 @@ function PipelineScreen() {
 
     if (location.state) {
       setPipeline(location.state.pipeline);
-      generateContent(location.state.pipeline)
+      generateContent(location.state.pipeline);
       // let novoEstado = Object.assign({}, location.state.pipeline);
       // novoEstado.pdilist = novoEstado.pdilist.sort((a, b) => a.index - b.index);
       // console.log(novoEstado.pdilist);
@@ -247,6 +247,7 @@ function PipelineScreen() {
   const getPDIs = async () => {
     try {
       const response = await PDIService.getAll();
+      setPdiQuery("");
       setPdiList(response.content);
       setActiveSearchPdi(false);
     } catch (error) {
@@ -265,6 +266,7 @@ function PipelineScreen() {
   const getPipelines = async () => {
     try {
       const response = await PipelineService.getAll();
+      setPipelineQuery("");
       setPipelineList(response.content);
       setActiveSearchPipeline(false);
       response.content.forEach(async (element) => {
@@ -489,7 +491,6 @@ function PipelineScreen() {
       };
       try {
         const response = await PDIService.search(pdiName);
-        setPdiQuery("");
         setPdiList(response.content);
         setActiveSearchPdi(true);
       } catch (error) {
@@ -505,7 +506,6 @@ function PipelineScreen() {
       };
       try {
         const response = await PipelineService.search(pipelienName);
-        setPipelineQuery("");
         setPipelineList(response.content);
         setActiveSearchPipeline(true);
       } catch (error) {
@@ -533,8 +533,10 @@ function PipelineScreen() {
       setgeneratedImageUrl(returnedImage.url);
     } catch (error) {
       setgeneratedImageUrl(ImageTest);
-      if(pipeline.pdilist.length > 0){
-        toast.error(<span id="toastMsg">Acorreu um erro ao gerar um resultado</span>);
+      if (pipeline.pdilist.length > 0) {
+        toast.error(
+          <span id="toastMsg">Acorreu um erro ao gerar um resultado</span>
+        );
       }
     }
   }
@@ -564,17 +566,20 @@ function PipelineScreen() {
                 >
                   <AiOutlineLeft style={{ color: "white" }} title="voltar" />
                 </h6>
-                {pipelineList.length > 0 && (
-                  <input
-                    key={pipeline.id}
-                    type="text"
-                    onChange={(e) => handleNameChange(e.target.value)}
-                    value={pipeline.name}
-                    placeholder="Insira o nome da pipeline..."
-                    className="form-control-plaintext navbar-brand name-edit px-2"
-                    style={{ color: "white" }}
+                <div className="d-flex align-items-center">
+                  <label
+                    htmlFor="pipeline-name"
+                    className={"editname fa-solid fa-pen-to-square"}
                   />
-                )}
+                  <Form.Control
+                    className="input-custom mx-2"
+                    id="pipeline-name"
+                    size="sm"
+                    defaultValue={pipeline.name}
+                    placeholder={"Insira o nome da pipeline"}
+                    onChange={(e) => handleNameChange(e.target.value)}
+                  />
+                </div>
               </div>
 
               {/* <div className="grupo d-flex flex-row">
@@ -617,7 +622,7 @@ function PipelineScreen() {
                     style={{ display: "flex", marginRight: 15 }}
                   >
                     <Form.Check
-                      style={{ marginLeft: 6, marginTop: 4 }}
+                      style={{ marginLeft: 6, marginTop: 7 }}
                       label="Ativar/Desativar"
                       role="button"
                       type="switch"
@@ -707,46 +712,53 @@ function PipelineScreen() {
                     className="accordeon-pdi"
                   >
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header className="">
+                      <Accordion.Header>
                         <div className="acordeon-header">
                           <span className="pdispan">Serviço</span>
                         </div>
                       </Accordion.Header>
                       <Accordion.Body className="ab">
-                        <div className="">
-                          <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
-
-                          <input
-                            type="text"
-                            className="form-control form-input-pdi acordeon-header-width "
-                            placeholder="pesquisar serviço"
-                            value={pdiQuery}
-                            onChange={(e) => setPdiQuery(e.target.value)}
-                            onKeyDown={searchPdi}
-                          />
-                        </div>
-                        {activeSearchPdi && (
-                          <div className="show-results">
-                            <p onClick={(e) => getPDIs()}>
-                              mostrar todos os resultados
-                            </p>
-                          </div>
-                        )}
-                        <ul className="list-group list-group-pipeline">
+                        <ul className="list-group">
+                          <li
+                            className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between"
+                            style={{ padding: 8 }}
+                          >
+                            <div className="container-input-search">
+                              <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
+                              <input
+                                type="text"
+                                className="form-control form-input-pdi input-search"
+                                placeholder="pesquisar serviço"
+                                value={pdiQuery}
+                                onChange={(e) => setPdiQuery(e.target.value)}
+                                onKeyDown={searchPdi}
+                              />
+                            </div>
+                          </li>
+                          {activeSearchPdi && (
+                            <li className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between">
+                              <div className="show-results">
+                                <p onClick={(e) => getPDIs()}>
+                                  mostrar todos os resultados
+                                </p>
+                              </div>
+                            </li>
+                          )}
                           {modelPDI.map((pipe) => {
                             return (
-                              <button
-                                className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                              <li
+                                role="button"
+                                className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between"
                                 id={pipe.id}
                                 key={pipe.id}
                                 onClick={(e) => addPDI(e.target.id)}
                                 title={
-                                  pipe.description + " [CLIQUE PARA ADICIONAR]"
+                                  pipe.description + "[CLIQUE PARA ADICIONAR]"
                                 }
                               >
                                 {pipe.name}
                                 <Adicionar id={pipe.id} text={show} />
-                              </button>
+                              </li>
                             );
                           })}
                         </ul>
@@ -759,39 +771,48 @@ function PipelineScreen() {
                         </div>
                       </Accordion.Header>
                       <Accordion.Body className="ab">
-                        <div className="">
-                          <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
-
-                          <input
-                            type="text"
-                            className="form-control form-input-pdi acordeon-header-width "
-                            placeholder="pesquisar pipeline"
-                            value={pipelineQuery}
-                            onChange={(e) => setPipelineQuery(e.target.value)}
-                            onKeyDown={searchPipeline}
-                          />
-                        </div>
-                        {activeSearchPipeline && (
-                          <div className="show-results">
-                            <p onClick={(e) => getPipelines()}>
-                              mostrar todos os resultados
-                            </p>
-                          </div>
-                        )}
-                        <ul className="list-group list-group-pipeline">
+                        <ul className="list-group">
+                          <li
+                            className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between"
+                            style={{ padding: 8 }}
+                          >
+                            <div className="container-input-search">
+                              <span className="fa fa-search fa-sm form-control-pdi icon-search"></span>
+                              <input
+                                type="text"
+                                className="form-control form-input-pdi input-search"
+                                placeholder="pesquisar pipeline"
+                                value={pipelineQuery}
+                                onChange={(e) =>
+                                  setPipelineQuery(e.target.value)
+                                }
+                                onKeyDown={searchPipeline}
+                              />
+                            </div>
+                          </li>
+                          {activeSearchPipeline && (
+                            <li className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between">
+                              <div className="show-results">
+                                <p onClick={(e) => getPipelines()}>
+                                  mostrar todos os resultados
+                                </p>
+                              </div>
+                            </li>
+                          )}
                           {pipelineList.map((pipe) => {
                             return (
                               <>
                                 {pipe.id !== pipeline.id ? (
-                                  <button
-                                    className="list-button list-group-item list-group-item-action py-2 w-full d-flex flex-row justify-content-between"
+                                  <li
+                                    role="button"
+                                    className="rounded-0 list-button list-group-item list-group-item-action py-2 d-flex flex-row justify-content-between"
                                     id={pipe.id}
                                     key={pipe.id}
                                     onClick={(e) => addPipeline(e.target.id)}
                                   >
                                     {pipe.name}
                                     <Adicionar id={pipe.id} text={show} />
-                                  </button>
+                                  </li>
                                 ) : null}
                               </>
                             );
