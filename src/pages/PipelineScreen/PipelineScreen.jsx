@@ -94,6 +94,10 @@ function PipelineScreen() {
   function removePipeline(e) {
     var count = 0;
     pipeline.pdilist.map((pipe) => {
+      const index = pipe.children.indexOf(Number(e.target.id));
+      if (index > -1) {
+        pipe.children.splice(index, 1);
+      }
       if (pipe.index == e.target.id && count == 0) {
         var indice = pipeline.pdilist.findIndex(function (obj) {
           return obj.index == e.target.id;
@@ -552,9 +556,7 @@ function PipelineScreen() {
           <div className="sticky-top contentbar pipeline-contentbar ">
             <nav
               className={
-                pipelineList.length > 0
-                  ? "navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 "
-                  : "navbar sticky-top navbar-light d-flex flex-row justify-content-center px-3 "
+                "navbar sticky-top navbar-light d-flex flex-row justify-content-between px-3 "
               }
             >
               <div className="pipeline-name d-flex">
@@ -616,7 +618,6 @@ function PipelineScreen() {
                   </button>
                 </div>
               </div> */}
-              {pipelineList.length > 0 && (
                 <div className="pipeline-save d-flex justify-content-end">
                   <div
                     className="switch"
@@ -657,10 +658,8 @@ function PipelineScreen() {
                     Salvar
                   </button>
                 </div>
-              )}
             </nav>
           </div>
-          {pipelineList.length > 0 ? (
             <div className="container-fluid container-body">
               <div className="row row-body">
                 <div className="col-4 b1 py-2">
@@ -984,14 +983,6 @@ function PipelineScreen() {
                 </div>
               </div>
             </div>
-          ) : (
-            // <div className="empty-pipeline">
-            //   <h1> Carregando pipeline... </h1>
-            // </div>
-            <Box sx={{ width: "100%" }}>
-              <LinearProgress />
-            </Box>
-          )}
         </div>
       </div>
       <ConfirmationModal
