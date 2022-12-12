@@ -1,20 +1,30 @@
-.containerFlowButtons {
-  display: flex;
-  height: 32px;
-  background-color: #fff;
-}
-
-.saveButton {
+.back {
   position: absolute;
-  right: 1rem; 
-  z-index: 1;
+  background-color: #2a233c;
+  /* background-color: #ff0072 !important; */
+
+  cursor: pointer;
+  z-index: 4 !important;
+  /* z-index: 0; */
+}
+.btn {
+  position: absolute;
+  right: 1rem;
+  z-index: 4;
+}
+.back:hover {
+  background-color: #4f4366 !important;
 }
 
-.closeButton {
-  position: relative;
-  left: 1rem; 
-  color: red;
-}
+/* .position {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+ 
+} */
 
 .edgebutton {
   display: flex;
@@ -46,4 +56,6 @@
 }
 .reactflow a {
   display: none;
+}
+.reactflow {
 }

@@ -451,29 +451,6 @@ function FlowScreen() {
     <div className="content">
       <SidebarMenu page={"pipeline"} />
       <div className="content-body">
-        <div className={Styles.containerFlowButtons}>
-          <div className={Styles.closeButton}>
-            <button
-              onClick={() =>
-                navigate("../pipeline", {
-                  replace: true,
-                  state: { pipeline },
-                })
-              }
-              className="btn btn-secondary button-default"
-            >
-              Fechar
-            </button>
-          </div>
-          <div className={Styles.saveButton}>
-            <button
-              className="btn btn-color button-default"
-              onClick={(e) => handleSave()}
-            >
-              Salvar
-            </button>
-          </div>
-        </div>
         <ReactFlow
           style={reactFlowStyle}
           nodes={nodes}
@@ -487,24 +464,28 @@ function FlowScreen() {
           attributionPosition="top-right"
           className={Styles.reactflow}
         >
-          <MiniMap
-            nodeStrokeColor={(n) => {
-              if (n.style?.background) return n.style.background;
-              if (n.type === "input") return "#0041d0";
-              if (n.type === "output") return "#ff0072";
-              if (n.type === "default") return "#1a192b";
-
-              return "#eee";
-            }}
-            nodeColor={(n) => {
-              if (n.style?.background) return n.style.background;
-
-              return "#fff";
-            }}
-            nodeBorderRadius={2}
-          />
+          <MiniMap />
           <Controls />
           <Background color="#aaa" gap={16} />
+          <div className={Styles.position + " p-3"}>
+            <button
+              onClick={(e) =>
+                navigate("../pipeline", {
+                  replace: true,
+                  state: { pipeline },
+                })
+              }
+              className={Styles.back + " btn btn-color"}
+            >
+              Fechar
+            </button>
+            <button
+              className={"btn btn-color " + Styles.btn}
+              onClick={(e) => handleSave()}
+            >
+              Salvar
+            </button>
+          </div>
         </ReactFlow>
       </div>
     </div>
