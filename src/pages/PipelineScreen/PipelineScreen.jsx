@@ -93,11 +93,12 @@ function PipelineScreen() {
 
   function removePipeline(e) {
     var count = 0;
-    pipeline.pdilist.map((pipe) => {
-      const index = pipe.children.indexOf(Number(e.target.id));
-      if (index > -1) {
-        pipe.children.splice(index, 1);
-      }
+    pipeline.pdilist.map(async (pipe) => {
+      await Promise.all(pipe.children.map((child, index) => {
+        if(child == e.target.id) {
+          pipe.children.splice(index, 1);
+        }
+      }));
       if (pipe.index == e.target.id && count == 0) {
         var indice = pipeline.pdilist.findIndex(function (obj) {
           return obj.index == e.target.id;
@@ -143,6 +144,7 @@ function PipelineScreen() {
           index: getIndex(),
           digitalProcess: pdi,
           valueParameters: valueParameter,
+          children: [],
         };
 
         pipeline.pdilist.push(newPdi);
@@ -391,7 +393,7 @@ function PipelineScreen() {
           );
         })
       );
-
+      console.log(pipeline);
       const response = await toast.promise(PipelineService.update(pipeline), {
         pending: {
           render({ data }) {
