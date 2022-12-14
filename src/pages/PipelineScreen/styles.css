@@ -491,18 +491,22 @@ menu button:hover span:last-of-type {
   z-index: 0;
 }
 .imgpreview {
-  position: relative;
+  /* position: relative; */
+  /* width: 99% !important; */
+  border-radius: 0 0 5px 5px !important;
 }
 .view-image {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1;
   width: 100%;
   height: auto;
-  background: black;
+  background: rgb(211, 211, 211);
   border-radius: 5px;
+  /* border-radius: 0 0 5px 5px; */
 }
 .background-video {
   width: 100%;
@@ -523,4 +527,18 @@ menu button:hover span:last-of-type {
 }
 .pipeline-contentbar {
   margin-bottom: 0.5rem;
+}
+
+.divpreview {
+  background-color: #2a233c;
+  color: #fff;
+
+  /* background-color: #fff;
+  color: #2a233c; */
+
+  padding-left: 1.2rem;
+  width: 100%;
+  font-size: large;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: 1px solid #f1f1f1;
 }

@@ -94,11 +94,13 @@ function PipelineScreen() {
   function removePipeline(e) {
     var count = 0;
     pipeline.pdilist.map(async (pipe) => {
-      await Promise.all(pipe.children.map((child, index) => {
-        if(child == e.target.id) {
-          pipe.children.splice(index, 1);
-        }
-      }));
+      await Promise.all(
+        pipe.children.map((child, index) => {
+          if (child == e.target.id) {
+            pipe.children.splice(index, 1);
+          }
+        })
+      );
       if (pipe.index == e.target.id && count == 0) {
         var indice = pipeline.pdilist.findIndex(function (obj) {
           return obj.index == e.target.id;
@@ -541,8 +543,24 @@ function PipelineScreen() {
     } catch (error) {
       setgeneratedImageUrl(ImageTest);
       if (pipeline.pdilist.length > 0) {
-        toast.error(
-          <span id="toastMsg">Acorreu um erro ao gerar um resultado</span>
+        toast.warning(
+          <span
+            id="toastMsg"
+            title="talvez a API esteja desativada ou inacessível"
+          >
+            Nào foi possivel renderizar a pré-visualização
+          </span>,
+          {
+            position: "top-center",
+            autoClose: 3000,
+
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
         );
       }
     }
@@ -691,6 +709,7 @@ function PipelineScreen() {
                         width="94%"
                       /> */}
                     <div className="view-image">
+                      <div className="divpreview py-2">Preview da pipeline</div>
                       <img
                         className="imgpreview"
                         id="image-test"

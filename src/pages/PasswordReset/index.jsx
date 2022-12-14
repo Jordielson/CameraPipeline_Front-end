@@ -76,7 +76,7 @@ function PasswordReset() {
               "a um erro interno, tente novamente mais tarde.";
             break;
           default:
-            errorMessage = "Não foi possível alterar a senha";
+            errorMessage = "Não é possível alterar a senha para a senha atual";
             break;
         }
 

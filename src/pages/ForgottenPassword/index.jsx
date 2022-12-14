@@ -96,6 +96,8 @@ function ForgottenPassword() {
         <Form.Group className="mb-4 d-flex flex-column">
           <Form.Label className="mb-0">Email</Form.Label>
           <Form.Control
+            id="formBasicEmail"
+            type="email"
             className="px-4 py-1 mb-2 inputPerson"
             placeholder="Insira seu email"
             value={email}
