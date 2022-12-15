@@ -283,6 +283,7 @@ function EditComponent(props) {
     let fup = document.getElementById("content");
     let fileName = fup.value;
     let ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+    ext = ext.toLowerCase();
 
     console.log(ext, e);
     if (e == "imagem" && (ext == "jpeg" || ext == "png" || ext == "jpg")) {
