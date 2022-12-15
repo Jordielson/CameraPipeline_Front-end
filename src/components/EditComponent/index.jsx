@@ -280,13 +280,14 @@ function EditComponent(props) {
   }
 
   function checkFiles(e) {
-    var fup = document.getElementById("content");
-    var fileName = fup.value;
-    var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+    let fup = document.getElementById("content");
+    let fileName = fup.value;
+    let ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-    if ((e == "ïmagem" && ext == "jpeg") || ext == "png" || ext == "jpg") {
+    console.log(ext, e);
+    if (e == "imagem" && (ext == "jpeg" || ext == "png" || ext == "jpg")) {
       return true;
-    } else if ((e == "video" && ext == "mp4") || ext == "wmv" || ext == "gif") {
+    } else if (e == "video" && (ext == "mp4" || ext == "wmv" || ext == "gif")) {
       return true;
     } else {
       fup.value = null;
