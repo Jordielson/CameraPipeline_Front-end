@@ -63,7 +63,9 @@ function EditComponent(props) {
       }
     } else {
       toast.error(
-        <span id="toastMsg" >Selecione um(a) {props.type} antes de prosseguir</span>,
+        <span id="toastMsg">
+          Selecione um(a) {props.type} antes de prosseguir
+        </span>,
         {
           position: "top-right",
           autoClose: 3000,
@@ -277,11 +279,52 @@ function EditComponent(props) {
     setActiveStep((currentStep) => 0);
   }
 
+  function checkFiles(e) {
+    var fup = document.getElementById("content");
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+    if ((e == "ïmagem" && ext == "jpeg") || ext == "png" || ext == "jpg") {
+      return true;
+    } else if ((e == "video" && ext == "mp4") || ext == "wmv" || ext == "gif") {
+      return true;
+    } else {
+      fup.value = null;
+      return false;
+    }
+  }
+
   function handleImage(e) {
     if (props.type == "imagem") {
-      setImage(e.target.files[0]);
+      if (checkFiles("imagem")) {
+        setImage(e.target.files[0]);
+      } else {
+        toast.error(<span id="toastMsg">Formato de Imagem inválida</span>, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } else {
-      setVideo(e.target.files[0]);
+      if (checkFiles("video")) {
+        setVideo(e.target.files[0]);
+      } else {
+        toast.error(<span id="toastMsg">Formato de video inválido</span>, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   }
   function handleUrl(e) {
@@ -365,6 +408,7 @@ function EditComponent(props) {
                   <Form.Control
                     type="file"
                     size="sm"
+                    id="content"
                     accept={props.format}
                     className={Styles.input + " inputPerson"}
                     onChange={(e) => handleImage(e)}
