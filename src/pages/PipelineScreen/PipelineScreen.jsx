@@ -548,7 +548,7 @@ function PipelineScreen() {
             id="toastMsg"
             title="talvez a API esteja desativada ou inacessível"
           >
-            Nào foi possivel renderizar a pré-visualização
+            Não foi possivel renderizar a pré-visualização
           </span>,
           {
             position: "top-center",
