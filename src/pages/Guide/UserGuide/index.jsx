@@ -92,7 +92,7 @@ function UserGuideScreen() {
 
           {vision === 0 ? (
             <div className="vision">
-              <h4>Câmera Pipeline</h4>
+              <h4>Imagem Pipeline</h4>
               <br />
               {/* <p>
                 Bem-vindo ao Guia do CameraPipeline. Neste capítulo,
@@ -109,22 +109,18 @@ function UserGuideScreen() {
                 <p> demonstração de gif para o guia</p>
               </div> */}
               <p>
-                Câmera Pipeline é um sistema de gerenciamento de Processos de
-                Imagem (PDI) onde é possível criar requisições para APIs
+                Imagem Pipeline é um sistema de gerenciamento de Processos de
+                Imagem onde é possível criar requisições para APIs
                 externas que recebem imagens, parâmetros e retornam a imagem
                 processada, alem de poder montar uma pipeline que é uma
                 sequência de instruções para vários processos serem organizados
                 estratégicamente para obter a saída de imagem desejada.
               </p>
               <p>
-                No Câmera Pipeline, além de criar Pipelines, também é possível
+                No Imagem Pipeline, além de criar Pipelines, também é possível
                 aplicá-las em uma imagem, vídeo, ou câmera de segurança e
                 visualizar o processo desejado (ou baixar o arquivo em caso de
                 Imagem ou vídeo).
-              </p>
-              <p>
-                Tambem é possível visualizar os gráficos de gerenciamento e
-                consumo computacional da suas APIs utilizadas pelo serviço
               </p>
               <p>
                 Navegue pelas abas do guia para saber detalhadamente como

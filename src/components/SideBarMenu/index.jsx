@@ -46,7 +46,7 @@ function SidebarMenu(props) {
                 height="30"
                 className="d-inline-block align-top"
               />{" "}
-              <h5>Câmera Pipeline</h5>
+              <h5 className="tittle-sidebar">Imagem Pipeline</h5>
             </div>
             <div className="d-flex">
               <span className="email">{localStorage.getItem("login")}</span>

@@ -56,8 +56,14 @@ a:focus {
   margin-left: -250px;
 }
 
+.tittle-sidebar{
+  margin:0;
+}
+
 #sidebar .sidebar-header {
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
 }
 #sidebar .sidebar-header img {

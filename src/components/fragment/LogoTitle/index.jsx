@@ -21,7 +21,7 @@ function LogoTitle() {
               height="30"
               className="d-inline-block align-top"
             />{" "}
-            Câmera Pipeline
+            Imagem Pipeline
           </Navbar.Brand>
           <span className="guide login-guide" onClick={guidePage}>
             Guia
