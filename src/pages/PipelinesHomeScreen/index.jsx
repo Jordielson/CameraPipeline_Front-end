@@ -81,7 +81,7 @@ export default function PipelinesHomeScreen() {
       fetchPipelineList();
     } catch (error) {
       toast.error(
-        <text id="toastMsg">Não foi possível ativar/desativar a pipeline</text>
+        <text id="toastMsg">Não foi possível ativar/desativar o pipeline</text>
       );
     }
   };
@@ -188,7 +188,7 @@ export default function PipelinesHomeScreen() {
             </Box>
           )}
           <div className={Styles.labelMain}>
-            <label>Selecione uma pipeline</label>
+            <label>Selecione um pipeline</label>
           </div>
           <ListGroup className={"mx-4 mt-4 mb-1 " + Styles.listPipeline}>
             {pipelineList.map((pipeline) => {

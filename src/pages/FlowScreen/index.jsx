@@ -409,7 +409,7 @@ function FlowScreen() {
         },
         error: {
           render({ data }) {
-            return <span id="toastMsg">Erro ao tentar salvar a pipeline</span>;
+            return <span id="toastMsg">Erro ao tentar salvar o pipeline</span>;
           },
         },
       });

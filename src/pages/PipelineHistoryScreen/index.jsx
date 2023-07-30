@@ -65,7 +65,7 @@ function PipelineHistoryScreen() {
               "a um erro interno, tente novamente mais tarde";
             break;
           default:
-            errorMessage = "Não foi possível restaurar essa versão da pipeline";
+            errorMessage = "Não foi possível restaurar essa versão do pipeline";
             break;
         }
         toast.error(<text id="toastMsg">{errorMessage}</text>);
@@ -99,7 +99,7 @@ function PipelineHistoryScreen() {
             "a um erro interno, tente novamente mais tarde";
           break;
         default:
-          errorMessage = "Não foi possível renomear essa versão da pipeline";
+          errorMessage = "Não foi possível renomear essa versão do pipeline";
           break;
       }
       toast.error(<text id="toastMsg">{errorMessage}</text>);
@@ -125,7 +125,7 @@ function PipelineHistoryScreen() {
                   <AiOutlineLeft style={{ color: "white" }} title="voltar" />
                 </h6>
                 <a className="navbar-brand navbar-dark">
-                  Histórico da Pipeline
+                  Histórico do Pipeline
                 </a>
               </div>
               {/* <div className="d-flex flex-row align-items-center justify-content-end">

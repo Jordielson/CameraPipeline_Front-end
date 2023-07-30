@@ -206,8 +206,8 @@ function PipelineScreen() {
       } else {
         toast.error(
           <span id="toastMsg">
-            Erro de Loop - A pipeline {pipeline.name} já está sendo utilizada
-            por essa pipeline
+            Erro de Loop - O pipeline {pipeline.name} já está sendo utilizada
+            por esse pipeline
           </span>
         );
       }
@@ -410,7 +410,7 @@ function PipelineScreen() {
         },
         error: {
           render({ data }) {
-            return <span id="toastMsg">Erro ao tentar salvar a pipeline</span>;
+            return <span id="toastMsg">Erro ao tentar salvar o pipeline</span>;
           },
         },
       });
@@ -487,7 +487,7 @@ function PipelineScreen() {
       getPipelines();
     } catch (error) {
       toast.error(
-        <span id="toastMsg">Não foi possível ativar/desativar a pipeline</span>
+        <span id="toastMsg">Não foi possível ativar/desativar o pipeline</span>
       );
     }
   };
@@ -599,7 +599,7 @@ function PipelineScreen() {
                     id="pipeline-name"
                     size="sm"
                     defaultValue={pipeline.name}
-                    placeholder={"Insira o nome da pipeline"}
+                    placeholder={"Insira o nome do pipeline"}
                     onChange={(e) => handleNameChange(e.target.value)}
                   />
                 </div>
@@ -709,7 +709,7 @@ function PipelineScreen() {
                         width="94%"
                       /> */}
                     <div className="view-image">
-                      <div className="divpreview py-2">Preview da pipeline</div>
+                      <div className="divpreview py-2">Preview do pipeline</div>
                       <img
                         className="imgpreview"
                         id="image-test"
@@ -724,7 +724,7 @@ function PipelineScreen() {
                     </div>
                   </div>
                   {/* <span className="warning d-flex justify-content-center mb-2">
-                      esta imagem é uma pré-visualização da pipeline
+                      esta imagem é uma pré-visualização do pipeline
                     </span> */}
                 </div>
                 <Accordion
@@ -880,7 +880,7 @@ function PipelineScreen() {
 
                               <div className="card-button">
                                 <i
-                                  title="Remover serviço da pipeline"
+                                  title="Remover serviço do pipeline"
                                   id={pipe.index}
                                   onClick={(e) => {
                                     removePipeline(e);

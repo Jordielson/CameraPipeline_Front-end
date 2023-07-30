@@ -10,7 +10,7 @@ export const data = [
 ];
 
 export const options = {
-  title: "Novas pipelines criadas nos últimos dias",
+  title: "Novos pipelines criadas nos últimos dias",
   hAxis: { title: "Ultimos dias", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
   chartArea: { width: "50%", height: "70%" },

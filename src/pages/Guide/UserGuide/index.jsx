@@ -80,7 +80,7 @@ function UserGuideScreen() {
             </li>
             <li className="nav-item">
               <a id="opt3" className="nav-link" onClick={() => setVision(2)}>
-                Fluxo da pipeline
+                Fluxo do pipeline
               </a>
             </li>
             <li className="nav-item">
@@ -112,7 +112,7 @@ function UserGuideScreen() {
                 Imagem Pipeline é um sistema de gerenciamento de Processos de
                 Imagem onde é possível criar requisições para APIs
                 externas que recebem imagens, parâmetros e retornam a imagem
-                processada, alem de poder montar uma pipeline que é uma
+                processada, alem de poder montar um pipeline que é uma
                 sequência de instruções para vários processos serem organizados
                 estratégicamente para obter a saída de imagem desejada.
               </p>
@@ -140,34 +140,34 @@ function UserGuideScreen() {
               {/* <h4>Pipelines</h4> */}
               <div className=" sumarycenter">
                 <h4>Sumário do guia de pipeline</h4>
-                <a href="#criacaopdi">Criação da PDI</a>
+                <a href="#criacaopdi">Criação da Serviço</a>
 
-                <a href="#criacaoparametro">Criação de parâmetros da PDI</a>
+                <a href="#criacaoparametro">Criação de parâmetros da Serviço</a>
 
                 <a href="#criacaopipeline">Criação de Pipelines</a>
 
                 <a href="#edicaopipeline">Edição de pipeline</a>
 
                 <a href="#historicopipeline">
-                  Historico de alterações da Pipeline
+                  Historico de alterações do Pipeline
                 </a>
               </div>
               <br />
               <br />
               <br />
-              <h5>Criação de PDI</h5>
+              <h5>Criação de Serviço</h5>
               <br />
               <p>
-                Para criar uma pipeline é necessário criar processos de imagens
+                Para criar um pipeline é necessário criar serviços
                 antes.
               </p>
               <p id="criacaopdi">
-                1 - No menu do sistema clique em PDIs e, no menu de PDIs, clique
-                em adicionar novo PDI
+                1 - No menu do sistema clique em Serviços e, no menu de Serviços, clique
+                em adicionar novo Serviço
               </p>
               <p>
-                2 - Insíra um nome para o processo de Imagem e o URL para
-                estabelecer a conexão com a API que retornará o processo{" "}
+                2 - Insíra um nome para o serviço e o URL para
+                estabelecer a conexão com a API responsavel por processa-lo {" "}
               </p>
               <div className="image-guide">
                 <img
@@ -175,7 +175,7 @@ function UserGuideScreen() {
                   src={criarpdi}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de criação de PDI</p>
+                <p>Demonstração de criação de Serviço</p>
               </div>
               <br />
               <p id="criacaoparametro">
@@ -200,10 +200,10 @@ function UserGuideScreen() {
                 Pipelines, clique em Criar nova, escolha um nome e clique em
                 salvar.
                 <br /> Em seguida voce será redirecionado para a tela de edição
-                da nova pipeline
+                do novo pipeline
               </p>
               <p>
-                2 - Na edição de pipeline, clique nas PDIs cadastradas que você
+                2 - Na edição de pipeline, clique nos Serviços cadastrados que você
                 deseja adicionar para que ela seja aplicada na lista de
                 processos que serão utilizados na imagem (a ordem do processo é
                 feita no fluxo de pipeline, há uma aba exclusiva para ela no
@@ -219,10 +219,10 @@ function UserGuideScreen() {
               </div>
               <br />
               <p id="edicaopipeline">
-                3 - Selecione um processo aplicado na pipeline e edite os
+                3 - Selecione um processo aplicado no pipeline e edite os
                 parâmetros que precisam ser levados para a API com os dados que
-                desejar, faça isso para todos os processos aplicados na pipeline
-                e salve para finalizar a pipeline
+                desejar, faça isso para todos os processos aplicados no pipeline
+                e salve para finalizar o pipeline
               </p>
               <div className="image-guide">
                 <img
@@ -235,7 +235,7 @@ function UserGuideScreen() {
               <br />
               <p id="historicopipeline">
                 extra - É possivel editar, ver o historico e restaurar a versao
-                de uma pipeline{" "}
+                de um pipeline{" "}
               </p>
               <div className="image-guide">
                 <img
@@ -260,7 +260,7 @@ function UserGuideScreen() {
               </p>
               <p>
                 2 - Conecte um processo em outro para definir a ordem (a saída
-                da pipeline serão os processos que não possuem filhos na ediçao
+                do pipeline serão os processos que não possuem filhos na edição
                 do fluxo)
               </p>
               <p>
@@ -273,7 +273,7 @@ function UserGuideScreen() {
                   src={editarfluxo}
                   alt="exemplo de gif"
                 />
-                <p>Demonstração de fluxo da pipeline</p>
+                <p>Demonstração de fluxo do pipeline</p>
               </div>
               <br />
             </div>
@@ -286,7 +286,7 @@ function UserGuideScreen() {
               <p>1 - No menu do sistema, clique em Processar e em Imagem </p>
               <p>2 - Selecione uma imagem do seu computador e avance</p>
               <p>
-                3 - selecione a pipeline que deseja ser aplicada à imagem e verá
+                3 - selecione o pipeline que deseja ser aplicado à imagem e verá
                 o resultado da imagem processada.
               </p>
               <br />
@@ -295,7 +295,7 @@ function UserGuideScreen() {
               <p>1 - No menu do sistema, clique em Processar e em Video </p>
               <p>2 - Selecione um Video do seu computador e avance</p>
               <p>
-                3 - selecione a pipeline que deseja ser aplicada ao vídeo e verá
+                3 - selecione o pipeline que deseja ser aplicado ao vídeo e verá
                 o resultado da imagem processada sobre o video.
               </p>
               <br />
@@ -320,7 +320,7 @@ function UserGuideScreen() {
                 avance
               </p>
               <p>
-                3 - selecione a pipeline que deseja ser aplicada à imagem e verá
+                3 - selecione o pipeline que deseja ser aplicado à imagem e verá
                 o resultado da imagem processada sobre a câmera.
               </p>
               <br />

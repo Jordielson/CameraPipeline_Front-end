@@ -438,7 +438,7 @@ function EditComponent(props) {
                         (Styles.stepTitle = "d-flex align-self-center")
                       }
                     >
-                      Selecione uma pipeline
+                      Selecione um pipeline
                     </h2>
                     <ListGroup className={Styles.list}>
                       {pipelineList.map((item) => {

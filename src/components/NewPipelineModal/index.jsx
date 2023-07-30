@@ -32,7 +32,7 @@ export default function NewPipeline(props) {
       },
       error: {
         render({ data }) {
-          return <text id="toastMsg">Erro ao tentar criar a pipeline</text>;
+          return <text id="toastMsg">Erro ao tentar criar o pipeline</text>;
         },
       },
     });
@@ -66,7 +66,7 @@ export default function NewPipeline(props) {
             className="px-3 py-1 inputPerson"
             value={name}
             type="text"
-            placeholder="Digite o nome da pipeline"
+            placeholder="Digite o nome do pipeline"
             onChange={(e) => setName(e.target.value)}
           />
           <div className="col text-center mt-3">
